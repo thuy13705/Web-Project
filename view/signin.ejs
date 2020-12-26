@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("partials/head") %> 
+  </head>
+  <header>
+    <%- include("partials/header") %>
+  </header>
+  <body>
+    <div id="signInContainer" class="container mt-5">
+      <%if (message != "undefined") { %>
+        <div
+          class="form-group form-control error"
+          style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)"
+        >
+          <%= message %>
+        </div>
+        <% } %>
+    
+      <form method="POST" class="form-group" action="/signin" novalidate="novalidate>
+        <label for="email">Email</label>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          class="form-control"
+          aria-describedby="helpId"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control"
+          aria-describedby="helpId"
+        />
+    
+        <button id="submit-btn" class="btn btn-primary mt-2" type="submit">Đăng nhập</button>
+        <a class="d-flex justify-content-center" href="#">Quên mật khẩu</a>
+      </form>
+    
+      <p class="text-center my-2">hoặc</p>
+    
+      <div
+        class="g-signin2"
+        data-width="370"
+        data-longtitle="true"
+        data-onsuccess="onSignIn"
+        data-theme="dark"
+      ></div>
+    </div>
+    
+  </body>
+<script>
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Don't send this directly to your server!
+    console.log('Full Name: ' + profile.getName());
+    console.log('Given Name: ' + profile.getGivenName());
+    console.log('Family Name: ' + profile.getFamilyName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log('ID Token: ' + id_token);
+  }
+
+  function renderButton() {
+    gapi.signin2.render('my-signin2', {
+      scope: 'profile email',
+      width: 500,
+      height: 50,
+      longtitle: true,
+      theme: 'dark',
+      onsuccess: onSuccess,
+      onfailure: onFailure,
+    });
+  }
+</script>
+<footer>
+  <%- include("partials/footer") %>
+</footer>
+
+</html>
