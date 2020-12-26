@@ -1,5 +1,4 @@
 // config/database.js
 module.exports = {
-    'url': process.env.MONGODB_URL || "mongodb://localhost:27017/node-auth"
-    // ví dụ: mongodb://<user>:<pass>@mongo.onmodulus.net:27017/databasename
+    'url': process.env.MONGODB_URL || "mongodb+srv://web_anhthu:Anhthu2410@cluster0.gnncy.mongodb.net/<dbname>?retryWrites=true&w=majority"
 };
