@@ -24,7 +24,6 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  console.log("heee");
   passport.authenticate("local-signin", {
     successReturnToOrRedirect: "/",
     failureRedirect: "/signin",
@@ -113,7 +112,7 @@ exports.postVerifyEmail = (req, res, next) => {
     if (token == user.verify_token) {
       user.isAuthenticated = true;
       user.save();
-      return res.redirect("/signin");
+      return res.redirect("/");
     } else if (token != user.verify_token) {
       req.flash("error", "Mã xác thực không hợp lệ");
       return res.redirect("/verify-email");

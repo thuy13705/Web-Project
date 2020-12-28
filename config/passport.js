@@ -34,7 +34,7 @@ module.exports = function(passport) {
         }
         if (!user) {
           return done(null, false, {
-            message: 'Sai tên đăng nhập hoặc mật khẩu.'
+            message: 'Sai email hoặc mật khẩu.'
           });
         }
 
