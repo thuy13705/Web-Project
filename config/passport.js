@@ -1,7 +1,9 @@
 // passport configuration
 var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcryptjs');
+var configAuth=require('../config/facebook');
 var nodemailer = require('nodemailer');
 
 module.exports = function(passport) {
@@ -34,7 +36,7 @@ module.exports = function(passport) {
         }
         if (!user) {
           return done(null, false, {
-            message: 'Sai tên đăng nhập hoặc mật khẩu.'
+            message: 'Sai email hoặc mật khẩu.'
           });
         }
 
@@ -59,6 +61,43 @@ module.exports = function(passport) {
       });
     })
   );
+
+  passport.use('facebook',new FacebookStrategy({
+    // điền thông tin để xác thực với Facebook.
+    // những thông tin này đã được điền ở file auth.js
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret,
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields: ['id','displayName','email','first_name','last_name','middle_name']
+},
+// Facebook sẽ gửi lại chuối token và thông tin profile của user
+function (token, refreshToken, profile, done) {
+    // asynchronous
+    process.nextTick(function () {
+        // tìm trong db xem có user nào đã sử dụng facebook id này chưa
+        User.findOne({'facebook.id': profile.id}, function (err, user) {
+            if (err)
+                return done(err);
+            // Nếu tìm thấy user, cho họ đăng nhập
+            if (user) {
+                return done(null, user); // user found, return that user
+            } else {
+                // nếu chưa có, tạo mới user
+                var newUser = new User();
+                // lưu các thông tin cho user
+                newUser.name = profile.name.givenName + ' ' + profile.name.familyName; // bạn có thể log đối tượng profile để xem cấu trúc
+                newUser.email= profile.emails[0].value; // fb có thể trả lại nhiều email, chúng ta lấy cái đầu tiền
+                // lưu vào db
+                newUser.save(function (err) {
+                    if (err)
+                        throw err;
+                    // nếu thành công, trả lại user
+                    return done(null, newUser);
+                });
+            }
+        });
+    });
+}));
 
   passport.use(
     'local-signup',

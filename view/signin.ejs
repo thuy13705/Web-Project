@@ -4,6 +4,7 @@
     <%- include("partials/head") %> 
   </head>
   <header>
+    <%- include("partials/loader")%>
     <%- include("partials/header") %>
   </header>
   <body>
@@ -36,11 +37,11 @@
         />
     
         <button id="submit-btn" class="btn btn-primary mt-2" type="submit">Đăng nhập</button>
-        <a class="d-flex justify-content-center" href="#">Quên mật khẩu</a>
+        <a class="d-flex justify-content-center" href="/forgot-password">Quên mật khẩu</a>
       </form>
     
       <p class="text-center my-2">hoặc</p>
-    
+      <a href="/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
       <div
         class="g-signin2"
         data-width="370"
@@ -79,6 +80,7 @@
     });
   }
 </script>
+<%- include("partials/script") %>
 <footer>
   <%- include("partials/footer") %>
 </footer>
