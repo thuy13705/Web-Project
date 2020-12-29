@@ -13,7 +13,10 @@ const app = express();
 
 var configDB=require('./config/database.js');
 
-mongoose.connect(configDB.url);
+mongoose.connect(configDB.url, {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true
+});
 
 app.set('views','./view');
 app.use(express.static('public'));
@@ -21,7 +24,7 @@ app.set('view engine', 'ejs');
 
 
 
-// view engine setup
+// view engine setup 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -49,4 +52,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server started on PORT ${port}`);
 });
+
 
