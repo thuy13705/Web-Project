@@ -1,7 +1,11 @@
-//const Course = require('../models/Course');
+const Users = require('../models/user');
 
-exports.getHomeView = (_req, res) => {
-  
-  res.render('index');
+exports.getHomeView = (req, res) => {
+  Users.find({ user: req.user }).then(user => {
+    res.render("index", {
+      title: "HomePage",
+      user: req.user,
+    });
+  });
 };
 

@@ -1,5 +1,5 @@
-const user = require('../models/user');
 const Users = require("../models/user");
+
 exports.getAccount = (req, res, next) => {
 
   const messageSucc = req.flash("success")[0];

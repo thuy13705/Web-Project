@@ -7,20 +7,20 @@ const nodemailer=require('nodemailer')
 
 exports.getLogin = (req, res, next) => {
   const message = req.flash("error")[0];
-  // if (!req.isAuthenticated()) {
-  //   res.render("signin", {
-  //     title: "Sign In",
-  //     message: `${message}`,
-  //     user: req.user,
-  //   });
-  // } else {
-  //   res.redirect("/");
-  // }
-      res.render("signin", {
-      title: "Đăng nhập",
+  if (!req.isAuthenticated()) {
+    res.render("signin", {
+      title: "Sign In",
       message: `${message}`,
       user: req.user,
     });
+  } else {
+    res.redirect("/");
+  }
+    //   res.render("signin", {
+    //   title: "Đăng nhập",
+    //   message: `${message}`,
+    //   user: req.user,
+    // });
 };
 
 exports.postLogin = (req, res, next) => {
@@ -41,20 +41,20 @@ exports.getLogout = (req, res, next) => {
 
 exports.getSignUp = (req, res, next) => {
   const message = req.flash("error")[0];
-  // if (!req.isAuthenticated()) {
-  //   res.render("signup", {
-  //     title: "Sign Up",
-  //     message: `${message}`,
-  //     user: req.user,
-  //   });
-  // } else {
-  //   res.redirect("/");
-  // }
+  if (!req.isAuthenticated()) {
     res.render("signup", {
-      title: "Đăng ký",
+      title: "Sign Up",
       message: `${message}`,
       user: req.user,
     });
+  } else {
+    res.redirect("/");
+  }
+    // res.render("signup", {
+    //   title: "Đăng ký",
+    //   message: `${message}`,
+    //   user: req.user,
+    // });
 };
 
 exports.postSignUp = (req, res, next) => {
@@ -67,51 +67,67 @@ exports.postSignUp = (req, res, next) => {
 
 
 exports.getVerifyEmail = (req, res, next) => {
+  var transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "nlpthuy137@gmail.com",
+      pass: "Thuy13705#"
+    }
+  });
+  User.findOne({ username: req.user.username }).then(user => {
+    var verification_token = randomstring.generate({
+      length: 10
+    });
+    var mainOptions = {
+      from: "Crepp so gud",
+      to: req.user.email,
+      subject: "Test",
+      text: "text ne",
+      html:
+        "<p>Cảm ơn đã đăng kí tài khoản của Bros shop. Mã kích hoạt của bạn là:</p>" +
+        verification_token
+    };
+    transporter.sendMail(mainOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Sent:" + info.response);
+      }
+    });
+    user.verify_token = verification_token;
+    user.save();
+  });
+
   const message = req.flash("error")[0];
+  
   res.render("verify-email", {
     title: "Xác thực email",
     message: `${message}`,
-    user: req.user,
+    user: req.user
   });
 };
 
 exports.postVerifyEmail = (req, res, next) => {
-  var verification_token = randomstring.generate({
-    length: 10
-  });
-  var mainOptions = {
-    from: "Crepp so gud",
-    to: req.user.email,
-    subject: "Test",
-    text: "text ne",
-    html:
-      "<p>Cảm ơn đã đăng kí tài khoản của Bros shop. Mã kích hoạt của bạn là:</p>" +
-      verification_token
-  };
-  transporter.sendMail(mainOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Sent:" + info.response);
+  const token = req.body.token;
+  User.findOne({ username: req.user.username }, (err, user) => {
+    if (token == user.verify_token) {
+      user.isAuthenticated = true;
+      user.save();
+      return res.redirect("/signin");
+    } else if (token != user.verify_token) {
+      req.flash("error", "Mã xác thực không hợp lệ");
+      return res.redirect("/verify-email");
     }
   });
-  const token = req.body.token;
-  if (token == verify_token) {
-    user.isAuthenticated = true;
-    user.save();
-    return res.redirect("/info");
-  } else if (token != verify_token) {
-    req.flash("error", "Mã xác thực không hợp lệ");
-    return res.redirect("/verify-email");
-  }
 };
 
 exports.getForgotPass = (req, res, next) => {
   const message = req.flash("error")[0];
+
   res.render("forgot-password", {
     title: "Quên mật khẩu",
     message: `${message}`,
-    user: req.user,
+    user: req.user
   });
 };
 
@@ -120,7 +136,7 @@ exports.postForgotPass = (req, res, next) => {
   User.findOne({ email: email }, (err, user) => {
     if (!user) {
       req.flash("error", "Email không hợp lệ");
-      return res.redirect("/password-change");
+      return res.redirect("/forgot-password");
     } else {
       var transporter = nodemailer.createTransport({
         service: "Gmail",
@@ -156,6 +172,7 @@ exports.postForgotPass = (req, res, next) => {
   });
 };
 
+
 exports.getChangePassword = (req, res, next) => {
   const message = req.flash("error")[0];
   res.render("password-change", {
@@ -189,11 +206,11 @@ exports.postChangePassword = (req, res, next) => {
 
 exports.getFacebook=(req,res,next)=>{
   passport.authenticate('facebook', {scope: ['email']});
-}
+};
 
 exports.getFacebookCallback=(req,res,next)=>{
   passport.authenticate('facebook', {
     successRedirect: '/info',
     failureRedirect: '/'
-})}
+})};
 

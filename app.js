@@ -24,6 +24,7 @@ app.set('view engine', 'ejs');
 
 
 
+
 // view engine setup 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
