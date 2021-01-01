@@ -15,16 +15,17 @@
                   <%if (message != "undefined") { %>
                   <div
                     class="form-group form-control error"
-                    style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                    style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)"
+                  >
                     <%= message %>
                   </div>
                   <% } %>
                   <div class="form-default">
                     <form
-                      id="createaccount"
+                      id="add-teacher"
                       method="post"
                       novalidate="novalidate"
-                      action="/signup"
+                      action="/add-teacher"
                     >
                       <div class="form-group">
                         <label for="loginInputEmail">Tên đăng nhập *</label>
@@ -36,27 +37,7 @@
                           placeholder="Nhập username"
                         />
                       </div>
-                      <div class="form-group">
-                        <label for="loginInputPassword">Mật khẩu *</label>
-                        <input
-                          type="password"
-                          name="password"
-                          class="form-control"
-                          id="password"
-                          placeholder="Nhập mật khẩu"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="loginInputPassword2">Nhập lại khẩu *</label>
-                        <input
-                          type="password"
-                          name="password2"
-                          class="form-control"
-                          id="password2"
-                          placeholder="Nhập lại mật khẩu"
-                        />
-                      </div>
-
+                     
                       <div class="form-group">
                         <label for="email">Nhập địa chỉ email *</label>
                         <input
@@ -71,7 +52,7 @@
                         <div class="col-auto">
                           <div class="form-group">
                             <button class="btn btn-primary mt-2" id="submit-btn" type="submit">
-                              Đăng ký
+                              Add
                             </button>
                           </div>
                         </div>

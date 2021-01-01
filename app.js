@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const authRouter = require('./routes/auth');
+const adminRouter = require('./routes/admin');
 const flash = require('connect-flash');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -44,11 +45,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authRouter);
+app.use(adminRouter);
 
 // pass passport for configuration
 require('./config/passport')(passport);
 
 app.use('/', require('./routes/index'));
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server started on PORT ${port}`);
