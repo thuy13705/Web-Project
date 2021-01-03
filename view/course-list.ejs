@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+        <div id="tt-pageContent"></div>
+            <div class="container-indent">
+                <div class="container container-fluid-custom-mobile-padding">
+                    <h1 class="tt-title-subpages noborder">My Course</h1>
+                    <% course.forEach(course=> {%>
+                        <div class="tt-wrapper" style="margin-bottom: 50px;">
+                            <div class="tt-table-responsive">
+                                <table class="tt-table-shop-02">
+                                    <tbody>
+                                       <tr>
+                                        <td>
+                                            <!-- <img src="images/image_1609642580254.png" width="300px" hight="300px"> -->
+                                            <img src="images/<%= course.image %>" width="300px" hight="300px">
+                                        </td>
+                                        <td>
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td>
+                                                    <%= course.name %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Description</td>:</td>
+                                                <td>
+                                                    <%= course.description %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Price:</td>
+                                                <td>
+                                                    <%= course.price %>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                       </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a href="/info-change" class="btn btn-border">Change</a>
+                            <a href="/teacher-list" class="btn btn-border">Delete</a>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+        </div>
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>
