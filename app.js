@@ -30,18 +30,19 @@ var Storage= multer.diskStorage({
   }
 });
 
-var video= multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/videos')
-  },
-  filename: function (req, filevideo, cb) {
-    cb(null,filevideo.fieldname+"_"+Date.now()+path.extname(filevideo.originalname));
-  }
-});
+// var video= multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './public/videos')
+//   },
+//   filename: function (req, filevideo, cb) {
+//     cb(null,filevideo.fieldname+"_"+Date.now()+path.extname(filevideo.originalname));
+//   }
+// });
+app.use(require("./middlewares/userlogin"));
 
 app.use(require("./middlewares/course"));
 app.use(multer({storage: Storage}).single('image'));
-app.use(multer({storage: video}).single('video'));
+// app.use(multer({storage: video}).single('video'));
 app.use('/images',express.static(path.join(__dirname, 'public')));
 app.set('views','./view');
 app.use(express.static('public'));
@@ -68,9 +69,16 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(authRouter);
+// if (userlogin.role==2){
+//   app.use(adminRouter);
+
+// }
+// if (userlogin.role==1){
+//   app.use(teacherRouter);
+// }
 app.use(adminRouter);
+
 app.use(teacherRouter);
 // pass passport for configuration
 require('./config/passport')(passport);

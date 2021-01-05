@@ -22,6 +22,8 @@ exports.postAddCourse = (req, res, next) => {
     var name = req.body.name;
     var price = req.body.price;
     var description = req.body.description;
+    var category = req.body.category;
+    
     var success = req.file.filename + " uploaded successfully";
     // var finalImage={
     //     contentType:req.file.mimetype,
@@ -30,6 +32,7 @@ exports.postAddCourse = (req, res, next) => {
     console.log(success);
     var course = new Course({
         image:req.file.filename,
+        category:category,
         // video:req.filevideo.filename,
         name: name,
         price: price,
@@ -37,7 +40,7 @@ exports.postAddCourse = (req, res, next) => {
     });
     course.save(function (err, doc) {
         if (err) throw err;
-        res.render('add-course', { title: 'Add Course' });
+        res.redirect('/add-course');
     });
 };
 
