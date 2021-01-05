@@ -168,6 +168,12 @@ exports.getTeacherList = (req, res, next) => {
   });
 }
 
+exports.getDeleteTeacher = (req, res, next) => {
+  Users.remove({_id:req.params.id}, function(err, delData){
+    res.redirect("/teacher-list");
+  });
+};
+
 exports.getStudentList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
@@ -184,12 +190,8 @@ exports.getStudentList = (req, res, next) => {
   });
 }
 
-exports.getDeleteTeacher = (req, res, next) => {
-  Users.deleteOne({ user: req.session.user }, function (err, res) {
-    if (err) throw err;
-    res.redirect("/teacher-list");
-  });
-};
+
+
 
 
 
