@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <h2>Sixteen <em>Clothing</em></h2>
+        <h2>Academy <em>Online</em></h2>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
                   <a class="dropdown-item" href="#">Verify Email</a>
                 </div>
               </li>
-              <%if (typeof(user)==='undefined'){%>
+              <%if (typeof(user)==='undefined' ){%>
                 <li class="nav-item">
                   <a class="nav-link" href="../signin">Sign In</a>
                 </li>
@@ -49,25 +49,62 @@
                   <a class="nav-link" href="../signup">Sign Up</a>
                 </li>
                 <%}%>
-                <%if (typeof(user)!=='undefined' ){%>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      My Account
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="../info">Profile</a>
-                      <a class="dropdown-item" href="#">My Courses</a>
-                      <% if(!user.isAuthenticated) {%>
-                        <a class="dropmenu-item" href="/verify-email">Verify Email</a>
-                      <% } %>
-                    
-                    </div>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="../logout">Logout</a>
-                  </li>
-                  <%}%>
+                  <%if (typeof(user)!=='undefined' ){%>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        My Account
+                      </a>
+                      <ul class="dropdown-menu mt-3 shadow rounded" aria-labelledby="navbarDropdownMenuLink">
+                        <% if(user.role==0) {%>
+                          <a class="dropdown-item" href="../info">Profile</a>
+                          <a class="dropdown-item" href="../course">My Courses</a>
+                          <a class="dropdown-item" href="../watch-list">Watch List</a>
+                          <% if(!user.isAuthenticated) {%>
+                            <a class="dropmenu-item" href="/verify-email">Verify Email</a>
+                          <%}%>
+                        <%}%>
+                        <% if(user.role==1) {%>
+                          <a class="dropdown-item" href="../info">Profile Teacher</a>
+                          <a class="dropdown-item" href="../course-list">My Courses</a>
+                          <a class="dropdown-item" href="../add-course">Add Courses</a>
+                        <%}%>
+                        <% if(user.role==2) {%>
+                          <a class="dropdown-item" href="../info">Profile</a>
+                          <li>
+                            <a class="dropdown-item py-1" href="#">Course Management</a>
+                            <ul class="submenu dropdown-menu">
+                                    <li>
+                                      <a class="dropdown-item py-1" href="../add-course">Add Course</a>
+                                      <a class="dropdown-item py-1" href="../course-list">Course List</a>
+                                    </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <a class="dropdown-item py-1" href="#">Teacher Management</a>
+                            <ul class="submenu dropdown-menu">
+                                    <li>
+                                      <a class="dropdown-item py-1" href="../add-teacher">Add Teacher</a>
+                                      <a class="dropdown-item py-1" href="../teacher-list">Teacher List</a>
+                                    </li>
+                            </ul>
+                          </li>
+                         <li>
+                          <a class="dropdown-item" href="#">Students Management</a>
+                          <ul class="submenu dropdown-menu">
+                            <li>
+                              <a class="dropdown-item py-1" href="../add-student">Add Student</a>
+                              <a class="dropdown-item py-1" href="../student-list">Student List</a>
+                            </li>
+                          </ul>
+                         </li>
+                        <%}%>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="../logout">Logout</a>
+                    </li>
+                    <%}%>
             </ul>
           </div>
         </li>

@@ -81,10 +81,10 @@ exports.getVerifyEmail = (req, res, next) => {
     var mainOptions = {
       from: "Crepp so gud",
       to: req.user.email,
-      subject: "Test",
+      subject: "Mã kích hoạt tài khoản trên Academy",
       text: "text ne",
       html:
-        "<p>Cảm ơn đã đăng kí tài khoản của Bros shop. Mã kích hoạt của bạn là:</p>" +
+        "<p>Cảm ơn đã đăng kí tài khoản của Academy Online. Mã kích hoạt của bạn là:</p>" +
         verification_token
     };
     transporter.sendMail(mainOptions, (err, info) => {

@@ -1,0 +1,59 @@
+
+ <%- include("partials/head") %> 
+ <%- include("partials/loader") %>
+ <%- include("partials/header") %>
+ <div class="container-fluid pt-5 pb-5" id="video-upload-container">
+    <div class="row">
+ 
+       <div class="col-md-12">
+          <form method="POST" action="/add-course" enctype="multipart/form-data">
+ 
+             <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" required>
+             </div>
+ 
+             <div class="form-group">
+                <label>Description</label>
+                <textarea type="text" name="description" rows="10" class="form-control"></textarea>
+             </div>
+ 
+             <div class="form-group">
+                <label>Price</label>
+                <input type="text" name="price" class="form-control">
+             </div>
+ 
+             <div class="form-group">
+                <label>Category</label>
+                <select name="category" class="form-control">
+                   <option value="">Select category</option>
+                   <option value="Web">Web</option>
+                   <option value="Mobile">Mobile</option>
+                   <option value="Science">Science</option>
+                   <option value="Others">Others</option>
+                </select>
+             </div>
+<!--              
+             <div class="form-group">
+                <label>Select video</label>
+                <input type="file" accept="video/mp4,video/*" name="video" required>
+             </div>
+  -->
+             <div class="form-group">
+                <label>Select Image</label>
+                <input type="file" name="image" accept="image/*" required>
+             </div>
+ 
+             <input type="submit" class="btn btn-outline-primary" value="Add">
+          </form>
+       </div>
+    </div>
+ </div>
+ <script type="text/javascript">
+    function fileSelected() {
+       var fileName = document.getElementById("file").files[0].name;
+       document.getElementById("filename").innerHTML = fileName;
+    }
+ </script>
+     <%- include("partials/script") %>
+     <%- include('partials/footer') %>

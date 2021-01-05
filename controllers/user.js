@@ -6,7 +6,7 @@ exports.getAccount = (req, res, next) => {
   const messageError = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
     res.render("info", {
-      title: "Thông tin tài khoản",
+      title: "Information Account",
       user: req.user,
       messageSucc: messageSucc,
       messageError:messageError
@@ -16,7 +16,7 @@ exports.getAccount = (req, res, next) => {
 
 exports.getAccountChange = (req, res, next) => {
   res.render("info-change", {
-    title: "Thay đổi thông tin tài khoản",
+    title: "Change Information Account",
     user: req.user,
   });
 };

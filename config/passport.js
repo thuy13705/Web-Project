@@ -5,6 +5,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcryptjs');
 var configAuth=require('../config/facebook');
 var nodemailer = require('nodemailer');
+var randomstring = require("randomstring");
+
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
@@ -138,7 +140,6 @@ function (token, refreshToken, profile, done) {
             });
           }
         });
-
         bcrypt.hash(password, 12).then(hashPassword => {
           const newUser = new User({
             username: username,
@@ -155,3 +156,4 @@ function (token, refreshToken, profile, done) {
     })
   );
 };
+
