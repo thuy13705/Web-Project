@@ -1,5 +1,7 @@
 const Users = require('../models/user');
 const Course=require('../models/Course');
+const ChildCategory=require('../models/ChildCategory');
+
 
 exports.getHomeView = (req, res) => {
   Users.find({ user: req.user }).then(user => {
@@ -29,6 +31,25 @@ exports.getHomeView = (req, res) => {
       console.log(err);
     });
   });
+};
+
+exports.getShowCourse= (req, res) => {
+  Users.find({ user: req.user }).then(user => {
+    ChildCategory.findOne({_id:req.params._id})
+    .then(Child => {
+      Course.find({category:Child.name})
+         .then(course=>{
+          res.render("show-course-list", {
+            title: "Show Course List",
+            user: req.user,
+            courses:course,
+          });
+         })
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 

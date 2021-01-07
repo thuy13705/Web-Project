@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+        <div id="tt-pageContent"></div>
+            <div class="container-indent">
+                <div class="container container-fluid-custom-mobile-padding">
+                    <h1 class="tt-title-subpages noborder">My Course</h1>
+                    <% categories.forEach(category=> {%>
+                        <div class="tt-wrapper" style="margin-bottom: 50px;">
+                            <div class="tt-table-responsive">
+                                <table class="tt-table-shop-02">
+                                    <tr>
+                                        <th><h2><%= category.name %></h2></th>
+                                        <td>
+                                        <% category.child.forEach(child=>{%>
+                                               <tr>
+                                                <th><%= child.name %></th>
+                                                <th><a href="/info-change" class="btn btn-border">Change</a></th>
+                                                <th><a href="/teacher-list" class="btn btn-border">Delete</a></th>
+                                               </tr>
+                                        <%});%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <a href="/info-change" class="btn btn-border">Change</a>
+                            <a href="/teacher-list" class="btn btn-border">Delete</a>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+        </div>
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>
