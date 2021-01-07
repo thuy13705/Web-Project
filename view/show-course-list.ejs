@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+
+      <!-- Left and right controls -->
+      <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    
+    </div>
+  <%- include("partials/head") %>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <%- include("partials/loader")%>
+  <div class="latest-products">
+    <div class="container">
+   <!-- Lượt xem nhiều nhất -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <a href="#">view all products <i class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+      <% courses.forEach(trend=>{%>
+        <div class="col-md-4">
+          <div class="product-item">
+            <a href="#"><img src="images/<%= trend.image %>" alt=""></a>
+            <div class="down-content">
+              <a href="#">
+                <h4><%= trend.name %></h4>
+              </a>
+              <h6><%= trend.price %></h6>
+              <p><%= trend.description %></p>
+              <ul class="stars">
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+              </ul>
+              <span>Reviews (24)</span>
+            </div>
+          </div>
+        </div>
+      <%});%>
+      </div>
+    </div>
+  </div>
+
+</body>
+<%- include("partials/script") %>
+<footer>
+  <%- include("partials/footer") %>
+</footer>
+
+</html>

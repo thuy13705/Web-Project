@@ -1,7 +1,8 @@
-const ChildCategory = require("../models/ChildCategory");
+const ParentCategory = require("../models/ParentCategory");
+
 
 module.exports = (req, res, next) => {
-    ChildCategory.find({}).populate("parentCategories").exec((err, categories) => {
+    ParentCategory.find().populate("child").populate("courses").exec((err, categories) => {
         if (err){
             res.send("Err: " + err);
         }

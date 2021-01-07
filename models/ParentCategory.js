@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
     name: String,
-    image: String,
-    courses: [mongoose.Types.ObjectId],
+    child: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ChildCategory",
+    }],
 });
 
 module.exports = mongoose.model("ParentCategory", schema);

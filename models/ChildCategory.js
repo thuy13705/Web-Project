@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
     name: String,
-    parentCategories: [{
-        type: mongoose.Types.ObjectId,
-        ref: "ParentCategory",
+    courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
     }],
 });
 
