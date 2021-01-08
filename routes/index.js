@@ -4,5 +4,6 @@ const homeController = require('../controllers/index');
 
 router.get('/', homeController.getHomeView);
 
-router.get('/show-course-list/:_id', homeController.getShowCourse);
+router.get('/show-course-list/:id', homeController.getShowCourse);
+
 module.exports = router;

@@ -1,7 +1,6 @@
 const Users = require("../models/user");
 
 exports.getAccount = (req, res, next) => {
-
   const messageSucc = req.flash("success")[0];
   const messageError = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {

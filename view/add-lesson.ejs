@@ -1,0 +1,62 @@
+<%- include("partials/head") %>
+    <%- include("partials/loader")%>
+        <%- include("partials/header") %>
+            <link rel="stylesheet" href="css/signin.css" />
+            <div>
+                <div id="tt-pageContent">
+                    <div class="container-indent">
+                        <div class="container">
+                            <div class="tt-login-form">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 col-lg-6">
+                                        <div class="tt-item">
+                                            <h2 class="tt-title">Add Lesson</h2>
+                                            <%if (message !="undefined" ) { %>
+                                                <div class="form-group form-control error"
+                                                    style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                                                    <%= message %>
+                                                </div>
+                                                <% } %>
+                                                    <div class="form-default">
+                                                        <form id="add-teacher" method="post" novalidate="novalidate"
+                                                            action="/add-lesson/<%= chapter._id %>"
+                                                            enctype="multipart/form-data">
+                                                            <div class="form-group">
+                                                                <label for="loginInputEmail">New Lesson*</label>
+                                                                <input type="text" name="name" class="form-control"
+                                                                    id="name" placeholder="New Lesson" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Select Video</label>
+                                                                <input type="file" name="video" accept="video/*"
+                                                                    required>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-auto">
+                                                                    <div class="form-group">
+                                                                        <button class="btn btn-primary mt-2"
+                                                                            id="submit-btn" type="submit">
+                                                                            Add
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto align-self-center">
+                                                                    <div class="form-group">
+                                                                        <ul class="additional-links">
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%- include("partials/script") %>
+                    <%- include('partials/footer.ejs') %>
+            </div>
