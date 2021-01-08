@@ -8,49 +8,50 @@
     <%- include("partials/header") %>
   </header>
   <body>
-    <div id="signInContainer" class="container mt-5">
-      <%if (message != "undefined") { %>
-        <div
-          class="form-group form-control error"
-          style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)"
-        >
-          <%= message %>
+    <div id="tt-pageContent">
+      <div class="container-indent">
+        <div class="container">
+          <div class="tt-login-form">
+            <div class="row justify-content-center">
+              <div class="col-md-8 col-lg-6">
+                <div class="tt-item">
+                  <h2 class="tt-title">SIGNIN</h2>
+                  <%if (message != "undefined") { %>
+                  <div
+                    class="form-group form-control error"
+                    style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                    <%= message %>
+                  </div>
+                  <% } %>
+                  <div class="form-default">
+                    <form method="POST" class="form-group" action="/signin" novalidate="novalidate>
+                      <label for="email">Email</label>
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        aria-describedby="helpId"
+                      />
+                      <label for="password">Password</label>
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        aria-describedby="helpId"
+                      />
+                  
+                      <button id="submit-btn" class="btn btn-primary mt-2" type="submit">Đăng nhập</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <% } %>
-    
-      <form method="POST" class="form-group" action="/signin" novalidate="novalidate>
-        <label for="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          class="form-control"
-          aria-describedby="helpId"
-        />
-        <label for="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control"
-          aria-describedby="helpId"
-        />
-    
-        <button id="submit-btn" class="btn btn-primary mt-2" type="submit">Đăng nhập</button>
-        <a class="d-flex justify-content-center" href="/forgot-password">Quên mật khẩu</a>
-      </form>
-    
-      <p class="text-center my-2">hoặc</p>
-      <a href="/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-      <div
-        class="g-signin2"
-        data-width="370"
-        data-longtitle="true"
-        data-onsuccess="onSignIn"
-        data-theme="dark"
-      ></div>
+      </div>
     </div>
-    
   </body>
 <script>
   function onSignIn(googleUser) {
@@ -86,3 +87,4 @@
 </footer>
 
 </html>
+

@@ -35,8 +35,9 @@ exports.getHomeView = (req, res) => {
 
 exports.getShowCourse= (req, res) => {
   Users.find({ user: req.user }).then(user => {
-    ChildCategory.findOne({_id:req.params._id})
+    ChildCategory.findOne({_id:req.params.id})
     .then(Child => {
+      console.log(Child);
       Course.find({category:Child.name})
          .then(course=>{
           res.render("show-course-list", {

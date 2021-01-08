@@ -43,7 +43,11 @@
                              </tbody>
                         </table>
                     </div>
-                    <a href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add Chapter</a>
+                    <% if (typeof(user)!=='undefined') {%>
+                        <% if (user.role==1 || user.role==2) {%>
+                            <a href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add Chapter</a>
+                            <%}%>
+                    <%}%>
                 </div>
            <% if (courses.chapter!=[]){%> 
             <% courses.chapter.forEach(chapter=>{%> 
@@ -52,8 +56,12 @@
                            <tbody>
                             <tr>
                                 <div class="d-flex justify-content-between">
-                                    <h4><%= chapter.name %></h4>                         
-                                    <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add Lesson</a>
+                                    <h4><%= chapter.name %></h4>           
+                                    <% if (typeof(user)!=='undefined') {%>
+                                        <% if (user.role==1 || user.role==2) {%>
+                                            <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add Lesson</a>
+                                            <%}%>
+                                    <%}%>              
                                </div>
                             </tr>
                           <tr>

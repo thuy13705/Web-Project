@@ -28,24 +28,27 @@
       <% courses.forEach(trend=>{%>
         <div class="col-md-4">
           <div class="product-item">
-            <a href=""><img src="images/<%= trend.image %>" alt=""></a>
-            <div class="down-content">
-              <a href="#">
-                <h4><%= trend.name %></h4>
-              </a>
-              <h6><%= trend.price %></h6>
-              <p><%= trend.description %></p>
-              <ul class="stars">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-              <span>Reviews (24)</span>
-            </div>
+          <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
+              <div class="down-content">
+                <a href="/course-detail/<%=trend._id%>">
+                  <h4><%= trend.name %></h4>
+                </a>
+                <h6><%= trend.price %></h6>
+                <p><%= trend.description %></p>
+                <ul class="stars">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <span>Reviews (24)</span>
+             
+              </div>
           </div>
         </div>
+      
+       
       <%});%>
       </div>
     </div>
