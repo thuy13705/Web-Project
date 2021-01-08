@@ -64,7 +64,7 @@ exports.getCourseList = (req, res, next) => {
 
   exports.getCourseDetail= (req, res) => {
     Users.find({ user: req.user }).then(user => {
-      Course.findOne({_id:req.params.id}).populate('chapter').populate('lesson')
+      Course.findOne({_id:req.params.id}).populate([{path:'chapter',populate:{path:'lesson'}}])
       .exec((err,course)=>{
         res.render("course-detail", {
           title: "Course Detail",
