@@ -13,20 +13,24 @@
                     <% categories.forEach(category=> {%>
                         <div class="tt-wrapper" style="margin-bottom: 50px;">
                             <div class="tt-table-responsive">
-                                <table class="tt-table-shop-02">
+                                <tbody>
                                     <tr>
-                                        <th><h2><%= category.name %></h2></th>
+                                        <td><h2><%= category.name %></h2></td>
                                         <td>
                                         <% category.child.forEach(child=>{%>
                                                <tr>
-                                                <th><%= child.name %></th>
-                                                <th><a href="/info-change" class="btn btn-border">Change</a></th>
-                                                <th><a href="/teacher-list" class="btn btn-border">Delete</a></th>
+                                                   <div class="d-flex justify-content-between">
+                                                    <p><%= child.name %></p>
+                                                    <div>
+                                                    <a href="/info-change" class="btn btn-border">Change</a>
+                                                    <a href="/teacher-list" class="btn btn-border">Delete</a>
+                                                    </div>
+                                                   </div>
                                                </tr>
                                         <%});%>
                                         </td>
                                     </tr>
-                                </table>
+                                   </tbody>
                             </div>
                             <a href="/info-change" class="btn btn-border">Change</a>
                             <a href="/teacher-list" class="btn btn-border">Delete</a>

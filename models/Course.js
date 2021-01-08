@@ -8,10 +8,11 @@ const Course = new Schema({
     price: {type: Number},
     // image:{type:String,data:Buffer,contentType:String,}, 
     image:{type:String,require:true},
-    video:{type:String,require:true},
+    chapter:[{type:mongoose.Schema.Types.ObjectId, ref:'Chapter'}],
     category:{type:String,require:true},
     countBuy:{type:Number,default:0},
     countView:{type:Number,default:0},
+    status:{type:Boolean,default:false},
     createAt:{type: Date, default: Date.now},
     updateAt:{type: Date, default: Date.now},
 });

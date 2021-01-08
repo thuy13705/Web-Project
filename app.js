@@ -15,37 +15,37 @@ const app = express();
 
 
 
-var configDB=require('./config/database.js');
+var configDB = require('./config/database.js');
 
 mongoose.connect(configDB.url, {
-  useNewUrlParser: true, 
+  useNewUrlParser: true,
   useUnifiedTopology: true
 });
-var Storage= multer.diskStorage({
+var Storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/images')
   },
   filename: function (req, file, cb) {
-    cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname));
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
   }
 });
 
-var video= multer.diskStorage({
+var video = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/videos')
   },
-  filename: function (req, filevideo, cb) {
-    cb(null,file.fieldname+"_"+Date.now()+path.extname(filevideo.originalname));
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
   }
 });
 
-app.use(multer({storage: Storage}).single('image'));
-app.use(multer({storage: video}).single('video'));
+// app.use(multer({storage: Storage}).single('image'));
+// app.use(multer({ storage: video }).single('video'));
 app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'ejs');
-app.use('/images',express.static(path.join(__dirname, 'public')));
-app.use('/videos',express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'public')));
+app.use('/videos', express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use(require("./middlewares/course"));
 app.use(require("./middlewares/categories"));
 
