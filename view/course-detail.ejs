@@ -58,7 +58,9 @@
                             </tr>
                           <tr>
                             <% chapter.lesson.forEach(lesson=>{%>
-                                <td><%= lesson.name %></td>                    
+                                <tr>
+                                    <td><%= lesson.name %></td> 
+                                </tr>                   
                             <%});%>
                           </tr>
                            </tbody>
