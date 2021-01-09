@@ -43,9 +43,9 @@
                              </tbody>
                         </table>
                     </div>
-                    <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add Lesson</a>
-                    <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add Lesson</a>
-
+                    <a href="/account/wish-list/<%= courses._id %>" class="btn btn-border">Add To WishList</a>
+                    <a href="/account/my-course/<%= courses._id %>" class="btn btn-border">Study</a>
+                    <div></div>
                     <% if (typeof(user)!=='undefined') {%>
                         <% if (user.role==1 || user.role==2) {%>
                             <a href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add Chapter</a>

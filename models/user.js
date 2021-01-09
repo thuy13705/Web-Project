@@ -48,7 +48,7 @@ const userSchema = new Schema({
     type: String,
     required: false
   },
-  watch_list: [{
+  wish_list: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
 }],
