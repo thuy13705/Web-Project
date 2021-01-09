@@ -1,6 +1,7 @@
 const Users = require('../models/user');
 const Course=require('../models/Course');
 const ChildCategory=require('../models/ChildCategory');
+const { search } = require('../routes');
 
 
 exports.getHomeView = (req, res) => {
@@ -35,16 +36,32 @@ exports.getHomeView = (req, res) => {
 
 exports.getShowCourse= (req, res) => {
   Users.find({ user: req.user }).then(user => {
+    const page = +req.query.page || 1;
     ChildCategory.findOne({_id:req.params.id})
     .then(Child => {
       Course.find({category:Child.name})
-         .then(course=>{
-          res.render("show-course-list", {
-            title: "Show Course List",
-            user: req.user,
-            courses:course,
-          });
-         })
+      .countDocuments()
+      .then(numCourse => {
+        console.log(numCourse);
+        totalItems = numCourse;
+        return Course.find({category:Child.name})
+          .skip((page - 1) * 1)
+          .limit(1);
+      })
+      .then(course => {
+        console.log(course);
+        res.render("show-course-list", {
+          user: req.user,
+          currentPage: page,
+          hasNextPage: 1 * page < totalItems,
+          hasPreviousPage: page > 1,
+          nextPage: page + 1,
+          previousPage: page - 1,
+          lastPage: Math.ceil(totalItems / 1),
+          user:req.user,
+          courses:course,
+        });
+      });
         });
     })
     .catch(err => {
@@ -54,15 +71,33 @@ exports.getShowCourse= (req, res) => {
 
 exports.getSearchResult= (req, res) => {
   Users.find({ user: req.user }).then(user => {
-    Course.find({$text: {$search: req.query.search}})
-    .exec(function(err,course){
+    searchText =req.query.search !== undefined ? req.query.search : searchText;
+    const page = +req.query.page || 1;
+    Course.find({$text: {$search: searchText}})
+    .countDocuments()
+    .then(numCourse => {
+      totalItems = numCourse;
+      return Course.find({
+        $text: { $search: searchText}
+      })
+        .skip((page - 1) * 1)
+        .limit(1);
+    })
+    .then(course => {
       res.render("show-course-list", {
-        title: "Search Results",
         user: req.user,
+        searchT: searchText,
+        currentPage: page,
+        hasNextPage: 1 * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / 1),
+        user:req.user,
         courses:course,
       });
-    })
-    })
+    });
+  })
     .catch(err => {
       console.log(err);
     });

@@ -87,7 +87,6 @@ exports.getCourseList = (req, res, next) => {
             user: req.user,
             courses:course,
           });
-      
         });
       })
       .catch(err => {
