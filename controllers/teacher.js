@@ -9,11 +9,18 @@ const Lesson=require('../models/Lesson');
 exports.getAddCourse = (req, res) => {
     const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
+      if (user.role==2 || user.role==1){
         res.render("add-course", {
-            title: "Add Course",
-            message: `${message}`,
-            user: req.user,
+          title: "Add Course",
+          message: `${message}`,
+          user: req.user,
         });
+      }
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
     });
 }
 
@@ -54,24 +61,34 @@ exports.postAddCourse = (req, res, next) => {
 exports.getCourseList = (req, res, next) => {
     const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
-      res.render("course-list", {
-        title: "course List",
+      if (user.role==2 || user.role==1){
+        res.render("course-list", {
+          title: "Course List",
+          message: `${message}`,
+          user: req.user,
+        });
+      }
+      res.render("404", {
+        title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
-    });
+      });
   }
 
   exports.getCourseDetail= (req, res) => {
+    const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
       Course.findOne({_id:req.params.id}).populate([{path:'chapter',populate:{path:'lesson'}}])
       .exec((err,course)=>{
-        res.render("course-detail", {
-          title: "Course Detail",
-          user: req.user,
-          courses:course,
+          res.render("course-detail", {
+            title: "Course Detail",
+            message: `${message}`,
+            user: req.user,
+            courses:course,
+          });
+      
         });
-      });
       })
       .catch(err => {
         console.log(err);
@@ -83,12 +100,20 @@ exports.getCourseList = (req, res, next) => {
     Users.find({ user: req.user }).then(user => {
       Course.findOne({_id:req.params.id})
         .then(course=>{
-          res.render("add-chapter", {
-            title: "Add Chapter",
-            user: req.user,
+          if (user.role==2 || user.role==1){
+            res.render("add-chapter", {
+              title: "Add Chapter",
+              user: req.user,
+              message: `${message}`,
+              courses:course,
+            });
+          }
+          res.render("404", {
+            title: "404 Not Found",
             message: `${message}`,
-            courses:course,
+            user: req.user,
           });
+
          })
       })
       .catch(err => {
@@ -117,11 +142,18 @@ exports.getAddLesson= (req, res) => {
   Users.find({ user: req.user }).then(user => {
     Chapter.findOne({_id:req.params.id})
       .then(chapter=>{
-        res.render("add-lesson", {
+        if (user.role==2 || user.role==1){
+          res.render("add-lesson", {
           title: "Add Lesson",
           user: req.user,
           message: `${message}`,
           chapter:chapter,
+        });
+        }
+        res.render("404", {
+          title: "404 Not Found",
+          message: `${message}`,
+          user: req.user,
         });
        })
     })

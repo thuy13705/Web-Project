@@ -54,23 +54,24 @@
       <% viewCourse.forEach(trend=>{%>
         <div class="col-md-4">
           <div class="product-item">
-            <a href="#"><img src="images/<%= trend.image %>" alt=""></a>
-            <div class="down-content">
-              <a href="#">
-                <h4><%= trend.name %></h4>
-              </a>
-              <h6><%= trend.price %></h6>
-              <p><%= trend.description %></p>
-              <ul class="stars">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-              <span>Reviews (24)</span>
+            <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=trend._id%>">
+                    <h4><%= trend.name %></h4>
+                  </a>
+                  <h6><%= trend.price %></h6>
+                  <p><%= trend.description %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
             </div>
-          </div>
         </div>
       <%});%>
       </div>
@@ -85,23 +86,24 @@
       <% Buy.forEach(buy=>{%>
         <div class="col-md-4">
           <div class="product-item">
-            <a href="#"><img src="images/<%= buy.image %>" alt=""></a>
-            <div class="down-content">
-              <a href="#">
-                <h4><%= buy.name %></h4>
-              </a>
-              <h6><%= buy.price %></h6>
-              <p><%= buy.description %></p>
-              <ul class="stars">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-              <span>Reviews (24)</span>
+            <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=buy._id%>">
+                    <h4><%= buy.name %></h4>
+                  </a>
+                  <h6><%= buy.price %></h6>
+                  <p><%= buy.description %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
             </div>
-          </div>
         </div>
       <%});%>
       </div>
@@ -116,23 +118,24 @@
       <% newCourse.forEach(course=>{%>
         <div class="col-md-4">
           <div class="product-item">
-            <a href="#"><img src="images/<%= course.image %>" alt=""></a>
-            <div class="down-content">
-              <a href="#">
-                <h4><%= course.name %></h4>
-              </a>
-              <h6><%= course.price %></h6>
-              <p><%= course.description %></p>
-              <ul class="stars">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-              <span>Reviews (24)</span>
+            <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=course._id%>">
+                    <h4><%= course.name %></h4>
+                  </a>
+                  <h6><%= course.price %></h6>
+                  <p><%= course.description %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
             </div>
-          </div>
         </div>
       <%});%>
       </div>

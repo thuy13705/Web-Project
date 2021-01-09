@@ -37,7 +37,6 @@ exports.getShowCourse= (req, res) => {
   Users.find({ user: req.user }).then(user => {
     ChildCategory.findOne({_id:req.params.id})
     .then(Child => {
-      console.log(Child);
       Course.find({category:Child.name})
          .then(course=>{
           res.render("show-course-list", {
@@ -47,6 +46,22 @@ exports.getShowCourse= (req, res) => {
           });
          })
         });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.getSearchResult= (req, res) => {
+  Users.find({ user: req.user }).then(user => {
+    Course.find({$text: {$search: req.query.search}})
+    .exec(function(err,course){
+      res.render("show-course-list", {
+        title: "Search Results",
+        user: req.user,
+        courses:course,
+      });
+    })
     })
     .catch(err => {
       console.log(err);

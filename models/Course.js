@@ -1,4 +1,3 @@
-const { ObjectId, Int32 } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -17,4 +16,5 @@ const Course = new Schema({
     updateAt:{type: Date, default: Date.now},
 });
 
+Course.index({'name': 'text'});
 module.exports = mongoose.model('Course', Course);

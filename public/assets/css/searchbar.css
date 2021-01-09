@@ -6,7 +6,9 @@
   border-radius: 30px;
   padding: 10px;
 }
-
+.page-wrap {
+  min-height: 100vh;
+}
 .search_input {
   color: white;
   border: 0;
