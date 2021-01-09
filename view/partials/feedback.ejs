@@ -1,0 +1,22 @@
+<% feedbacks.forEach(entry=> {%>
+    <li>
+        <div class="review-heading">
+            <h5 class="review-heading">
+                <%= entry.username %>
+            </h5>
+            <p class="date">
+                <%= entry.createAt %>
+            </p>
+            <div class="review-rating">
+                <% for (var i=1; i<=(<%=entry.rating %>); i++){%>
+                    <i class="fa fa-star"></i>
+                    <% } %>
+            </div>
+        </div>
+        <div class="review-body">
+            <p>
+                <%= entry.content %>
+            </p>
+        </div>
+    </li>
+<% }) %>

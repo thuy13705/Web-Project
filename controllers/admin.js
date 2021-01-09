@@ -110,6 +110,8 @@ exports.getTeacherList = (req, res, next) => {
   });
 }
 
+
+
 exports.getDeleteTeacher = (req, res, next) => {
   Users.remove({ _id: req.params.id }, function (err, delData) {
     res.redirect("/teacher-list");
