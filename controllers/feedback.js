@@ -3,7 +3,7 @@ const Feedback = require('../models/Feedback');
 
 exports.getNewFeedback = (req, res) => {
     //find courseId
-    Course.findById(req.params.is, function (err, course) {
+    Course.findById(req.params.id, function (err, course) {
         if (err) {
             console.log(err);
         } else {
