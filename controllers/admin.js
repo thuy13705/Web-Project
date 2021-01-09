@@ -10,7 +10,7 @@ const ChildCategory = require('../models/ChildCategory')
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("add-teacher", {
         title: "Add Teacher",
         message: `${message}`,
@@ -91,7 +91,7 @@ exports.postAddTeacher = (req, res, next) => {
 exports.getAddStudent = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("add-student", {
         title: "Add Student",
         message: `${message}`,
@@ -115,7 +115,7 @@ exports.getTeacherList = (req, res, next) => {
     userList = user;
   })
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("teacher-list", {
         title: "Teacher List",
         message: `${message}`,
@@ -132,7 +132,7 @@ exports.getTeacherList = (req, res, next) => {
 
 exports.getDeleteTeacher = (req, res, next) => {
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       Users.remove({ _id: req.params.id }, function (err, delData) {
         res.redirect("/teacher-list");
       });
@@ -152,7 +152,7 @@ exports.getStudentList = (req, res, next) => {
     studentList = user;
   })
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("student-list", {
         title: "Student List",
         message: `${message}`,
@@ -170,7 +170,7 @@ exports.getStudentList = (req, res, next) => {
 exports.getAddChildCategory = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("add-child-category", {
         title: "Add Child Category",
         message: `${message}`,
@@ -211,7 +211,7 @@ exports.postAddChildCategory = (req, res, next) => {
 exports.getAddParentCategory = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("add-parent-category", {
         title: "Add Parent Category",
         message: `${message}`,
@@ -310,7 +310,7 @@ exports.postAddStudent = (req, res, next) => {
 exports.getCategoryList = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    if (user.role==2){
+    if (req.user.role==2){
       res.render("category-list", {
         title: "Category List",
         message: `${message}`,

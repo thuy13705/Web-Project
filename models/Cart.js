@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Cart = new Schema({
-    course:[{type:mongoose.Schema.Types.ObjectId, ref:'Chapter'}],
+    course:[{type:mongoose.Schema.Types.ObjectId, ref:'Course'}],
 });
 
 // Cart.index({'name': 'text'});

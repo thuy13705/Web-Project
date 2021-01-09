@@ -9,7 +9,7 @@ const Lesson=require('../models/Lesson');
 exports.getAddCourse = (req, res) => {
     const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
-      if (user.role==2 || user.role==1){
+      if (req.user.role==2 || req.user.role==1){
         res.render("add-course", {
           title: "Add Course",
           message: `${message}`,
@@ -61,7 +61,7 @@ exports.postAddCourse = (req, res, next) => {
 exports.getCourseList = (req, res, next) => {
     const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
-      if (user.role==2 || user.role==1){
+      if (req.user.role==2 || req.user.role==1){
         res.render("course-list", {
           title: "Course List",
           message: `${message}`,
@@ -100,7 +100,7 @@ exports.getCourseList = (req, res, next) => {
     Users.find({ user: req.user }).then(user => {
       Course.findOne({_id:req.params.id})
         .then(course=>{
-          if (user.role==2 || user.role==1){
+          if (req.user.role==2 || req.user.role==1){
             res.render("add-chapter", {
               title: "Add Chapter",
               user: req.user,
@@ -142,7 +142,7 @@ exports.getAddLesson= (req, res) => {
   Users.find({ user: req.user }).then(user => {
     Chapter.findOne({_id:req.params.id})
       .then(chapter=>{
-        if (user.role==2 || user.role==1){
+        if (req.user.role==2 ||req.user.role==1){
           res.render("add-lesson", {
           title: "Add Lesson",
           user: req.user,
