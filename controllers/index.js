@@ -113,7 +113,7 @@ exports.getAddWishList= (req, res) => {
         title: "Wish List",
         user: req.user,
         message: `${message}`,
-        courses:course,
+        // courses:course,
       });
     }
     res.render("404", {
@@ -131,7 +131,6 @@ exports.getShowWishList= (req, res) => {
   Users.findOne({_id: req.user._id }).populate('wish_list')
   .exec((err,user)=>{
     if (err) throw err;
-    console.log(user);
     if (req.user.role==0){
       res.render("wish-list", {
         title: "Wish List",
@@ -147,3 +146,44 @@ exports.getShowWishList= (req, res) => {
     });
   })
 };
+
+exports.getDeleteWishList= (req, res) => {
+  const message = req.flash("error")[0];
+
+  Users.findOneAndUpdate({ _id: req.user._id },{ $pull: {wish_list : req.params.id} }, function (err,course){
+    if (req.user.role==0){
+      console.log(course);
+      res.render("wish-list", {
+        title: "Wish List",
+        user: req.user,
+        message: `${message}`,
+        courses:course,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
+      message: `${message}`,
+      user: req.user,
+    });
+  }).catch(err => {
+      console.log(err);
+    });
+};
+
+exports.getUserStudy = (req, res, next) => {
+  const message = req.flash("error")[0];
+  Users.find({ user: req.user }).then(user => {
+    Course.findOne({_id:req.params.id}).populate([{path:'chapter',populate:{path:'lesson'}}])
+    .exec((err,course)=>{
+        res.render("user-study", {
+          title: "User Study",
+          message: `${message}`,
+          user: req.user,
+          courses:course,
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}

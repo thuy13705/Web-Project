@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+        <div id="tt-pageContent">
+            <div class="container-indent">
+                <div class="container container-fluid-custom-mobile-padding">
+                    <div class="row no-gutters">
+                        <div class="col-12 col-sm-6 col-md-8">
+
+
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <a class="navbar-brand" href="#">Course Detail</a>
+
+                            <nav class="nav nav-pills flex-column">
+                                <% if (courses.chapter!=[]){%>
+                                    <% courses.chapter.forEach(chapter=>{%>
+                                        <a class="nav-link" href="#item-1">
+                                            <%= chapter.name %>
+                                        </a>
+                                        <nav class="nav nav-pills flex-column">
+                                            <% chapter.lesson.forEach(lesson=>{%>
+                                                <a class="nav-link ml-3 my-1" href="#item-1-1">
+                                                    <%= lesson.name %>
+                                                </a>
+                                                <!-- <video src="/videos/<%= lesson.video %>" controls>
+                                </video> -->
+                                                <video id="MY_VIDEO_1" class="video-js vjs-default-skin" controls
+                                                    preload="auto" width="640" height="264" poster="MY_VIDEO_POSTER.jpg"
+                                                    data-setup="{}">
+                                                    <source src="/videos/<%= lesson.video %>" type='video/mp4'>
+                                                    <p class="vjs-no-js">To view this video please enable JavaScript,
+                                                        and consider upgrading to a web browser that <a
+                                                            href="http://videojs.com/html5-video-support/"
+                                                            target="_blank">supports HTML5 video</a></p>
+                                                </video>
+                                                <%});%>
+                                        </nav>
+                                        <%});%>
+                                            <%}%>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>
