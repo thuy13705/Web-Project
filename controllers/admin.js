@@ -130,6 +130,8 @@ exports.getTeacherList = (req, res, next) => {
   });
 }
 
+
+
 exports.getDeleteTeacher = (req, res, next) => {
   Users.find({ user: req.user }).then(user => {
     if (req.user.role==2){
