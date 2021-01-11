@@ -15,61 +15,79 @@
                         <table class="tt-table-shop-02">
                             <tbody>
                                 <tr>
-                                 <td>
-                                     <img src="/images/<%= courses.image %>" width="300px" hight="300px">                                         
-                                    
-                                 </td>
-                                 <td>
-                                     <tr>
-                                         <td>Name:</td>
-                                         <td>
-                                             <%= courses.name %>
-                                         </td>
-                                     </tr>
-                                     <tr>
-                                         <td>Description</td>:</td>
-                                         <td>
-                                             <%= courses.description %>
-                                         </td>
-                                     </tr>
-                                     <tr>
-                                         <td>Price:</td>
-                                         <td>
-                                             <%= courses.price %>
-                                         </td>
-                                     </tr>
-                                 </td>
+                                    <td>
+                                        <img src="/images/<%= courses.image %>" width="300px" hight="300px">
+
+                                    </td>
+                                    <td>
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>
+                                        <%= courses.name %>
+                                    </td>
                                 </tr>
-                             </tbody>
+                                <tr>
+                                    <td>Description</td>:</td>
+                                    <td>
+                                        <%= courses.description %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Price:</td>
+                                    <td>
+                                        <%= courses.price %>
+                                    </td>
+                                </tr>
+                                </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-                    <a href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add Chapter</a>
+                    <a href="/account/wish-list/<%= courses._id %>" class="btn btn-border">Add To WishList</a>
+                    <a href="/account/my-course/<%= courses._id %>" class="btn btn-border">Study</a>
+                    <div></div>
+                    <% if (typeof(user)!=='undefined' ) {%>
+                        <% if (user.role==1 || user.role==2) {%>
+                            <a href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add Chapter</a>
+                            <%}%>
+                                <%}%>
                 </div>
-           <% if (courses.chapter!=[]){%> 
-            <% courses.chapter.forEach(chapter=>{%> 
-                <div class="tt-table-responsive">
-                    <table class="tt-table-shop-02">
-                           <tbody>
-                            <tr>
-                                <div class="d-flex justify-content-between">
-                                    <h4><%= chapter.name %></h4>                         
-                                    <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add Lesson</a>
-                               </div>
-                            </tr>
-                          <tr>
-                            <% chapter.lesson.forEach(lesson=>{%>
-                                <td><%= lesson.name %></td>                    
-                            <%});%>
-                          </tr>
-                           </tbody>
-                    </table>
-                </div>
-                <%});%>
-            <%}%>
+                <% if (courses.chapter!=[]){%>
+                    <% courses.chapter.forEach(chapter=>{%>
+                        <div class="tt-table-responsive">
+                            <table class="tt-table-shop-02">
+                                <tbody>
+                                    <tr>
+                                        <div class="d-flex justify-content-between">
+                                            <h4>
+                                                <%= chapter.name %>
+                                            </h4>
+                                            <% if (typeof(user)!=='undefined' ) {%>
+                                                <% if (user.role==1 || user.role==2) {%>
+                                                    <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add
+                                                        Lesson</a>
+                                                    <%}%>
+                                                        <%}%>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <% chapter.lesson.forEach(lesson=>{%>
+                                    <tr>
+                                        <td>
+                                            <%= lesson.name %>
+                                        </td>
+                                    </tr>
+                                    <%});%>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%});%>
+                            <%}%>
             </div>
         </div>
-    </div>
-         </script>
+        </div>
+        </script>
         <%- include("partials/script") %>
             <footer>
                 <%- include('partials/footer'); %>

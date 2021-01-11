@@ -39,11 +39,6 @@ const userSchema = new Schema({
     required: false,
     default: false
   },
-  isSignIn: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
   isLock: {
     type: Boolean,
     required: false,
@@ -53,7 +48,12 @@ const userSchema = new Schema({
     type: String,
     required: false
   },
+  wish_list: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course",
+}],
   courses: [mongoose.Types.ObjectId],
+
 });
 
 module.exports = mongoose.model('User', userSchema);

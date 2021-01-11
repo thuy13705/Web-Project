@@ -30,21 +30,11 @@ var Storage = multer.diskStorage({
   }
 });
 
-var video = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/videos')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
-  }
-});
-
 // app.use(multer({storage: Storage}).single('image'));
-// app.use(multer({ storage: video }).single('video'));
 app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'ejs');
-app.use('/images', express.static(path.join(__dirname, 'public')));
-app.use('/videos', express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, './images')));
+app.use('/videos', express.static(path.join(__dirname, './videos')));
 app.use(express.static('public'));
 app.use(require("./middlewares/course"));
 app.use(require("./middlewares/categories"));

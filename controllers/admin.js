@@ -10,8 +10,15 @@ const ChildCategory = require('../models/ChildCategory')
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    res.render("add-teacher", {
-      title: "Add Teacher",
+    if (req.user.role==2){
+      res.render("add-teacher", {
+        title: "Add Teacher",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
     });
@@ -84,8 +91,15 @@ exports.postAddTeacher = (req, res, next) => {
 exports.getAddStudent = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    res.render("add-student", {
-      title: "Add Student",
+    if (req.user.role==2){
+      res.render("add-student", {
+        title: "Add Student",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
     });
@@ -101,11 +115,17 @@ exports.getTeacherList = (req, res, next) => {
     userList = user;
   })
   Users.find({ user: req.user }).then(user => {
-    res.render("teacher-list", {
-      title: "Teacher List",
+    if (req.user.role==2){
+      res.render("teacher-list", {
+        title: "Teacher List",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
-      userList: userList
     });
   });
 }
@@ -113,8 +133,17 @@ exports.getTeacherList = (req, res, next) => {
 
 
 exports.getDeleteTeacher = (req, res, next) => {
-  Users.remove({ _id: req.params.id }, function (err, delData) {
-    res.redirect("/teacher-list");
+  Users.find({ user: req.user }).then(user => {
+    if (req.user.role==2){
+      Users.remove({ _id: req.params.id }, function (err, delData) {
+        res.redirect("/teacher-list");
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
+      message: `${message}`,
+      user: req.user,
+    });
   });
 };
 
@@ -125,11 +154,17 @@ exports.getStudentList = (req, res, next) => {
     studentList = user;
   })
   Users.find({ user: req.user }).then(user => {
-    res.render("student-list", {
-      title: "Student List",
+    if (req.user.role==2){
+      res.render("student-list", {
+        title: "Student List",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
-      studentList: studentList
     });
   });
 }
@@ -137,8 +172,15 @@ exports.getStudentList = (req, res, next) => {
 exports.getAddChildCategory = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    res.render("add-child-category", {
-      title: "Add Child Category",
+    if (req.user.role==2){
+      res.render("add-child-category", {
+        title: "Add Child Category",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
     });
@@ -171,8 +213,15 @@ exports.postAddChildCategory = (req, res, next) => {
 exports.getAddParentCategory = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    res.render("add-parent-category", {
-      title: "Add Parent Category",
+    if (req.user.role==2){
+      res.render("add-parent-category", {
+        title: "Add Parent Category",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
     });
@@ -263,8 +312,15 @@ exports.postAddStudent = (req, res, next) => {
 exports.getCategoryList = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
-    res.render("category-list", {
-      title: "Category List",
+    if (req.user.role==2){
+      res.render("category-list", {
+        title: "Category List",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    res.render("404", {
+      title: "404 Not Found",
       message: `${message}`,
       user: req.user,
     });

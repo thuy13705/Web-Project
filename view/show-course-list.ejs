@@ -25,32 +25,66 @@
             <a href="#">view all products <i class="fa fa-angle-right"></i></a>
           </div>
         </div>
-      <% courses.forEach(trend=>{%>
+      <% courses.forEach(course=>{%>
         <div class="col-md-4">
           <div class="product-item">
-            <a href=""><img src="images/<%= trend.image %>" alt=""></a>
-            <div class="down-content">
-              <a href="#">
-                <h4><%= trend.name %></h4>
-              </a>
-              <h6><%= trend.price %></h6>
-              <p><%= trend.description %></p>
-              <ul class="stars">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-              <span>Reviews (24)</span>
+            <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=course._id%>">
+                    <h4 class="textlimit"><%= course.name %></h4>
+                  </a>
+                  <h6>Price: <%= course.price %></h6>
+                  <p class="textlimit">Category: <%= course.category %></p>
+                  <p class="textlimit">Teacher: <%= course.teacher %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
             </div>
-          </div>
         </div>
       <%});%>
       </div>
     </div>
   </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <% if (currentPage !== 1){ %>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= previousPage %>" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <% } %> <% if(hasPreviousPage ){ %>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= previousPage %>"><%= previousPage %></a>
+      </li>
+      <% } %>
 
+      <li class="page-item active">
+        <a class="page-link" href="javascript:void(0)" tabindex="-1"><%= currentPage %></a>
+      </li>
+
+      <% if(hasNextPage){ %>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= nextPage %>"><%= nextPage %></a>
+      </li>
+      <% } %> <% if(currentPage < lastPage){ %>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= nextPage %>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
 </body>
 <%- include("partials/script") %>
 <footer>
