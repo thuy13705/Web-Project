@@ -57,10 +57,11 @@
             <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=trend._id%>">
-                    <h4><%= trend.name %></h4>
+                    <h4 class="textlimit"><%= trend.name %></h4>
                   </a>
-                  <h6><%= trend.price %></h6>
-                  <p><%= trend.description %></p>
+                  <h6>Price: <%= trend.price %></h6>
+                  <p class="textlimit">Category: <%= trend.category%></p>
+                  <p class="textlimit">Teacher: <%= trend.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -89,10 +90,11 @@
             <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=buy._id%>">
-                    <h4><%= buy.name %></h4>
+                    <h4 class="textlimit"><%= buy.name %></h4>
                   </a>
-                  <h6><%= buy.price %></h6>
-                  <p><%= buy.description %></p>
+                  <h6>Price:<%= buy.price %></h6>
+                  <p class="textlimit">Category:<%= buy.category %></p>
+                  <p class="textlimit">Teacher: <%= buy.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -121,10 +123,11 @@
             <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=course._id%>">
-                    <h4><%= course.name %></h4>
+                    <h4 class="textlimit"><%= course.name %></h4>
                   </a>
-                  <h6><%= course.price %></h6>
-                  <p><%= course.description %></p>
+                  <h6>Price: <%= course.price %></h6>
+                  <p class="textlimit">Category: <%= course.category %></p>
+                  <p class="textlimit">Teacher: <%= course.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>

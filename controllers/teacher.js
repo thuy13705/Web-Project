@@ -43,8 +43,8 @@ exports.postAddCourse = (req, res, next) => {
       category:category,
       name: name,
       price: price,
-      description: description
-
+      description: description,
+      teacher:req.user.username,
   });
   course.save(function (err, doc) {
       if (err) throw err;
@@ -79,6 +79,7 @@ exports.getCourseList = (req, res, next) => {
   exports.getCourseDetail= (req, res) => {
     const message = req.flash("error")[0];
     Users.find({ user: req.user }).then(user => {
+      Course.update({ _id: req.params.id }, { $inc:{countView:1}},function(err,course){});
       Course.findOne({_id:req.params.id}).populate([{path:'chapter',populate:{path:'lesson'}}])
       .exec((err,course)=>{
           res.render("course-detail", {

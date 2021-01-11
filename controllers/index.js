@@ -1,6 +1,7 @@
 const Users = require('../models/user');
 const Course = require('../models/Course');
 const ChildCategory = require('../models/ChildCategory');
+const user = require('../models/user');
 
 
 exports.getHomeView = (req, res) => {
@@ -105,24 +106,26 @@ exports.getSearchResult = (req, res) => {
 
 exports.getAddWishList = (req, res) => {
   const message = req.flash("error")[0];
-
-  Users.findOneAndUpdate({ _id: req.user._id }, { $push: { wish_list: req.params.id } }, function (err, course) {
-    if (req.user.role == 0) {
-      res.render("wish-list", {
-        title: "Wish List",
-        user: req.user,
+  console.log(typeof(req.user));
+  if (typeof(req.user) !=='undefined'){
+    Users.findOneAndUpdate([{_id:req.user._id},{wish_list:{$in:req.params.id}}],{$push:{wish_list:req.params.id}}).populate('wish_list').exec((err,user)=>{
+      console.log(user);
+      if (req.user.role == 0 && user!=[]) {
+        res.redirect('/account/wish_list')
+      }
+      res.render("404", {
+        title: "404 Not Found",
         message: `${message}`,
-        // courses:course,
+        user: req.user,
       });
-    }
+    })
+  }
+  else{
     res.render("404", {
       title: "404 Not Found",
       message: `${message}`,
-      user: req.user,
     });
-  }).catch(err => {
-    console.log(err);
-  });
+  }
 };
 
 exports.getShowWishList = (req, res) => {

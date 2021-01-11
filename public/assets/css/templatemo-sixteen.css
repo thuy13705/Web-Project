@@ -427,6 +427,7 @@ header .navbar {
 
 .product-item img {
 	width: 100%;
+	height: 250px;
 	overflow: hidden;
 }
 
@@ -436,17 +437,8 @@ header .navbar {
 	margin-bottom: 20px;
 }
 
-.product-item .down-content h6 {
-	position: absolute;
-	top: 30px;
-	right: 30px;
-	font-size: 18px;
-	color: #121212;
-}
 
-.product-item .down-content p {
-	margin-bottom: 20px;
-}
+
 
 .product-item .down-content ul li {
 	display: inline-block;
@@ -928,6 +920,11 @@ footer .inner-content p a {
 
 /* Responsive Style */
 @media (max-width: 768px) {
+	.product-item img {
+		width: 100%;
+		height: 200px;
+		overflow: hidden;
+	}
 	.banner .text-content {
 		width: 90%;
 		margin-left: 5%;
@@ -1140,16 +1137,20 @@ footer .inner-content p a {
   }
   
   .product-item .down-content h6 {
-	  position: absolute;
-	  top: 30px;
-	  right: 30px;
+	 text-align: center;
 	  font-size: 18px;
 	  color: #121212;
+	  margin-bottom: 8px;
   }
-  
   .product-item .down-content p {
-	  margin-bottom: 20px;
-  }
+	text-align: center;
+	 font-size: 18px;
+	 color: #121212;
+	 margin-bottom: 8px;
+
+ }
+  
+
   
   .product-item .down-content ul li {
 	  display: inline-block;
@@ -1702,8 +1703,13 @@ footer .inner-content p a {
 		  margin-top: 30px;
 		  margin-left: 0px;
 	  }
-	  .navbar .navbar-icon {
+
 @media (max-width: 992px) {
+	.product-item img {
+		width: 100%;
+		height: 300px;
+		overflow: hidden;
+	}
 	.navbar .navbar-icon {
 		position: absolute;
 		right: 90px;
@@ -1752,15 +1758,10 @@ footer .inner-content p a {
 	.product-item .down-content h4 {
 		margin-bottom: 10px;
 	}
-	.product-item .down-content h6 {
-		position: relative;
-		top: 0;
-		right: 0;
-		margin-bottom: 20px;
-	}
+
 	.product-item .down-content span {
 		position: relative;
 		right: 0;
 		bottom: 0;
 	}
-}
+}}

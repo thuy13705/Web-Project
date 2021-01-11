@@ -25,27 +25,28 @@
             <a href="#">view all products <i class="fa fa-angle-right"></i></a>
           </div>
         </div>
-      <% courses.forEach(trend=>{%>
+      <% courses.forEach(course=>{%>
         <div class="col-md-4">
           <div class="product-item">
-          <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
-              <div class="down-content">
-                <a href="/course-detail/<%=trend._id%>">
-                  <h4><%= trend.name %></h4>
-                </a>
-                <h6><%= trend.price %></h6>
-                <p><%= trend.description %></p>
-                <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span>Reviews (24)</span>
-             
-              </div>
-          </div>
+            <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=course._id%>">
+                    <h4 class="textlimit"><%= course.name %></h4>
+                  </a>
+                  <h6>Price: <%= course.price %></h6>
+                  <p class="textlimit">Category: <%= course.category %></p>
+                  <p class="textlimit">Teacher: <%= course.teacher %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
+            </div>
         </div>
       <%});%>
       </div>
