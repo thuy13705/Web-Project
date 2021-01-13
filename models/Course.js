@@ -14,8 +14,9 @@ const Course = new Schema({
     teacher:{type:String,default:''},
     countBuy:{type:Number,default:0},
     countView:{type:Number,default:0},
-    viewWeek:{type:Number,default:0},
     status:{type:Boolean,default:false},
+    dateBuy:[{type:Date}],
+    isComplete:{type:Boolean,default:false},
     createAt:{type: Date, default: Date.now},
     updateAt:{type: Date, default: Date.now},
 });

@@ -20,9 +20,14 @@
     <div class="container">
    <!-- Lượt xem nhiều nhất -->
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 ">
           <div class="section-heading">
-            <a href="#">view all products <i class="fa fa-angle-right"></i></a>
+            <form method="GET" >
+              <select name="orderby" class="orderby"  onchange="this.form.submit()">
+                <option value="" selected disabled hidden><%= sort_value %></option>
+                <option value="1" >Giá thấp tới cao</option>
+                <option value="-1" >Giá cao tới thấp</option>
+              </select>
           </div>
         </div>
       <% courses.forEach(course=>{%>
