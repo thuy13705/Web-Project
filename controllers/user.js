@@ -17,6 +17,7 @@ exports.getAccountChange = (req, res, next) => {
   res.render("info-change", {
     title: "Change Information Account",
     user: req.user,
+    editUser:req.user,
   });
 };
 

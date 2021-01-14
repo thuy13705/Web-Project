@@ -1,17 +1,16 @@
-const Users = require('../models/user');
+const Users = require("../models/user");
 const passport = require("passport");
-var bcrypt = require('bcryptjs');
+var bcrypt = require("bcryptjs");
 var randomstring = require("randomstring");
-const nodemailer = require('nodemailer');
-const ParentCategory = require('../models/ParentCategory')
-const ChildCategory = require('../models/ChildCategory');
-const { Mongoose } = require('mongoose');
-
+const nodemailer = require("nodemailer");
+const ParentCategory = require("../models/ParentCategory");
+const ChildCategory = require("../models/ChildCategory");
+const { Mongoose } = require("mongoose");
 
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("add-teacher", {
         title: "Add Teacher",
         message: `${message}`,
@@ -24,11 +23,10 @@ exports.getAddTeacher = (req, res, next) => {
       user: req.user,
     });
   });
-}
+};
 
 exports.postAddTeacher = (req, res, next) => {
   Users.findOne({ username: req.body.username }, function (err, user) {
-
     if (user) {
       req.flash("error", "username is existed");
       return res.redirect("/add-teacher");
@@ -45,14 +43,14 @@ exports.postAddTeacher = (req, res, next) => {
       }
     });
     var password = randomstring.generate({
-      length: 8
+      length: 8,
     });
     var transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
         user: "nlpthuy137@gmail.com",
-        pass: "Thuy13705#"
-      }
+        pass: "Thuy13705#",
+      },
     });
 
     var mainOptions = {
@@ -62,7 +60,7 @@ exports.postAddTeacher = (req, res, next) => {
       text: "text ne",
       html:
         "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
-        password
+        password,
     };
     transporter.sendMail(mainOptions, (err, info) => {
       if (err) {
@@ -72,18 +70,18 @@ exports.postAddTeacher = (req, res, next) => {
       }
     });
     console.log(password);
-    bcrypt.hash(password, 12).then(hashPassword => {
+    bcrypt.hash(password, 12).then((hashPassword) => {
       const newUser = new Users({
         username: req.body.username,
         password: hashPassword,
         email: req.body.email,
         role: 1,
-        isAuthenticated: true
+        isAuthenticated: true,
       });
       // save the user
       newUser.save(function (err) {
-        if (err) return res.redirect("/add-teacher");;
-        return res.redirect("/");;
+        if (err) return res.redirect("/add-teacher");
+        return res.redirect("/");
       });
     });
   });
@@ -91,8 +89,8 @@ exports.postAddTeacher = (req, res, next) => {
 
 exports.getAddStudent = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("add-student", {
         title: "Add Student",
         message: `${message}`,
@@ -105,64 +103,67 @@ exports.getAddStudent = (req, res, next) => {
       user: req.user,
     });
   });
-}
-
-
+};
 
 exports.getTeacherList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
-  Users.find({ user: req.user }).then(user => {
-    Users.find({ role: 1 }).then(userList => {
-      if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    Users.find({ role: 1 }).then((userList) => {
+      if (req.user.role == 2) {
         res.render("teacher-list", {
           title: "Teacher List",
           message: `${message}`,
           user: req.user,
-          userList:userList,
+          userList: userList,
+        });
+      } else {
+        res.render("404", {
+          title: "404 Not Found",
+          message: `${message}`,
+          user: req.user,
         });
       }
-     else{
-      res.render("404", {
-        title: "404 Not Found",
-        message: `${message}`,
-        user: req.user,
-      });
-     }
-    })
+    });
   });
- 
- 
-}
+};
 
+exports.getUpdateTeacher = (req, res, next) => {
+  // Users.updateOne({
+  //     _id: new Mongoose.Types.ObjectId(req.params.id)},
+  //     {firstName: req.body.firstName},
+  //     {lastName: req.body.lastName},
+  //     {email: req.body.email},
+  //     {address: req.body.address},
+  //     {phoneNumber: req.body.phoneNumber},
+  //     (err) =>{
+  //     if(err){
+  //       req.flash('error','Fail');
+  //     }
+  //     req.redirect('/teacher-list');
+  //   })
 
-exports.updateTeacher = (req, res, next) => {
-  Users.updateOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id)},
-      {firstName: req.body.firstName},
-      {lastName: req.body.lastName},
-      {email: req.body.email},
-      {address: req.body.address},
-      {phoneNumber: req.body.phoneNumber},
-      (err) =>{
-      if(err){
-        req.flash('error','Fail');
-      }
-      req.redirect('/teacher-list');
-    })
-  }
-
-
+  Users.findById(req.params.id).exec((err, userTeacher) => {
+    if (err) throw console.log(err);
+    else {
+      res.render("info-change", {
+        title: "Info Change",
+        editUser: userTeacher,
+        user:req.user,
+      });
+    }
+  });
+};
 
 exports.getDeleteTeacher = (req, res, next) => {
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       Users.remove({ _id: req.params.id }, function (err, delData) {
         res.redirect("/teacher-list");
       });
     }
-    })
-}
+  });
+};
 
 // exports.getDeleteTeacher = (req, res, next) => {
 //   Users.find({ user: req.user }).then(user => {
@@ -180,22 +181,25 @@ exports.getDeleteTeacher = (req, res, next) => {
 // };
 
 exports.deleteTeacher = (req, res, next) => {
-  Users.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
-    if(err) {
-      req.flash('err', 'Fail');
-    } 
-    res.redirect('/teacher-list');
-  })
-}
+  Users.deleteOne(
+    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+    (err) => {
+      if (err) {
+        req.flash("err", "Fail");
+      }
+      res.redirect("/teacher-list");
+    }
+  );
+};
 
 exports.getStudentList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
-  Users.find({ role: 0 }).then(user => {
+  Users.find({ role: 0 }).then((user) => {
     studentList = user;
-  })
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  });
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("student-list", {
         title: "Student List",
         message: `${message}`,
@@ -208,12 +212,12 @@ exports.getStudentList = (req, res, next) => {
       user: req.user,
     });
   });
-}
+};
 
 exports.getAddChildCategory = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("add-child-category", {
         title: "Add Child Category",
         message: `${message}`,
@@ -226,25 +230,28 @@ exports.getAddChildCategory = (req, res, next) => {
       user: req.user,
     });
   });
-}
+};
 
 exports.postAddChildCategory = (req, res, next) => {
   ChildCategory.findOne({ name: req.body.name }, function (err, child) {
-
     if (child) {
       req.flash("error", "username is existed");
       return res.redirect("/add-child-category");
     }
     const newCategory = new ChildCategory({
-      name: req.body.name
+      name: req.body.name,
     });
     // save the user
     newCategory.save(function (err) {
       if (err) return res.redirect("/");
       var category = req.body.category;
-      ParentCategory.findOneAndUpdate({ name: category }, { $push: { child: newCategory._id } }, function (err) {
-        if (err) res.redirect('/');
-      });
+      ParentCategory.findOneAndUpdate(
+        { name: category },
+        { $push: { child: newCategory._id } },
+        function (err) {
+          if (err) res.redirect("/");
+        }
+      );
 
       return res.redirect("/add-child-category");
     });
@@ -253,30 +260,33 @@ exports.postAddChildCategory = (req, res, next) => {
 
 exports.updateChildCategory = (req, res, next) => {
   ChildCategory.updateOne(
-    {_id: new Mongoose.Types.ObjectId(req.params.id)},
-    {name: req.body.name},
+    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+    { name: req.body.name },
     (err) => {
-      if(err){
-        req.flash('err');
+      if (err) {
+        req.flash("err");
       }
-      res.redirect('/category-list');
+      res.redirect("/category-list");
     }
-  )
-}
+  );
+};
 
 exports.deleteChildCategory = (req, res, next) => {
-  ChildCategory.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
-    if(err){
-      req.flash('err');
+  ChildCategory.deleteOne(
+    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+    (err) => {
+      if (err) {
+        req.flash("err");
+      }
+      res.redirect("/category-list");
     }
-    res.redirect('/category-list');
-  });
-}
+  );
+};
 
 exports.getAddParentCategory = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("add-parent-category", {
         title: "Add Parent Category",
         message: `${message}`,
@@ -289,17 +299,16 @@ exports.getAddParentCategory = (req, res, next) => {
       user: req.user,
     });
   });
-}
+};
 
 exports.postAddParentCategory = (req, res, next) => {
   ParentCategory.findOne({ name: req.body.name }, function (err, parent) {
-
     if (parent) {
       req.flash("error", "username is existed");
       return res.redirect("/add-parent-category");
     }
     const newCategory = new ParentCategory({
-      name: req.body.name
+      name: req.body.name,
     });
     // save the user
     newCategory.save(function (err) {
@@ -312,30 +321,33 @@ exports.postAddParentCategory = (req, res, next) => {
 exports.updateParentCategory = (req, res, next) => {
   ParentCategory.updateOne(
     {
-      _id: new Mongoose.Types.ObjectId(req.params.id)},
-      {name: req.body.name},
-      (err) =>{6
-      if(err){
-        req.flash('error','Fail');
+      _id: new Mongoose.Types.ObjectId(req.params.id),
+    },
+    { name: req.body.name },
+    (err) => {
+      6;
+      if (err) {
+        req.flash("error", "Fail");
       }
-      req.redirect('/category-list');
-     
+      req.redirect("/category-list");
     }
-  )
-}
+  );
+};
 
 exports.deletePatentCategory = (req, res, next) => {
-  ParentCategory.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
-    if(err) {
-      req.flash('err', 'Fail');
-    } 
-    res.redirect('/category-list');
-  })
-}
+  ParentCategory.deleteOne(
+    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+    (err) => {
+      if (err) {
+        req.flash("err", "Fail");
+      }
+      res.redirect("/category-list");
+    }
+  );
+};
 
 exports.postAddStudent = (req, res, next) => {
   Users.findOne({ username: req.body.username }, function (err, user) {
-
     if (user) {
       req.flash("error", "username is existed");
       return res.redirect("/add-student");
@@ -352,14 +364,14 @@ exports.postAddStudent = (req, res, next) => {
       }
     });
     var password = randomstring.generate({
-      length: 8
+      length: 8,
     });
     var transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
         user: "nlpthuy137@gmail.com",
-        pass: "Thuy13705#"
-      }
+        pass: "Thuy13705#",
+      },
     });
 
     var mainOptions = {
@@ -369,7 +381,7 @@ exports.postAddStudent = (req, res, next) => {
       text: "text ne",
       html:
         "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
-        password
+        password,
     };
     transporter.sendMail(mainOptions, (err, info) => {
       if (err) {
@@ -379,18 +391,18 @@ exports.postAddStudent = (req, res, next) => {
       }
     });
     console.log(password);
-    bcrypt.hash(password, 12).then(hashPassword => {
+    bcrypt.hash(password, 12).then((hashPassword) => {
       const newUser = new Users({
         username: req.body.username,
         password: hashPassword,
         email: req.body.email,
         role: 0,
-        isAuthenticated: true
+        isAuthenticated: true,
       });
       // save the user
       newUser.save(function (err) {
-        if (err) return res.redirect("/add-course");;
-        return res.redirect("/");;
+        if (err) return res.redirect("/add-course");
+        return res.redirect("/");
       });
     });
   });
@@ -398,8 +410,8 @@ exports.postAddStudent = (req, res, next) => {
 
 exports.getCategoryList = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
+  Users.find({ user: req.user }).then((user) => {
+    if (req.user.role == 2) {
       res.render("category-list", {
         title: "Category List",
         message: `${message}`,
@@ -412,5 +424,4 @@ exports.getCategoryList = (req, res, next) => {
       user: req.user,
     });
   });
-}
-
+};
