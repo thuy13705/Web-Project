@@ -7,7 +7,7 @@ const user = require('../models/user');
 exports.getHomeView = (req, res) => {
   Users.find({ user: req.user }).then(user => {
     Course.find()
-      .limit(10)
+      .limit(3)
       .sort({ 'countBuy': -1 })
       .then(courses => {
         Course.find()

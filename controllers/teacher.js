@@ -111,12 +111,20 @@ exports.getCourseDetail = (req, res) => {
       Course.findOne({ _id: req.params.id })
         .populate([{ path: "chapter", populate: { path: "lesson" } }])
         .exec((err, course) => {
-          res.render("course-detail", {
-            title: "Course Detail",
-            message: `${message}`,
-            user: req.user,
-            courses: course,
-          });
+          Course.find({category:course.category})
+          .limit(5)
+          .sort({countBuy:-1}).then(courseBuy=>{
+           Users.findOne({username:course.teacher},function(err,teacher){
+            res.render("course-detail", {
+              title: "Course Detail",
+              message: `${message}`,
+              user: req.user,
+              courses: course,
+              courseList:courseBuy,
+              teacher:teacher,
+            });
+           })
+          })
         });
     })
     .catch((err) => {
