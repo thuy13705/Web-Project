@@ -8,6 +8,7 @@ router.get('/add-course', teacherController.getAddCourse);
 router.post('/add-course', teacherController.postAddCourse);
 router.get('/course-list', teacherController.getCourseList);
 router.get('/course-detail/:id', teacherController.getCourseDetail);
+router.post('/update-description/:id', teacherController.postUpdateDescription);
 router.get('/add-chapter/:id', teacherController.getAddChapter);
 router.post('/add-chapter/:id', teacherController.postAddChapter);
 router.get('/add-lesson/:id', teacherController.getAddLesson);

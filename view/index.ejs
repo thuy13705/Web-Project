@@ -14,32 +14,32 @@
   <%- include("partials/head") %>
 </head>
 <body>
-  <%- include("partials/loader")%>
   <%- include("partials/header") %>
+  <%- include("partials/loader")%>
   <!-- Banner Starts Here -->
-  <div class="banner header-text">
-    <div class="owl-banner owl-carousel">
-      <div class="banner-item-01">
-        <div class="text-content">
-          <h4>Best Offer</h4>
-          <h2>New Arrivals On Sale</h2>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <% Buy.forEach((buy, index)=>{%>
+        <div class="carousel-item <%=index === 0 ? 'active' : ''%>"  data-bs-interval="10000">
+          <img src="/images/<%= buy.image %>" class="d-block w-100" alt="...">
         </div>
-      </div>
-      <div class="banner-item-02">
-        <div class="text-content">
-          <h4>Flash Deals</h4>
-          <h2>Get your best products</h2>
-        </div>
-      </div>
-      <div class="banner-item-03">
-        <div class="text-content">
-          <h4>Last Minute</h4>
-          <h2>Grab last minute deals</h2>
-        </div>
-      </div>
+        <%});%>
     </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
   </div>
-  <!-- Banner Ends Here -->
+
 
   <div class="latest-products">
     <div class="container">
@@ -57,10 +57,11 @@
             <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=trend._id%>">
-                    <h4><%= trend.name %></h4>
+                    <h4 class="textlimit"><%= trend.name %></h4>
                   </a>
-                  <h6><%= trend.price %></h6>
-                  <p><%= trend.description %></p>
+                  <h6>Price: <%= trend.price %></h6>
+                  <p class="textlimit">Category: <%= trend.category%></p>
+                  <p class="textlimit">Teacher: <%= trend.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -89,10 +90,11 @@
             <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=buy._id%>">
-                    <h4><%= buy.name %></h4>
+                    <h4 class="textlimit"><%= buy.name %></h4>
                   </a>
-                  <h6><%= buy.price %></h6>
-                  <p><%= buy.description %></p>
+                  <h6>Price:<%= buy.price %></h6>
+                  <p class="textlimit">Category:<%= buy.category %></p>
+                  <p class="textlimit">Teacher: <%= buy.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -121,10 +123,11 @@
             <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
                 <div class="down-content">
                   <a href="/course-detail/<%=course._id%>">
-                    <h4><%= course.name %></h4>
+                    <h4 class="textlimit"><%= course.name %></h4>
                   </a>
-                  <h6><%= course.price %></h6>
-                  <p><%= course.description %></p>
+                  <h6>Price: <%= course.price %></h6>
+                  <p class="textlimit">Category: <%= course.category %></p>
+                  <p class="textlimit">Teacher: <%= course.teacher %></p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>

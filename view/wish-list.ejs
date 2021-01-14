@@ -11,16 +11,14 @@
             <div class="container container-fluid-custom-mobile-padding">
                 <h1 class="tt-title-subpages noborder">My Course</h1>
 
-                <% courses.wish_list.forEach(course=> {%>
+                <% courses.key.forEach(course=> {%>
                     <div class="tt-wrapper" style="margin-bottom: 50px;">
                         <div class="tt-table-responsive">
                             <table class="tt-table-shop-02">
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <!-- <img src="images/image_1609642580254.png" width="300px" hight="300px"> -->
-                                            <img src="images/<%= course.image %>" width="300px" hight="300px">
-                                            <!-- <video src="videos/<%= course.video %>" controls> -->
+                                            <img src="/images/<%= course.image %>" width="300px" hight="300px">
 
                                             </video>
                                         </td>
@@ -29,7 +27,7 @@
                                         <td>Name:</td>
                                         <td>
                                             <a href="/course-detail/<%=course._id%>">
-                                                <%= courses.name %>
+                                                <%= course.name %>
                                             </a>
                                         </td>
                                     </tr>
@@ -50,9 +48,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="#" class="btn btn-border">Delete</a>
+                        <a href="/account/wish-list/delete/<%= course._id %>" class="btn btn-border">Delete</a>
                     </div>
                     <% }); %>
+                
+
             </div>
         </div>
         </div>

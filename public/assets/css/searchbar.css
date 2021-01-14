@@ -25768,7 +25768,7 @@ h5:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"])
       line-height: 27px;
       padding-bottom: 7px; } }
 
-h6:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"]) {
+/* h6:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"]) {
   font-size: 16px;
   line-height: 26px;
   font-weight: 500;
@@ -25778,7 +25778,7 @@ h6:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"])
     h6:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"]) {
       font-size: 16px;
       line-height: 26px;
-      padding-bottom: 6px; } }
+      padding-bottom: 6px; } } */
 
 .tt-title-subpages:not(.noborder) {
   border-bottom: 1px solid #e9e7e7;
@@ -25835,11 +25835,6 @@ h6:not([class^="tt-title"]):not([class^="tt-collapse"]):not([class^="tt-aside"])
     .tt-title-border {
       margin-bottom: 24px; } }
 
-p {
-  margin: 16px 0 0 0px; }
-  @media (max-width: 575px) {
-    p {
-      margin: 10px 0 0 0px; } }
 
 mark,
 .mark {
@@ -29422,4 +29417,11 @@ html:not(.mac):not(.touch-device) .tt-carousel-brands .slick-track {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
+.textlimit{
+  display:block;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden; 
+  white-space: nowrap;
+}
 

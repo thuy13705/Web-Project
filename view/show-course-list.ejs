@@ -20,32 +20,38 @@
     <div class="container">
    <!-- Lượt xem nhiều nhất -->
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 ">
           <div class="section-heading">
-            <a href="#">view all products <i class="fa fa-angle-right"></i></a>
+            <form method="GET" >
+              <select name="orderby" class="orderby"  onchange="this.form.submit()">
+                <option value="" selected disabled hidden><%= sort_value %></option>
+                <option value="1" >Giá thấp tới cao</option>
+                <option value="-1" >Giá cao tới thấp</option>
+              </select>
           </div>
         </div>
-      <% courses.forEach(trend=>{%>
+      <% courses.forEach(course=>{%>
         <div class="col-md-4">
           <div class="product-item">
-          <a href="/course-detail/<%=trend._id%>"><img src="/images/<%= trend.image %>" alt=""></a>
-              <div class="down-content">
-                <a href="/course-detail/<%=trend._id%>">
-                  <h4><%= trend.name %></h4>
-                </a>
-                <h6><%= trend.price %></h6>
-                <p><%= trend.description %></p>
-                <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span>Reviews (24)</span>
-             
-              </div>
-          </div>
+            <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
+                <div class="down-content">
+                  <a href="/course-detail/<%=course._id%>">
+                    <h4 class="textlimit"><%= course.name %></h4>
+                  </a>
+                  <h6>Price: <%= course.price %></h6>
+                  <p class="textlimit">Category: <%= course.category %></p>
+                  <p class="textlimit">Teacher: <%= course.teacher %></p>
+                  <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <span>Reviews (24)</span>
+               
+                </div>
+            </div>
         </div>
       <%});%>
       </div>
