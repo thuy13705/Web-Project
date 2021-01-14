@@ -2,6 +2,7 @@ const Users = require('../models/user');
 const Course = require('../models/Course');
 const ChildCategory = require('../models/ChildCategory');
 const user = require('../models/user');
+const e = require('express');
 
 
 exports.getHomeView = (req, res) => {
@@ -157,11 +158,14 @@ exports.getAddWishList = (req, res) => {
             courses: user,
           });
         }
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
+        else
+        {
+          res.render("404", {
+            title: "404 Not Found",
+            message: `${message}`,
+            user: req.user,
+          });
+        }
       })
     })
   }
@@ -183,14 +187,16 @@ exports.getShowWishList = (req, res) => {
           title: "Wish List",
           user: req.user,
           message: `${message}`,
-          courses: user,
+          courses: user.wish_list,
         });
       }
+     else{
       res.render("404", {
         title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
+     }
     })
 };
 
@@ -209,11 +215,13 @@ exports.getDeleteWishList = (req, res) => {
           courses: user,
         });
       }
+     else{
       res.render("404", {
         title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
+     }
     });
   }).catch(err => {
     console.log(err);

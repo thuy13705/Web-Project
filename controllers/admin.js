@@ -17,11 +17,13 @@ exports.getAddTeacher = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -97,11 +99,13 @@ exports.getAddStudent = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -146,11 +150,20 @@ exports.getUpdateTeacher = (req, res, next) => {
   Users.findById(req.params.id).exec((err, userTeacher) => {
     if (err) throw console.log(err);
     else {
-      res.render("info-change", {
-        title: "Info Change",
-        editUser: userTeacher,
-        user:req.user,
-      });
+      if (req.user.role == 2) {
+        res.render("info-change", {
+          title: "Info Change",
+          editUser: userTeacher,
+          user:req.user,
+        });
+      }
+      else{
+        res.render("404", {
+          title: "404 Not Found",
+          message: `${message}`,
+          user: req.user,
+        });
+      }
     }
   });
 };
@@ -206,11 +219,13 @@ exports.getStudentList = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -223,12 +238,13 @@ exports.getAddChildCategory = (req, res, next) => {
         message: `${message}`,
         user: req.user,
       });
+    }else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
   });
 };
 
@@ -293,11 +309,13 @@ exports.getAddParentCategory = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -418,10 +436,12 @@ exports.getCategoryList = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
