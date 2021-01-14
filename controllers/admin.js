@@ -4,7 +4,8 @@ var bcrypt = require('bcryptjs');
 var randomstring = require("randomstring");
 const nodemailer = require('nodemailer');
 const ParentCategory = require('../models/ParentCategory')
-const ChildCategory = require('../models/ChildCategory')
+const ChildCategory = require('../models/ChildCategory');
+const { Mongoose } = require('mongoose');
 
 
 exports.getAddTeacher = (req, res, next) => {
@@ -135,6 +136,23 @@ exports.getTeacherList = (req, res, next) => {
 }
 
 
+exports.updateTeacher = (req, res, next) => {
+  Users.updateOne({
+      _id: new Mongoose.Types.ObjectId(req.params.id)},
+      {firstName: req.body.firstName},
+      {lastName: req.body.lastName},
+      {email: req.body.email},
+      {address: req.body.address},
+      {phoneNumber: req.body.phoneNumber},
+      (err) =>{
+      if(err){
+        req.flash('error','Fail');
+      }
+      req.redirect('/teacher-list');
+    })
+  }
+
+
 
 exports.getDeleteTeacher = (req, res, next) => {
   Users.find({ user: req.user }).then(user => {
@@ -143,13 +161,32 @@ exports.getDeleteTeacher = (req, res, next) => {
         res.redirect("/teacher-list");
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
-  });
-};
+    })
+}
+
+// exports.getDeleteTeacher = (req, res, next) => {
+//   Users.find({ user: req.user }).then(user => {
+//     if (req.user.role==2){
+//       Users.remove({ _id: req.params.id }, function (err, delData) {
+//         res.redirect("/teacher-list");
+//       });
+//     }
+//     res.render("404", {
+//       title: "404 Not Found",
+//       message: `${message}`,
+//       user: req.user,
+//     });
+//   });
+// };
+
+exports.deleteTeacher = (req, res, next) => {
+  Users.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
+    if(err) {
+      req.flash('err', 'Fail');
+    } 
+    res.redirect('/teacher-list');
+  })
+}
 
 exports.getStudentList = (req, res, next) => {
   const message = req.flash("error")[0];
@@ -214,6 +251,28 @@ exports.postAddChildCategory = (req, res, next) => {
   });
 };
 
+exports.updateChildCategory = (req, res, next) => {
+  ChildCategory.updateOne(
+    {_id: new Mongoose.Types.ObjectId(req.params.id)},
+    {name: req.body.name},
+    (err) => {
+      if(err){
+        req.flash('err');
+      }
+      res.redirect('/category-list');
+    }
+  )
+}
+
+exports.deleteChildCategory = (req, res, next) => {
+  ChildCategory.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
+    if(err){
+      req.flash('err');
+    }
+    res.redirect('/category-list');
+  });
+}
+
 exports.getAddParentCategory = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user }).then(user => {
@@ -249,6 +308,30 @@ exports.postAddParentCategory = (req, res, next) => {
     });
   });
 };
+
+exports.updateParentCategory = (req, res, next) => {
+  ParentCategory.updateOne(
+    {
+      _id: new Mongoose.Types.ObjectId(req.params.id)},
+      {name: req.body.name},
+      (err) =>{6
+      if(err){
+        req.flash('error','Fail');
+      }
+      req.redirect('/category-list');
+     
+    }
+  )
+}
+
+exports.deletePatentCategory = (req, res, next) => {
+  ParentCategory.deleteOne({_id: new Mongoose.Types.ObjectId(req.params.id)}, (err) => {
+    if(err) {
+      req.flash('err', 'Fail');
+    } 
+    res.redirect('/category-list');
+  })
+}
 
 exports.postAddStudent = (req, res, next) => {
   Users.findOne({ username: req.body.username }, function (err, user) {
