@@ -111,23 +111,27 @@ exports.getAddStudent = (req, res, next) => {
 exports.getTeacherList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
-  Users.find({ role: 1 }).then(user => {
-    userList = user;
-  })
   Users.find({ user: req.user }).then(user => {
-    if (req.user.role==2){
-      res.render("teacher-list", {
-        title: "Teacher List",
+    Users.find({ role: 1 }).then(userList => {
+      if (req.user.role==2){
+        res.render("teacher-list", {
+          title: "Teacher List",
+          message: `${message}`,
+          user: req.user,
+          userList:userList,
+        });
+      }
+     else{
+      res.render("404", {
+        title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
-    }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+     }
+    })
   });
+ 
+ 
 }
 
 
