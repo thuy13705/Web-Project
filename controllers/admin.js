@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const ParentCategory = require("../models/ParentCategory");
 const ChildCategory = require("../models/ChildCategory");
 const { Mongoose } = require("mongoose");
+const Course = require('../models/Course');
 
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
@@ -111,7 +112,6 @@ exports.getAddStudent = (req, res, next) => {
 
 exports.getTeacherList = (req, res, next) => {
   const message = req.flash("error")[0];
-  var userList;
   Users.find({ user: req.user }).then((user) => {
     Users.find({ role: 1 }).then((userList) => {
       if (req.user.role == 2) {
@@ -444,4 +444,62 @@ exports.getCategoryList = (req, res, next) => {
       });
     }
   });
+};
+
+exports.getLockUser=(req,res,next)=>{
+  if (req.user.role == 2) {
+    Users.findById(req.params.id,function(err,user){
+      if (user.isLock==true){
+        Users.findByIdAndUpdate(req.params.id,{$set:{isLock:false}}, function(err,user1){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+      else{
+        Users.findByIdAndUpdate(req.params.id,{$set:{isLock:true}}, function(err,user1){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+    });
+  }
+  else{
+    res.render("404", {
+      title: "404 Not Found",
+      user: req.user,
+    });
+  }
+};
+
+exports.getLockCourse=(req,res,next)=>{
+  if (req.user.role == 2) {
+    Course.findById(req.params.id,function(err,course){
+      if (course.disable==true){
+        Course.findByIdAndUpdate(req.params.id,{$set:{disable:false}}, function(err,courses){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+      else{
+        Course.findByIdAndUpdate(req.params.id,{$set:{disable:true}}, function(err,courses){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+    });
+  }
+  else{
+    res.render("404", {
+      title: "404 Not Found",
+      user: req.user,
+    });
+  }
 };

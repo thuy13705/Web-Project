@@ -18,6 +18,11 @@ const Course = new Schema({
     status:{type:Boolean,default:false},
     dateBuy:[{type:Date}],
     isComplete:{type:Boolean,default:false},
+    disable: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
     createAt:{type: Date, default: Date.now},
     updateAt:{type: Date, default: Date.now},
 });

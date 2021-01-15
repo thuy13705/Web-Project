@@ -36,8 +36,15 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <a href="/info-change" class="btn btn-border">Change</a>
-                            <a href="/teacher-list" class="btn btn-border">Delete</a>
+                            <a href="/teacher-list/update/<%= user._id%>" class="btn btn-border">Change</a>
+                            
+                            <%if (user.isLock==false) { %>
+                                <a href="/lock-user/<%= user._id %>" class="btn btn-border">Lock</a>
+                                <% } %>
+                                <%if (user.isLock==true) { %>
+                                    <a href="/lock-user/<%= user._id %>" class="btn btn-border">Un Lock</a>
+                                    <% } %>
+                            <a href="/teacher-list/delete/<%= user._id %>" class="btn btn-border">Delete</a>
                         </div>
                         <% }); %>
                 </div>

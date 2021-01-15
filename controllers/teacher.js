@@ -87,8 +87,7 @@ exports.getCourseList = (req, res, next) => {
           title: "Course List",
           message: `${message}`,
           user: req.user,
-          course: user.courses,
-        });
+          });
       } else {
         res.render("404", {
           title: "404 Not Found",
