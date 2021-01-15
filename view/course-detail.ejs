@@ -8,7 +8,7 @@
     <%- include ('partials/header');%>
     <div
     class="modal fade"
-    id="update-description-modal"
+    id="feedback"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLongTitle"
@@ -30,14 +30,30 @@
           id="add-teacher"
           method="post"
           novalidate="novalidate"
-          action="/update-description/<%= courses._id %>"
+          action="/course/feedback/<%= courses._id %> "
         >
           <div class="modal-body">
             <div class="form-group">
-              <label for="loginInputEmail">Update Description*</label>
-              <textarea type="text" name="description" rows="10" class="form-control" id="description" placeholder="Description"></textarea>
-
+              <label for="loginInputEmail">New Feedback *</label>
+              <input
+                type="text"
+                name="feedback"
+                class="form-control"
+                id="name"
+                placeholder="New Feedback"
+              />
             </div>
+            <div class="form-group">
+              <label>Select Rating</label>
+              <select name="rating" class="form-control">
+                 <option value="">Select rating</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+              </select>
+           </div>
           </div>
           <div class="modal-footer">
             <button
@@ -57,6 +73,16 @@
             <div class="container-indent">
                 <div class="container container-fluid-custom-mobile-padding">
                     <h1 class="tt-title-subpages noborder">Course Detail</h1>
+                    <div class="w-100 d-flex">
+                        <button
+                          class="btn btn-primary ml-auto"
+                          role="button"
+                          data-toggle="modal"
+                          data-target="#feedback"
+                        >
+                        Add Feedback
+                        </button>
+                      </div>
                     <% if (typeof(user)!=='undefined' ) {%>
                         <% if (user.role==1) {%>
                             <% if (courses.isComplete===true){%>
@@ -116,6 +142,82 @@
                                 <%}%>
                                     <%}%>
                     </div>
+                     <!-- /.course__topic -->
+
+          <div class="course__curriculum">
+            <div class="course__curriculum__title d-flex align-items-center">
+              <h3 class="title mt-0">Nội dung khóa học</h3>
+              <p>
+                <span style="margin-right: 15px">109 Bài học</span>
+                <span>26:04:25</span>
+              </p>
+            </div>
+            <div class="course__curriculum__content">
+              <div class="curriculum__panel">
+                <div class="curriculum__heading d-flex">
+                  <b>Phần 1: Giới thiệu</b>
+                  <div class="d-inline-block">
+                    <span class="count">2 bài học</span>
+                    <!-- <span class="time">05:44</span> -->
+                  </div>
+                </div>
+                <div class="curriculum__lesson d-flex">
+                  <div class="curriculum__lesson__name video">
+                    <a href="abc.html">1. Làm được gì sau khóa học?</a>
+                  </div>
+                  <div class="curriculum__right">
+                    <div class="status d-inline-block">
+                      <a href="abc.html">Học thử</a>
+                    </div>
+                    <!-- <div class="time">03:15</div> -->
+                  </div>
+                </div>
+                <div class="curriculum__lesson d-flex">
+                  <div class="curriculum__lesson__name video">
+                    <a href="abc.html">2. HTML, CSS la gi??</a>
+                  </div>
+                  <div class="curriculum__right">
+                    <div class="status d-inline-block">
+                      <a href="abc.html">Dang hoc </a>
+                    </div>
+                    <!-- <div class="time">02:29</div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="curriculum__panel">
+                <div class="curriculum__heading d-flex">
+                  <b>Phần 2: Lam quen voi cong cu</b>
+                  <div class="d-inline-block">
+                    <span class="count">2 bài học</span>
+                    <span class="time">26:04:25</span>
+                  </div>
+                </div>
+                <div class="curriculum__lesson d-flex">
+                  <div class="curriculum__lesson__name video">
+                    <a href="abc.html">3. Làm quen với Dev tools</a>
+                  </div>
+                  <div class="curriculum__right">
+                    <div class="status d-inline-block">
+                      <a href="abc.html">Học thử</a>
+                    </div>
+                    <div class="time">03:15</div>
+                  </div>
+                </div>
+                <div class="curriculum__lesson d-flex">
+                  <div class="curriculum__lesson__name video">
+                    <a href="abc.html">4. Cài đặt môi trường</a>
+                  </div>
+                  <div class="curriculum__right">
+                    <div class="status d-inline-block">
+                      <a href="abc.html"></a>
+                    </div>
+                    <div class="time">02:29</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
                     <% if (courses.chapter!=[]){%>
                         <% courses.chapter.forEach(chapter=>{%>
                             <div class="tt-table-responsive">

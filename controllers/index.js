@@ -155,7 +155,7 @@ exports.getAddWishList = (req, res) => {
             title: "Wish List",
             user: req.user,
             message: `${message}`,
-            courses: user,
+            courses: user.wish_list,
           });
         }
         else
@@ -243,13 +243,13 @@ exports.getShowMyCourse = (req, res, next) => {
 exports.getAddMyCourse=(req,res,next)=>{
   const message = req.flash("error")[0];
   if (typeof(req.user) !=='undefined'){
-    Users.findOneAndUpdate([{_id:req.user._id},{courses:{$in:req.params.id}}]).populate('courses').exec((err,user)=>{
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
-    });
+    // Users.findOneAndUpdate([{_id:req.user._id},{courses:{$in:req.params.id}}]).populate('courses').exec((err,user)=>{
+    //     res.render("404", {
+    //       title: "404 Not Found",
+    //       message: `${message}`,
+    //       user: req.user,
+    //     });
+    // });
     Users.findOneAndUpdate([{_id:req.user._id},{courses:{$ne:req.params.id}}],{$push:{courses:req.params.id}}).populate('courses').exec((err,user)=>{
       var datetime = new Date();
       console.log(datetime);
