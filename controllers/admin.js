@@ -378,9 +378,14 @@ exports.getDeleteParentCategory = (req, res, next) => {
       console.log(err);
     } else {
       if (parent.child.length === 0) {
-        ParentCategory.deleteOne({_id: req.params.id});
-        res.redirect("/category-list");
-       
+        ParentCategory.deleteOne({_id: req.params.id},function(err){
+          if (err) {
+            console.log(err);
+          }
+         else{
+          res.redirect("/category-list");
+         }
+        });
       }
       else {
         res.redirect("/category-list");
