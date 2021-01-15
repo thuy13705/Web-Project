@@ -17,28 +17,17 @@
                 <form method="POST">
                   <div class="form-group">
                     <label for="shopInputFirstName" class="control-label"
-                      >Họ *</label
+                      >UserName *</label
                     >
                     <input
                       type="text"
                       class="form-control"
                       id="shopInputFirstName"
-                      name="firstName"
-                      value="<%= editUser.firstName %>"
+                      name="username"
+                      value="<%= editUser.username %>"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="shopInputLastName" class="control-label"
-                      >Tên *</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="shopInputLastName"
-                      name="lastName"
-                      value="<%= editUser.lastName %>"
-                    />
-                  </div>
+
                   <div class="form-group">
                     <label for="shopAddress" class="control-label"
                       >Địa chỉ *</label
@@ -63,18 +52,7 @@
                       value="<%= editUser.phoneNumber %>"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="shopEmail" class="control-label"
-                      >Địa chỉ email *</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="shopEmail"
-                      name="email"
-                      value="<%= editUser.email %>"
-                    />
-                  </div>
+                
                   <!-- <div class="checkbox-group">
                     <input type="checkbox" id="checkBox11" name="checkbox" />
                     <label for="checkBox11">

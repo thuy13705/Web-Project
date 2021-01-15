@@ -5,11 +5,13 @@ var randomstring = require("randomstring");
 const nodemailer = require("nodemailer");
 const ParentCategory = require("../models/ParentCategory");
 const ChildCategory = require("../models/ChildCategory");
-const { Mongoose } = require("mongoose");
+const {Mongoose} = require("mongoose");
 
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("add-teacher", {
         title: "Add Teacher",
@@ -26,7 +28,9 @@ exports.getAddTeacher = (req, res, next) => {
 };
 
 exports.postAddTeacher = (req, res, next) => {
-  Users.findOne({ username: req.body.username }, function (err, user) {
+  Users.findOne({
+    username: req.body.username
+  }, function (err, user) {
     if (user) {
       req.flash("error", "username is existed");
       return res.redirect("/add-teacher");
@@ -36,7 +40,9 @@ exports.postAddTeacher = (req, res, next) => {
       req.flash("error", "email is existed");
       return res.redirect("/add-teacher");
     }
-    Users.findOne({ email: req.body.email }, (err, user) => {
+    Users.findOne({
+      email: req.body.email
+    }, (err, user) => {
       if (user) {
         req.flash("error", "email is existed");
         return res.redirect("/add-teacher");
@@ -58,8 +64,7 @@ exports.postAddTeacher = (req, res, next) => {
       to: req.body.email,
       subject: "Mật khẩu đăng ký tài khoản trên Academy",
       text: "text ne",
-      html:
-        "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
+      html: "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
         password,
     };
     transporter.sendMail(mainOptions, (err, info) => {
@@ -89,7 +94,9 @@ exports.postAddTeacher = (req, res, next) => {
 
 exports.getAddStudent = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("add-student", {
         title: "Add Student",
@@ -108,8 +115,12 @@ exports.getAddStudent = (req, res, next) => {
 exports.getTeacherList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
-  Users.find({ user: req.user }).then((user) => {
-    Users.find({ role: 1 }).then((userList) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
+    Users.find({
+      role: 1
+    }).then((userList) => {
       if (req.user.role == 2) {
         res.render("teacher-list", {
           title: "Teacher List",
@@ -129,76 +140,54 @@ exports.getTeacherList = (req, res, next) => {
 };
 
 exports.getUpdateTeacher = (req, res, next) => {
-  // Users.updateOne({
-  //     _id: new Mongoose.Types.ObjectId(req.params.id)},
-  //     {firstName: req.body.firstName},
-  //     {lastName: req.body.lastName},
-  //     {email: req.body.email},
-  //     {address: req.body.address},
-  //     {phoneNumber: req.body.phoneNumber},
-  //     (err) =>{
-  //     if(err){
-  //       req.flash('error','Fail');
-  //     }
-  //     req.redirect('/teacher-list');
-  //   })
-
   Users.findById(req.params.id).exec((err, userTeacher) => {
     if (err) throw console.log(err);
     else {
       res.render("info-change", {
         title: "Info Change",
         editUser: userTeacher,
-        user:req.user,
+        user: req.user,
       });
     }
   });
 };
 
+
+exports.postUpdateTeacher = (req, res, next) => {
+
+  Users.findByIdAndUpdate(req.params.id, {
+    $set: {
+      username: req.body.username,
+      address: req.body.address,
+      phoneNumber: req.body.phoneNumber
+    }
+  }, function (err, userTeacher) {
+    res.redirect('/teacher-list')
+  })
+}
+
 exports.getDeleteTeacher = (req, res, next) => {
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({user: req.user}).then((user) => {
     if (req.user.role == 2) {
-      Users.remove({ _id: req.params.id }, function (err, delData) {
+      Users.deleteOne({_id: req.params.id}, function (err, delData) {
         res.redirect("/teacher-list");
       });
     }
   });
 };
 
-// exports.getDeleteTeacher = (req, res, next) => {
-//   Users.find({ user: req.user }).then(user => {
-//     if (req.user.role==2){
-//       Users.remove({ _id: req.params.id }, function (err, delData) {
-//         res.redirect("/teacher-list");
-//       });
-//     }
-//     res.render("404", {
-//       title: "404 Not Found",
-//       message: `${message}`,
-//       user: req.user,
-//     });
-//   });
-// };
-
-exports.deleteTeacher = (req, res, next) => {
-  Users.deleteOne(
-    { _id: new Mongoose.Types.ObjectId(req.params.id) },
-    (err) => {
-      if (err) {
-        req.flash("err", "Fail");
-      }
-      res.redirect("/teacher-list");
-    }
-  );
-};
 
 exports.getStudentList = (req, res, next) => {
   const message = req.flash("error")[0];
   var userList;
-  Users.find({ role: 0 }).then((user) => {
+  Users.find({
+    role: 0
+  }).then((user) => {
     studentList = user;
   });
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("student-list", {
         title: "Student List",
@@ -216,7 +205,9 @@ exports.getStudentList = (req, res, next) => {
 
 exports.getAddChildCategory = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("add-child-category", {
         title: "Add Child Category",
@@ -233,7 +224,9 @@ exports.getAddChildCategory = (req, res, next) => {
 };
 
 exports.postAddChildCategory = (req, res, next) => {
-  ChildCategory.findOne({ name: req.body.name }, function (err, child) {
+  ChildCategory.findOne({
+    name: req.body.name
+  }, function (err, child) {
     if (child) {
       req.flash("error", "username is existed");
       return res.redirect("/add-child-category");
@@ -245,9 +238,13 @@ exports.postAddChildCategory = (req, res, next) => {
     newCategory.save(function (err) {
       if (err) return res.redirect("/");
       var category = req.body.category;
-      ParentCategory.findOneAndUpdate(
-        { name: category },
-        { $push: { child: newCategory._id } },
+      ParentCategory.findOneAndUpdate({
+          name: category
+        }, {
+          $push: {
+            child: newCategory._id
+          }
+        },
         function (err) {
           if (err) res.redirect("/");
         }
@@ -258,10 +255,12 @@ exports.postAddChildCategory = (req, res, next) => {
   });
 };
 
-exports.updateChildCategory = (req, res, next) => {
-  ChildCategory.updateOne(
-    { _id: new Mongoose.Types.ObjectId(req.params.id) },
-    { name: req.body.name },
+exports.getUpdateChildCategory = (req, res, next) => {
+  ChildCategory.updateOne({
+      _id: new Mongoose.Types.ObjectId(req.params.id)
+    }, {
+      name: req.body.name
+    },
     (err) => {
       if (err) {
         req.flash("err");
@@ -271,9 +270,26 @@ exports.updateChildCategory = (req, res, next) => {
   );
 };
 
-exports.deleteChildCategory = (req, res, next) => {
-  ChildCategory.deleteOne(
-    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+exports.postUpdateChildCategory = (req, res, next) => {
+  ChildCategory.updateOne({
+      _id: new Mongoose.Types.ObjectId(req.params.id)
+    }, {
+      name: req.body.name
+    },
+    (err) => {
+      if (err) {
+        req.flash("err");
+      }
+      res.redirect("/category-list");
+    }
+  );
+};
+
+
+exports.getDeleteChildCategory = (req, res, next) => {
+  ChildCategory.deleteOne({
+      _id: new Mongoose.Types.ObjectId(req.params.id)
+    },
     (err) => {
       if (err) {
         req.flash("err");
@@ -285,7 +301,9 @@ exports.deleteChildCategory = (req, res, next) => {
 
 exports.getAddParentCategory = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("add-parent-category", {
         title: "Add Parent Category",
@@ -302,7 +320,9 @@ exports.getAddParentCategory = (req, res, next) => {
 };
 
 exports.postAddParentCategory = (req, res, next) => {
-  ParentCategory.findOne({ name: req.body.name }, function (err, parent) {
+  ParentCategory.findOne({
+    name: req.body.name
+  }, function (err, parent) {
     if (parent) {
       req.flash("error", "username is existed");
       return res.redirect("/add-parent-category");
@@ -318,12 +338,12 @@ exports.postAddParentCategory = (req, res, next) => {
   });
 };
 
-exports.updateParentCategory = (req, res, next) => {
-  ParentCategory.updateOne(
-    {
+exports.getUpdateParentCategory = (req, res, next) => {
+  ParentCategory.updateOne({
       _id: new Mongoose.Types.ObjectId(req.params.id),
+    }, {
+      name: req.body.name
     },
-    { name: req.body.name },
     (err) => {
       6;
       if (err) {
@@ -334,20 +354,47 @@ exports.updateParentCategory = (req, res, next) => {
   );
 };
 
-exports.deletePatentCategory = (req, res, next) => {
-  ParentCategory.deleteOne(
-    { _id: new Mongoose.Types.ObjectId(req.params.id) },
+exports.postUpdateParentCategory = (req, res, next) => {
+  ParentCategory.updateOne({
+      _id: new Mongoose.Types.ObjectId(req.params.id),
+    }, {
+      name: req.body.name
+    },
     (err) => {
+      6;
       if (err) {
-        req.flash("err", "Fail");
+        req.flash("error", "Fail");
       }
-      res.redirect("/category-list");
+      req.redirect("/category-list");
     }
   );
 };
 
+exports.getDeleteParentCategory = (req, res, next) => {
+  ParentCategory.findById(req.params.id, function (err, parent) {
+
+    console.log(parent.child.length);
+    if (err) {
+      console.log(err);
+    } else {
+      if (parent.child.length === 0) {
+        ParentCategory.deleteOne({_id: req.params.id});
+        res.redirect("/category-list");
+       
+      }
+      else {
+        res.redirect("/category-list");
+      }
+    }
+  })
+};
+
+
+
 exports.postAddStudent = (req, res, next) => {
-  Users.findOne({ username: req.body.username }, function (err, user) {
+  Users.findOne({
+    username: req.body.username
+  }, function (err, user) {
     if (user) {
       req.flash("error", "username is existed");
       return res.redirect("/add-student");
@@ -357,7 +404,9 @@ exports.postAddStudent = (req, res, next) => {
       req.flash("error", "email is existed");
       return res.redirect("/add-student");
     }
-    Users.findOne({ email: req.body.email }, (err, user) => {
+    Users.findOne({
+      email: req.body.email
+    }, (err, user) => {
       if (user) {
         req.flash("error", "email is existed");
         return res.redirect("/add-student");
@@ -379,8 +428,7 @@ exports.postAddStudent = (req, res, next) => {
       to: req.body.email,
       subject: "Mật khẩu đăng ký tài khoản trên Academy",
       text: "text ne",
-      html:
-        "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
+      html: "<p>Chúc mừng bạn đã trở thành giảng viên của Academy Online. Hãy đăng nhập và đổi mật khẩu ngay. Mật khẩu của bạn là:</p>" +
         password,
     };
     transporter.sendMail(mainOptions, (err, info) => {
@@ -410,7 +458,9 @@ exports.postAddStudent = (req, res, next) => {
 
 exports.getCategoryList = (req, res, next) => {
   const message = req.flash("error")[0];
-  Users.find({ user: req.user }).then((user) => {
+  Users.find({
+    user: req.user
+  }).then((user) => {
     if (req.user.role == 2) {
       res.render("category-list", {
         title: "Category List",
