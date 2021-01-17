@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const teacherController = require("../controllers/teacher");
+const homeController=require('../controllers/index')
 const multer = require('multer');
 const upload = multer({ dest: 'videos/' });
 
@@ -13,5 +14,6 @@ router.get('/add-chapter/:id', teacherController.getAddChapter);
 router.post('/add-chapter/:id', teacherController.postAddChapter);
 router.get('/add-lesson/:id', teacherController.getAddLesson);
 router.post('/add-lesson/:id', upload.single("video"), teacherController.postAddLesson);
+router.get('/404',homeController.getError);
 
 module.exports = router;

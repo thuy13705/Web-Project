@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+    <div
+    class="modal fade"
+    id="feedback"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form
+          id="add-teacher"
+          method="post"
+          novalidate="novalidate"
+          action="/course/feedback/<%= courses._id %> "
+        >
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="loginInputEmail">New Feedback *</label>
+              <input
+                type="text"
+                name="feedback"
+                class="form-control"
+                id="name"
+                placeholder="New Feedback"
+              />
+            </div>
+            <div class="form-group">
+              <label>Select Rating</label>
+              <select name="rating" class="form-control">
+                 <option value="">Select rating</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+              </select>
+           </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Đóng
+            </button>
+            <button type="submit" class="btn btn-primary">Thêm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+        <div id="tt-pageContent">
+            <div class="container-indent">
+                <div class="container container-fluid-custom-mobile-padding">
+                    <h1 class="tt-title-subpages noborder">Course Detail</h1>
+                    <div class="w-100 d-flex">
+                        <button
+                          class="btn btn-primary ml-auto"
+                          role="button"
+                          data-toggle="modal"
+                          data-target="#feedback"
+                        >
+                        Add Feedback
+                        </button>
+                      </div>
+                    <% if (typeof(user)!=='undefined' ) {%>
+                        <% if (user.role==1) {%>
+                            <% if (courses.isComplete===true){%>
+                                <h2>Complete</h2>
+                            <%}%> 
+                            <% if (courses.isComplete===false){%>
+                                <a href="/course-detail/<%= courses._id %> " class="btn btn-border">Complete</a>
+                            <%}%>
+                        <%}%>
+                    <%}%>
+                
+                    <div class="tt-wrapper" style="margin-bottom: 50px;">
+                        <div class="tt-table-responsive">
+                            <table class="tt-table-shop-02">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="/images/<%= courses.image %>" width="300px" hight="300px">
+    
+                                        </td>
+                                        <td>
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td>
+                                            <%= courses.name %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>:</td>
+                                        <td>
+                                            <%- courses.description %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Price:</td>
+                                        <td>
+                                            <%= courses.price %>
+                                        </td>
+                                    </tr>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border">Add To WishList</a>
+                        <a href="/account/my-course/<%= courses._id %>" class="btn btn-border">Study</a>
+                        <div></div>
+                        <% if (typeof(user)!=='undefined' ) {%>
+                            <% if (user.role==1 || user.role==2) {%>
+                                    <button
+                                    class="btn btn-primary ml-auto"
+                                    role="button"
+                                    data-toggle="modal"
+                                    data-target="#update-description-modal">
+                                    Update Decription
+                                  </button>
+                                <%}%>
+                                    <%}%>
+                    </div>
+                    
+                    <% if (courses.chapter!=[]){%>
+                        <% courses.chapter.forEach(chapter=>{%>
+                            <div class="tt-table-responsive">
+                                <table class="tt-table-shop-02">
+                                    <tbody>
+                                        <tr>
+                                            <div class="d-flex justify-content-between">
+                                                <h4>
+                                                    <%= chapter.name %>
+                                                </h4>
+                                                <% if (typeof(user)!=='undefined' ) {%>
+                                                    <% if (user.role==1 || user.role==2) {%>
+                                                        <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add
+                                                            Lesson</a>
+                                                     
+                                                    <%}%>
+                                                <%}%>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <% chapter.lesson.forEach(lesson=>{%>
+                                        <tr>
+                                            <td>
+                                                <%= lesson.name %>
+                                            </td>
+                                        </tr>
+                                        <%});%>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <%});%>
+                                <%}%>
+                
+                </div>
+            </div>
+            
+        </div>
+       
+        <div style="height: 20px;"></div>
+        <div class="container">
+            <div class="row">
+                <% courseList.forEach(buy=>{%>
+                    <div class="col-md-4">
+                      <div class="product-item">
+                        <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
+                            <div class="down-content">
+                              <a href="/course-detail/<%=buy._id%>">
+                                <h4 class="textlimit"><%= buy.name %></h4>
+                              </a>
+                              <h6>Price:<%= buy.price %></h6>
+                              <p class="textlimit">Category:<%= buy.category %></p>
+                              <p class="textlimit">Teacher: <%= buy.teacher %></p>
+                              <ul class="stars">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                              </ul>
+                              <span>Reviews (24)</span>
+                           
+                            </div>
+                        </div>
+                    </div>
+                  <%});%>
+            </div>
+        </div>
+        
+    </div>
+        </script>
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>

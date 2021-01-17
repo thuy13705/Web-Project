@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+        <div id="tt-pageContent"></div>
+        <div class="container-indent">
+            <div class="container container-fluid-custom-mobile-padding">
+                <h1 class="tt-title-subpages noborder mt-5 text-left  ">
+                    <i class="fa fa-id-badge"></i> Tài khoản</h1>
+                <% studentList.forEach(user=> {%>
+                    <div class="tt-wrapper" style="margin-bottom: 50px;">
+                        <div class="tt-table-responsive">
+                            <table class="tt-table-shop-02">
+                                <tbody>
+                                    <tr>
+                                        <td class="border__top pl-2">Username:</td>
+                                        <td class="pl-2">
+                                            <%= user.username %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border__top pl-2">E-MAIL:</td>
+                                        <td class="pl-2">
+                                            <%= user.email %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border__top pl-2">Password:</td>
+                                        <td class="pl-2">
+                                            <%= user.password %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="/info-change" class="btn btn-success mt-3 change__change">Change</a>
+                        <a href="/teacher-list" class="btn btn-danger mt-3 change__delete">Delete</a>
+                        <hr class="change__hr">
+                        </hr>
+                        <% }); %>
+                    </div>
+            </div>
+        </div>
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>

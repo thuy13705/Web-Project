@@ -166,7 +166,7 @@ exports.getUpdateTeacher = (req, res, next) => {
 
 
 exports.postUpdateTeacher = (req, res, next) => {
-
+if (req.user.role==2){
   Users.findByIdAndUpdate(req.params.id, {
     $set: {
       username: req.body.username,
@@ -177,6 +177,10 @@ exports.postUpdateTeacher = (req, res, next) => {
     res.redirect('/teacher-list')
   })
 }
+else{
+  res.redirect('/404')
+}
+}
 
 exports.getDeleteTeacher = (req, res, next) => {
   Users.find({user: req.user}).then((user) => {
@@ -185,6 +189,7 @@ exports.getDeleteTeacher = (req, res, next) => {
         res.redirect("/teacher-list");
       });
     }
+    else res.redirect('/404')
   });
 };
 
@@ -239,6 +244,7 @@ exports.getAddChildCategory = (req, res, next) => {
 };
 
 exports.postAddChildCategory = (req, res, next) => {
+ if (req.user.role==2){
   ChildCategory.findOne({
     name: req.body.name
   }, function (err, child) {
@@ -252,7 +258,7 @@ exports.postAddChildCategory = (req, res, next) => {
     });
     // save the user
     newCategory.save(function (err) {
-      if (err) return res.redirect("/");
+      if (err) return res.redirect("/404");
       var category = req.body.category;
       ParentCategory.findOneAndUpdate({
           name: category
@@ -262,43 +268,57 @@ exports.postAddChildCategory = (req, res, next) => {
           }
         },
         function (err) {
-          if (err) res.redirect("/");
+          if (err) res.redirect("/404");
         }
       );
-
       return res.redirect("/category-list");
     });
   });
+ }
+ else{
+   res.redirect('/404');
+ }
 };
 
 exports.getUpdateChildCategory = (req, res, next) => {
+ if (req.user.role==2){
   ChildCategory.updateOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id)
-    }, {
-      name: req.body.name
-    },
-    (err) => {
-      if (err) {
-        req.flash("err");
-      }
-      res.redirect("/category-list");
+    _id: new Mongoose.Types.ObjectId(req.params.id)
+  }, {
+    name: req.body.name
+  },
+  (err) => {
+    if (err) {
+      req.flash("err");
     }
-  );
+    res.redirect("/category-list");
+  }
+);
+ }
+ else res.redirect('/404');
 };
 
 exports.postUpdateChildCategory = (req, res, next) => {
-   ChildCategory.findById(req.params.id,function(err,child){
-    Courses.updateMany({category:child.name}, {$set: {category: req.body.name}}, function (err, course) {
-      console.log(course);
-      ChildCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
-        res.redirect('/category-list');
+  if (req.user.role==2){
+    ChildCategory.findById(req.params.id,function(err,child){
+      Courses.updateMany({category:child.name}, {$set: {category: req.body.name}}, function (err, course) {
+        if (err) res.redirect('/404');
+        else{
+          ChildCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
+            res.redirect('/category-list');
+        })
+      }
     })
-  })
-  })
+    })
+  }
+  else{
+    res.redirect('/404');
+  }
 };
 
 
 exports.getDeleteChildCategory = (req, res, next) => {
+ if (req.user.role==2){
   ChildCategory.findById(req.params.id, function (err, child) {
     console.log(child);
     if (err) {
@@ -308,11 +328,11 @@ exports.getDeleteChildCategory = (req, res, next) => {
   
         ParentCategory.findOneAndUpdate({name: child.category},
               {$pull: {child: req.params.id}}, function(err){
-            if(err) res.redirect("/");
+            if(err) res.redirect("/404");
             else {
               ChildCategory.deleteOne({_id: req.params.id},function(err){
                 if (err) {
-                  console.log(err);
+                  res.redirect("/404");
                 }
                else{
                 res.redirect("/category-list");
@@ -327,6 +347,10 @@ exports.getDeleteChildCategory = (req, res, next) => {
       }
     }
   })
+ }
+ else{
+   res.redirect('/404');
+ }
 };
 
 exports.getAddParentCategory = (req, res, next) => {
@@ -352,36 +376,52 @@ exports.getAddParentCategory = (req, res, next) => {
 };
 
 exports.postAddParentCategory = (req, res, next) => {
+ if (req.user.role==2){
   ParentCategory.findOne({
     name: req.body.name
   }, function (err, parent) {
     if (parent) {
       req.flash("error", "username is existed");
-      return res.redirect("/add-parent-category");
-    }
+      return res.redirect("/a");
+    }dd-parent-category
     const newCategory = new ParentCategory({
       name: req.body.name,
     });
     // save the user
     newCategory.save(function (err) {
-      if (err) return res.redirect("/");
-      return res.redirect("/add-parent-category");
+      if (err) return res.redirect("/404");
+      else{
+        return res.redirect("/add-parent-category");
+      }
     });
   });
+ }
+ else{
+   res.redirect('/404');
+ }
 };
 
 
 exports.postUpdateParentCategory = (req, res, next) => {
+ if (req.user.role==2){
   ParentCategory.findById(req.params.id,function(err,parent){
     ChildCategory.updateMany({category:parent.name}, {$set: {category: req.body.name}}, function (err, child) {
-      ParentCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
+      if (err) res.redirect('/404');
+      else
+      { ParentCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
         res.redirect('/category-list');
     })
+      }
   })
   })
+ }
+ else{
+   res.redirect('/404');
+ }
 };
 
 exports.getDeleteParentCategory = (req, res, next) => {
+if (req.user.role==2){
   ParentCategory.findById(req.params.id, function (err, parent) {
 
     console.log(parent.child.length);
@@ -403,6 +443,10 @@ exports.getDeleteParentCategory = (req, res, next) => {
       }
     }
   })
+}
+else{
+  res.redirect('/404')
+}
 };
 
 

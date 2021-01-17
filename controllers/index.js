@@ -1,8 +1,6 @@
 const Users = require('../models/user');
 const Course = require('../models/Course');
 const ChildCategory = require('../models/ChildCategory');
-const user = require('../models/user');
-const e = require('express');
 
 
 exports.getHomeView = (req, res) => {
@@ -255,6 +253,11 @@ exports.getAddMyCourse=(req,res,next)=>{
       .exec((err, user) => {
         if (err) throw err;
         if (req.user.role == 0) {
+          Course.update(
+            { _id: req.params.id },
+            { $inc: { countBuy: 1 } },
+            function (err, course) {}
+          );
           res.render("course-list", {
             title: "My Course",
             message: `${message}`,
@@ -262,11 +265,13 @@ exports.getAddMyCourse=(req,res,next)=>{
             courses: user.courses,
           });
         }
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
+        else{
+          res.render("404", {
+            title: "404 Not Found",
+            message: `${message}`,
+            user: req.user,
+          });
+        }
       })
     })
   }
@@ -297,3 +302,10 @@ exports.getUserStudy = (req, res, next) => {
       console.log(err);
     });
 }
+
+exports.getError=(req,res,next)=>{
+  res.render("404", {
+    title: "404 Not Found",
+    user: req.user,
+  });
+};

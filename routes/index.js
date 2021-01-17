@@ -16,7 +16,7 @@ router.get('/account/my-course/:id', homeController.getAddMyCourse);
 
 router.get('/account/wish-list/delete/:id', homeController.getDeleteWishList);
 router.get('/user-study/:id/:section/:lesson', homeController.getUserStudy);
-
+router.get('/404',homeController.getError);
 router.post('/course/feedback/:id', feedbackController.postNewFeedback);
 // router.get('/course/add-feedback/:id', feedbackController.getNewFeedback);
 
