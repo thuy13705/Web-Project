@@ -5,7 +5,9 @@ var randomstring = require("randomstring");
 const nodemailer = require("nodemailer");
 const ParentCategory = require("../models/ParentCategory");
 const ChildCategory = require("../models/ChildCategory");
+const Coureses = require ("../models/Course");
 const {Mongoose} = require("mongoose");
+const Courses = require("../models/Course");
 
 const Course = require('../models/Course');
 
@@ -246,6 +248,7 @@ exports.postAddChildCategory = (req, res, next) => {
     }
     const newCategory = new ChildCategory({
       name: req.body.name,
+      category:req.body.category,
     });
     // save the user
     newCategory.save(function (err) {
@@ -263,7 +266,7 @@ exports.postAddChildCategory = (req, res, next) => {
         }
       );
 
-      return res.redirect("/add-child-category");
+      return res.redirect("/category-list");
     });
   });
 };
@@ -284,32 +287,46 @@ exports.getUpdateChildCategory = (req, res, next) => {
 };
 
 exports.postUpdateChildCategory = (req, res, next) => {
-  ChildCategory.updateOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id)
-    }, {
-      name: req.body.name
-    },
-    (err) => {
-      if (err) {
-        req.flash("err");
-      }
-      res.redirect("/category-list");
-    }
-  );
+   ChildCategory.findById(req.params.id,function(err,child){
+    Courses.updateMany({category:child.name}, {$set: {category: req.body.name}}, function (err, course) {
+      console.log(course);
+      ChildCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
+        res.redirect('/category-list');
+    })
+  })
+  })
 };
 
 
 exports.getDeleteChildCategory = (req, res, next) => {
-  ChildCategory.deleteOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id)
-    },
-    (err) => {
-      if (err) {
-        req.flash("err");
+  ChildCategory.findById(req.params.id, function (err, child) {
+    console.log(child);
+    if (err) {
+      console.log(err);
+    } else {
+      if (child.courses.length === 0) {
+  
+        ParentCategory.findOneAndUpdate({name: child.category},
+              {$pull: {child: req.params.id}}, function(err){
+            if(err) res.redirect("/");
+            else {
+              ChildCategory.deleteOne({_id: req.params.id},function(err){
+                if (err) {
+                  console.log(err);
+                }
+               else{
+                res.redirect("/category-list");
+               }
+              });
+            }
+          })
+      
       }
-      res.redirect("/category-list");
+      else {
+        res.redirect("/category-list");
+      }
     }
-  );
+  })
 };
 
 exports.getAddParentCategory = (req, res, next) => {
@@ -353,36 +370,15 @@ exports.postAddParentCategory = (req, res, next) => {
   });
 };
 
-exports.getUpdateParentCategory = (req, res, next) => {
-  ParentCategory.updateOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id),
-    }, {
-      name: req.body.name
-    },
-    (err) => {
-      6;
-      if (err) {
-        req.flash("error", "Fail");
-      }
-      req.redirect("/category-list");
-    }
-  );
-};
 
 exports.postUpdateParentCategory = (req, res, next) => {
-  ParentCategory.updateOne({
-      _id: new Mongoose.Types.ObjectId(req.params.id),
-    }, {
-      name: req.body.name
-    },
-    (err) => {
-      6;
-      if (err) {
-        req.flash("error", "Fail");
-      }
-      req.redirect("/category-list");
-    }
-  );
+  ParentCategory.findById(req.params.id,function(err,parent){
+    ChildCategory.updateMany({category:parent.name}, {$set: {category: req.body.name}}, function (err, child) {
+      ParentCategory.findByIdAndUpdate(req.params.id,{$set: {name: req.body.name}},function(err){    
+        res.redirect('/category-list');
+    })
+  })
+  })
 };
 
 exports.getDeleteParentCategory = (req, res, next) => {
@@ -555,4 +551,5 @@ exports.getLockCourse=(req,res,next)=>{
       user: req.user,
     });
   }
+
 };
