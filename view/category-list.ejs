@@ -9,7 +9,22 @@
   <div class="container-indent">
     <div class="container container-fluid-custom-mobile-padding">
       <h1 class="tt-title-subpages noborder">My Course</h1>
+<<<<<<< HEAD
+      <div class="w-100 d-flex">
+        <button
+          class="btn btn-primary ml-auto"
+          role="button"
+          data-toggle="modal"
+          data-target="#add-category-modal"
+        >
+          Thêm lĩnh vực
+        </button>
+      </div>
+      <%if (categories != null){ categories.forEach(function(category) {%>
+      
+=======
       <% categories.forEach((category)=> {%>
+>>>>>>> master
       <div class="tt-wrapper" style="margin-bottom: 50px">
         <div class="tt-table-responsive">
           <tbody>
@@ -23,8 +38,8 @@
                   <div class="d-flex justify-content-between">
                     <p><%= child.name %></p>
                     <div>
-                      <a href="/info-change" class="btn btn-border">Change</a>
-                      <a href="/teacher-list" class="btn btn-border">Delete</a>
+                      <a href="/category-list/updateChild/<%= child._id%>" class="btn btn-border">Change</a>
+                      <a href="/category-list/deleteChild/<%= child._id%>" class="btn btn-border">Delete</a>
                     </div>
                   </div>
                 </tr>
@@ -33,10 +48,10 @@
             </tr>
           </tbody>
         </div>
-        <a href="/info-change" class="btn btn-border">Change</a>
-        <a href="/teacher-list" class="btn btn-border">Delete</a>
+        <a href="/category-list/updateParent/<%= category._id%>" class="btn btn-border">Change</a>
+        <a href="/category-list/deleteParent/<%= category._id%>" class="btn btn-border">Delete</a>
       </div>
-      <% }); %>
+      <% });} %>
     </div>
   </div>
 
