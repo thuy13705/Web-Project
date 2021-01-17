@@ -11,7 +11,7 @@ router.get('/show-course-list/:id', homeController.getShowCourse);
 router.get('/show-course-list', homeController.getSearchResult);
 router.get('/account/add-wish-list/:id', homeController.getAddWishList);
 router.get('/account/wish-list', homeController.getShowWishList);
-router.get('/my-course', homeController.getShowMyCourse);
+router.get('/account/my-course', homeController.getShowMyCourse);
 router.get('/account/my-course/:id', homeController.getAddMyCourse);
 
 router.get('/account/wish-list/delete/:id', homeController.getDeleteWishList);

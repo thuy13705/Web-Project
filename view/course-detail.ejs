@@ -92,16 +92,15 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border mt-5 mr-4">Add To WishList</a>
-                                                        <a href="/account/my-course/<%= courses._id %>" class="btn btn-border mt-5">Study</a> -->
-                                                        <div></div>
+                                                  
                                                         <% if (typeof(user)!=='undefined' ) {%>
-                                                            <% if (user.role==1 || user.role==2) {%>
+                                                            <% if (user.role==1) {%>
                                                                 <button class="btn btn-primary ml-auto" role="button" data-toggle="modal" data-target="#update-description-modal">
-                                    Update Decription
-                                  </button>
+                                                                                Update Decription
+                                                                </button>
+                                                                <a  href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add chapter</a>
                                                                 <%}%>
-                                                                    <%}%>
+                                                     <%}%>
                                                     </div>
                                                     <!-- /.course__topic -->
 
@@ -115,6 +114,7 @@
                                                             <div class="curriculum__panel">
                                                                 <div class="curriculum__heading d-flex ">
                                                                     <h6 class="content__h1 m-2 "><%= chapter.name %> </h6>
+                                                                
                                                                 </div>
                                                                 <% chapter.lesson.forEach(lesson=>{%>
                                                                 <div class="curriculum__lesson d-flex">
@@ -123,7 +123,14 @@
                                                                     </div>
                                                                     <div class="curriculum__right">
                                                                         <div class="status d-inline-block">
-                                                                            <a href="abc.html" class="hoc__thu">Học thử</a>
+                                                                            <% if (typeof(user)!=='undefined' ) {%>
+                                                                                <% if (user.role==1) {%>
+                                                                                 <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border">Add lesson</a>
+                                                                             <%}%>
+                                                                             <% if (user.role==0) {%>
+                                                                                <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border">Try</a>
+                                                                            <%}%>
+                                                                            <%}%>
                                                                         </div>
                                                                     </div>
                                                                 </div>

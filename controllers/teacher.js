@@ -72,7 +72,6 @@ exports.postAddCourse = (req, res, next) => {
         );
       });
     });
-  
 };
 
 exports.getCourseList = (req, res, next) => {
@@ -194,8 +193,8 @@ exports.postAddChapter = (req, res, next) => {
       [{ _id: req.params.id }, { chapter: { $ne: chapter.id } }],
       { $push: { chapter: chapter._id } },
       function (err, course) {
-        if (err) res.redirect("/course-list");
-        res.redirect("/course-list");
+        if (err) throw err
+        res.redirect("back");
       }
     );
   });
@@ -241,8 +240,8 @@ exports.postAddLesson = (req, res, next) => {
       { _id: req.params.id },
       { $push: { lesson: lesson._id } },
       function (err, chapter) {
-        if (err) res.redirect("/course-list");
-        res.redirect("/course-list");
+        if (err) throw err;
+        res.redirect("back");
       }
     );
   });
@@ -261,12 +260,7 @@ exports.postUpdateDescription = (req, res, next) => {
           Course.findOne({ _id: req.params.id })
             .populate([{ path: "chapter", populate: { path: "lesson" } }])
             .exec((err, course) => {
-              res.render("course-detail", {
-                title: "Course Detail",
-                message: `${message}`,
-                user: req.user,
-                courses: course,
-              });
+              res.redirect("back");
             });
         }
       );

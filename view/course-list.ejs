@@ -3,58 +3,24 @@
   <head>
     <%- include ('partials/head');%>
   </head>
-  <%- include("partials/loader")%> <%- include ('partials/header');%>
+  <%- include("partials/loader")%>
+   <%- include ('partials/header');%>
   <div id="tt-pageContent">
-    <%if (message != "undefined") { %>
-    <div
-      class="form-group form-control error"
-      style="
-        background-color: #ffcccc;
-        font-weight: bold;
-        color: rgb(210, 29, 29);
-      ">
-      <%= message %>
-    </div>
-    <% } %>
+  
     <div class="latest-products">
       <div class="container">
         <div class="row">
-          <!-- <div class="col-md-3">
-            <form method="GET">
-              <div class="tt-collapse open">
-                <h3 class="tt-collapse-title">Category</h3>
-                <div class="tt-collapse-content">
-                  <ul class="tt-list-row" id="product-price">
-                    <% categories.forEach(element => {%>    
-                      <li><input type="radio" name="category" value="<%= element.name %>"><%= element.name %> </li>               
-                    <%});%>
-                  </ul>
-                </div>
-              </div>
-              <div class="tt-collapse open">
-                <h3 class="tt-collapse-title">Teacher</h3>
-                <div class="tt-collapse-content">
-                  <ul class="tt-list-row" id="product-size">
-                    <% userList.forEach(element => {%>    
-                      <li><input type="radio" name="teacher" value="<%= element.name %>"><%= element.username %> </li>               
-                    <%});%>
-                  </ul>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-border mx-auto mb-5">Filter</button>
-              </form>
-          </div> -->
           
             <% course.forEach(course=> {%>
 
               <div class="col-md-4">
                 <% if (user.role==1){%> 
                   <% if (course.isComplete===true){%>
-                <h2>Complete</h2>
-                <%}%> 
-                <% if (course.isComplete===false){%>
-                <a href="/course-list" class="btn btn-border">Complete</a>
-                <%}%> 
+                  <h2>Complete</h2>
+                  <%}%> 
+                  <% if (course.isComplete===false){%>
+                    <a href="/course-list" class="btn btn-border">Complete</a>
+                  <%}%> 
                 <%}%>
                 <div class="product-item">
                   <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
@@ -75,30 +41,29 @@
                         <span>Reviews (24)</span>
                      
                       </div>
-                      <% if (user.role===0){%>
-                        <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border"
-                          >Study Now</a
-                        >
-                        <%}%> <% if (user.role===1){%>
-                        <a href="/info-change" class="btn btn-border">Change</a>
-                        <a href="/teacher-list" class="btn btn-border">Delete</a>
-                        <%}%> <% if (user.role===2){%> <%if (course.disable==false) { %>
-                        <a href="/lock-course/<%= course._id %>" class="btn btn-border"
-                          >Disable</a
-                        >
-                        <% } %> <%if (course.disable==true) { %>
-                        <a href="/lock-course/<%= course._id %>" class="btn btn-border"
-                          >Able</a
-                        >
-                        <% } %>
-                        <a href="/teacher-list" class="btn btn-border">Delete</a>
-                        <%}%>
+                      
+                        <%if (typeof(user)!==undefined) { %>
+                          <% if (user.role===0){%>
+                            <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border"
+                              >Study Now</a
+                            >
+                            <% } %>
+                           <% if (user.role===2){%> <%if (course.disable==false) { %>
+                            <a href="/lock-course/<%= course._id %>" class="btn btn-border"
+                              >Disable</a
+                            >
+                            <% } %>
+                             <%if (course.disable==true) { %>
+                            <a href="/lock-course/<%= course._id %>" class="btn btn-border"
+                              >Able</a
+                            >
+                            <% } %>
+                          <% } %>
                   </div>
               </div>
           
             <% }); %>
-          \
-        
+          
         </div>
       </div>
     </div>

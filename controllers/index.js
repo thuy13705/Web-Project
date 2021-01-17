@@ -134,16 +134,8 @@ exports.getSearchResult = (req, res) => {
 
 exports.getAddWishList = (req, res) => {
   const message = req.flash("error")[0];
-  console.log(typeof(req.user));
   if (typeof(req.user) !=='undefined'){
-    Users.findOneAndUpdate([{_id:req.user._id},{wish_list:{$in:req.params.id}}]).populate('wish_list').exec((err,user)=>{
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
-    });
-    Users.findOneAndUpdate([{_id:req.user._id},{wish_list:{$ne:req.params.id}}],{$push:{wish_list:req.params.id}}).populate('wish_list').exec((err,user)=>{
+    Users.findOneAndUpdate({_id:req.user._id,wish_list:{$nin:req.params.id}},{$push:{wish_list:req.params.id}}).populate('wish_list').exec((err,user)=>{
       Users.findOne({ _id: req.user._id }).populate('wish_list')
       .exec((err, user) => {
         if (err) throw err;
@@ -209,7 +201,7 @@ exports.getDeleteWishList = (req, res) => {
           title: "Wish List",
           user: req.user,
           message: `${message}`,
-          courses: user,
+          courses: user.wish_list,
         });
       }
      else{
@@ -229,7 +221,7 @@ exports.getShowMyCourse = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.findOne({ _id: req.user._id}).populate('courses')
       .exec((err, user) => {
-        res.render("course-list", {
+        res.render("wish-list", {
           title: "My Course",
           message: `${message}`,
           user: req.user,
@@ -240,17 +232,15 @@ exports.getShowMyCourse = (req, res, next) => {
 exports.getAddMyCourse=(req,res,next)=>{
   const message = req.flash("error")[0];
   if (typeof(req.user) !=='undefined'){
-    // Users.findOneAndUpdate([{_id:req.user._id},{courses:{$in:req.params.id}}]).populate('courses').exec((err,user)=>{
-    // });
-    Users.findOneAndUpdate([{_id:req.user._id},{courses:{$ne:req.params.id}}],{$push:{courses:req.params.id}}).populate('courses').exec((err,user)=>{
+
+    Users.findOneAndUpdate({_id:req.user._id,courses:{$nin:req.params.id}},{$push:{courses:req.params.id}}).populate('courses').exec((err,user)=>{
       var datetime = new Date();
-      console.log(datetime);
       Course.findOneAndUpdate({_id:req.params.id},{$push:{dateBuy:datetime}},function(err,course)
       {
-        console.log("update");
       });
       Users.findOne({ _id: req.user._id }).populate('courses')
       .exec((err, user) => {
+        console.log(user);
         if (err) throw err;
         if (req.user.role == 0) {
           Course.update(
@@ -258,7 +248,7 @@ exports.getAddMyCourse=(req,res,next)=>{
             { $inc: { countBuy: 1 } },
             function (err, course) {}
           );
-          res.render("course-list", {
+          res.render("wish-list", {
             title: "My Course",
             message: `${message}`,
             user: req.user,

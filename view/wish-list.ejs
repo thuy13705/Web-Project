@@ -6,55 +6,55 @@
 </head>
 <%- include("partials/loader")%>
     <%- include ('partials/header');%>
-        <div id="tt-pageContent"></div>
-        <div class="container-indent">
-            <div class="container container-fluid-custom-mobile-padding">
-                <h1 class="tt-title-subpages noborder">My Course</h1>
-
-                <% courses.forEach(course=> {%>
-                    <div class="tt-wrapper" style="margin-bottom: 50px;">
-                        <div class="tt-table-responsive">
-                            <table class="tt-table-shop-02">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="/images/<%= course.image %>" width="300px" hight="300px">
-                                            </video>
-                                        </td>
-                                        <td>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td>
-                                            <a href="/course-detail/<%=course._id%>">
-                                                <%= course.name %>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>:</td>
-                                        <td>
-                                            <%= course.description %>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Price:</td>
-                                        <td>
-                                            <%= course.price %>
-                                        </td>
-                                    </tr>
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+    <div class="latest-products">
+        <div class="container">
+          <div class="row">
+            
+              <% courses.forEach(course=> {%>
+    
+                <div class="col-md-4">
+                  <% if (user.role==1){%> 
+                    <% if (course.isComplete===true){%>
+                  <h2>Complete</h2>
+                  <%}%> 
+                  <% if (course.isComplete===false){%>
+                  <a href="/course-list" class="btn btn-border">Complete</a>
+                  <%}%> 
+                  <%}%>
+                  <div class="product-item">
+                    <a href="/course-detail/<%=course._id%>"><img src="/images/<%= course.image %>" alt=""></a>
+                        <div class="down-content">
+                          <a href="/course-detail/<%=course._id%>">
+                            <h4 class="textlimit"><%= course.name %></h4>
+                          </a>
+                          <h6>Price: <%= course.price %></h6>
+                          <p class="textlimit">Category: <%= course.category%></p>
+                          <p class="textlimit">Teacher: <%= course.teacher %></p>
+                          <ul class="stars">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                          </ul>
+                          <span>Reviews (24)</span>
+                       
                         </div>
-                        <a href="/account/wish-list/delete/<%= course._id %>" class="btn btn-border">Delete</a>
+                        <% if (typeof(user)!==undefined){%>
+                            <% if (user.role===0){%>
+                                <a href="/account/wish-list/delete/<%= course._id %>" class="btn btn-border">Delete</a>
+        
+                              <%}%> 
+                          <%}%> 
                     </div>
-                    <% }); %>
-                
-
-            </div>
+                </div>
+            
+              <% }); %>
+            \
+          
+          </div>
         </div>
-        </div>
+      </div>
         <%- include("partials/script") %>
             <footer>
                 <%- include('partials/footer'); %>
