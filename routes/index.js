@@ -6,7 +6,6 @@ const feedbackController = require('../controllers/feedback');
 
 router.get('/', homeController.getHomeView);
 
-
 router.get('/show-course-list/:id', homeController.getShowCourse);
 router.get('/show-course-list', homeController.getSearchResult);
 router.get('/account/add-wish-list/:id', homeController.getAddWishList);
