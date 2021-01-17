@@ -71,8 +71,10 @@
                       <ul class="dropdown-menu mt-3 shadow rounded" aria-labelledby="navbarDropdownMenuLink">
                         <% if(user.role==0) {%>
                           <a class="dropdown-item" href="/info">Profile</a>
-                          <a class="dropdown-item" href="/my-course">My Courses</a>
-                          <a class="dropdown-item" href="/account/wish-list">Wish List</a>
+              
+                            <a class="dropdown-item py-1" href="/my-course">My Courses</a>
+                          
+                          <a class="dropdown-item" href="/account/wish-list">Watch List</a>
                           <% if(!user.isAuthenticated) {%>
                             <a class="dropmenu-item" href="/verify-email">Verify Email</a>
                             <%}%>

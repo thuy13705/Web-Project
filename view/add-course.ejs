@@ -1,72 +1,84 @@
+<!DOCTYPE html>
 
- <%- include("partials/head") %> 
- <%- include("partials/loader") %>
- <%- include("partials/header") %>
- <div id="tt-pageContent">
-   <div class="container-indent">
-     <div class="container">
-       <div class="tt-login-form">
-         <div class="row justify-content-center">
-           <div class="col-md-8 col-lg-6">
-             <div class="tt-item">
-               <h2 class="tt-title">ADD NEW COURSE</h2>
-               <%if (message != "undefined") { %>
-               <div
-                 class="form-group form-control error"
-                 style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
-                 <%= message %>
-               </div>
-               <% } %>
-               <div class="form-default">
-                  <form method="POST" action="/add-course" enctype="multipart/form-data">
-         
-                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control" required>
-                     </div>
-         
-                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea type="text" name="description" rows="10" class="form-control"></textarea>
-                     </div>
-         
-                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" name="price" class="form-control">
-                     </div>
-         
-                     <div class="form-group">
-                        <label>Category</label>
-                        <select name="category" class="form-control">
-                           <option value="">Select category</option>
-                           <% category.forEach(category=>{%>
-                             <option value="<%= category.name %>"><%= category.name %></option>
-                           <%});%>
-                        </select>
-                     </div>
-                     
-           
-                     <div class="form-group">
-                        <label>Select Image</label>
-                        <input type="file" name="image" accept="image/*" required>
-                     </div>
-         
-                     <input type="submit" class="btn btn-outline-primary" value="Add">
-                  </form>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
- <script type="text/javascript">
-    function fileSelected() {
-       var fileName = document.getElementById("file").files[0].name;
-       document.getElementById("filename").innerHTML = fileName;
-    }
- </script>
-     <%- include("partials/script") %>
-     <%- include('partials/footer') %>
+<%- include("partials/head") %> 
+<%- include("partials/loader") %>
+<%- include("partials/header") %>
+
+<script src="https://cdn.tiny.cloud/1/vgc9m5e12gdq8ghkax5ikoioyoq940dkxm5573g6grol3n9l/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+ tinymce.init({
+ selector: "#textdescription",
+});
+</script>
+
+
+<div id="tt-pageContent">
+  <div class="container-indent">
+    <div class="container">
+      <div class="tt-login-form">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="tt-item">
+              <h2 class="tt-title">ADD NEW COURSE</h2>
+              <%if (message != "undefined") { %>
+              <div
+                class="form-group form-control error"
+                style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                <%= message %>
+              </div>
+              <% } %>
+              <div class="form-default">
+                 <form method="POST" action="/add-course" enctype="multipart/form-data">
+        
+                    <div class="form-group">
+                       <label>Name</label>
+                       <input type="text" name="name" class="form-control" required>
+                    </div>
+        
+                    <div class="form-group">
+                       <label for="textdescription">Description</label>
+                       <textarea  type="text" name="description" id="textdescription" rows="10" class="form-control"></textarea>
+                    </div>
+        
+                    <div class="form-group">
+                       <label>Price</label>
+                       <input type="text" name="price" class="form-control">
+                    </div>
+        
+                    <div class="form-group">
+                       <label>Category</label>
+                       <select name="category" class="form-control">
+                          <option value="">Select category</option>
+                          <% category.forEach(category=>{%>
+                            <option value="<%= category.name %>"><%= category.name %></option>
+                          <%});%>
+                       </select>
+                    </div>
+                    
+          
+                    <div class="form-group">
+                       <label>Select Image</label>
+                       <input type="file" name="image" accept="image/*" required>
+                    </div>
+        
+                    <input type="submit" class="btn btn-outline-primary" value="Add">
+                 </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+   function fileSelected() {
+      var fileName = document.getElementById("file").files[0].name;
+      document.getElementById("filename").innerHTML = fileName;
+   }
+</script>
+
+
+    <%- include("partials/script") %>
+    <%- include('partials/footer') %>
 

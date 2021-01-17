@@ -39,7 +39,7 @@ app.use(express.static('public'));
 app.use(require("./middlewares/course"));
 app.use(require("./middlewares/categories"));
 
-
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // view engine setup 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

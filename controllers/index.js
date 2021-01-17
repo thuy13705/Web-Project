@@ -2,6 +2,7 @@ const Users = require('../models/user');
 const Course = require('../models/Course');
 const ChildCategory = require('../models/ChildCategory');
 const user = require('../models/user');
+const e = require('express');
 
 
 exports.getHomeView = (req, res) => {
@@ -50,13 +51,13 @@ exports.getShowCourse = (req, res) => {
     const page = +req.query.page || 1;
     ChildCategory.findOne({ _id: req.params.id })
       .then(Child => {
-        Course.find({ category: Child.name })
+        Course.find({ category: Child.name,disable:false })
           .countDocuments()
           .sort({price:SORT_ITEM})
           .then(numCourse => {
             console.log(numCourse);
             totalItems = numCourse;
-            return Course.find({ category: Child.name })
+            return Course.find({ category: Child.name, disable:false})
               .skip((page - 1) * 10)
               .limit(10)
               .sort({price:SORT_ITEM});
@@ -100,7 +101,7 @@ exports.getSearchResult = (req, res) => {
       sort_value = "Giá thấp tới cao";
       price = "1";
     }
-    Course.find({ $text: { $search: searchText } })
+    Course.find({ $text: { $search: searchText } ,disable:false})
       .countDocuments()
       .sort({price:SORT_ITEM})
       .then(numCourse => {
@@ -133,7 +134,6 @@ exports.getSearchResult = (req, res) => {
     });
 };
 
-
 exports.getAddWishList = (req, res) => {
   const message = req.flash("error")[0];
   console.log(typeof(req.user));
@@ -154,14 +154,17 @@ exports.getAddWishList = (req, res) => {
             title: "Wish List",
             user: req.user,
             message: `${message}`,
-            courses: user,
+            courses: user.wish_list,
           });
         }
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
+        else
+        {
+          res.render("404", {
+            title: "404 Not Found",
+            message: `${message}`,
+            user: req.user,
+          });
+        }
       })
     })
   }
@@ -183,14 +186,16 @@ exports.getShowWishList = (req, res) => {
           title: "Wish List",
           user: req.user,
           message: `${message}`,
-          courses: user,
+          courses: user.wish_list,
         });
       }
+     else{
       res.render("404", {
         title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
+     }
     })
 };
 
@@ -209,11 +214,13 @@ exports.getDeleteWishList = (req, res) => {
           courses: user,
         });
       }
+     else{
       res.render("404", {
         title: "404 Not Found",
         message: `${message}`,
         user: req.user,
       });
+     }
     });
   }).catch(err => {
     console.log(err);
@@ -235,13 +242,8 @@ exports.getShowMyCourse = (req, res, next) => {
 exports.getAddMyCourse=(req,res,next)=>{
   const message = req.flash("error")[0];
   if (typeof(req.user) !=='undefined'){
-    Users.findOneAndUpdate([{_id:req.user._id},{courses:{$in:req.params.id}}]).populate('courses').exec((err,user)=>{
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
-    });
+    // Users.findOneAndUpdate([{_id:req.user._id},{courses:{$in:req.params.id}}]).populate('courses').exec((err,user)=>{
+    // });
     Users.findOneAndUpdate([{_id:req.user._id},{courses:{$ne:req.params.id}}],{$push:{courses:req.params.id}}).populate('courses').exec((err,user)=>{
       var datetime = new Date();
       console.log(datetime);
