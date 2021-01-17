@@ -1,44 +1,16 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
   <%- include ('partials/head');%>
 </head>
-<%- include("partials/loader")%>
+<%- include("partials/loader");%>
   <%- include ('partials/header');%>
 
-    <div id="tt-pageContent"></div>
-    <div class="container-indent">
-      <div class="container container-fluid-custom-mobile-padding">
-        <h1 class="tt-title-subpages noborder">My Course</h1>
-        <%if (categories !=null){ categories.forEach(function(category) {%>
-
-          <div class="tt-wrapper" style="margin-bottom: 50px">
-            <div class="tt-table-responsive">
-              <tbody>
-  <head>
-    <%- include ('partials/head');%>
-  </head>
-  <%- include("partials/loader")%> <%- include ('partials/header');%>
- 
   <div id="tt-pageContent"></div>
   <div class="container-indent">
     <div class="container container-fluid-custom-mobile-padding">
-      <h1 class="tt-title-subpages noborder">My Course</h1>
 
-      <div class="w-100 d-flex">
-        <button
-          class="btn btn-primary ml-auto"
-          role="button"
-          data-toggle="modal"
-          data-target="#add-category-modal"
-        >
-          Thêm lĩnh vực
-        </button>
-      </div>
-      <%if (categories != null){ categories.forEach(function(category) {%>
-
+      <%if (categories != null){%>
       <% categories.forEach((category)=> {%>
       <div class="tt-wrapper" style="margin-bottom: 50px">
         <div class="tt-table-responsive">
@@ -50,13 +22,7 @@
               <td>
                 <% category.child.forEach(child=>{%>
                 <tr>
-                  <td>
-                    <h2>
-                      <%= category.name %>
-                    </h2>
-                  </td>
-                  <td>
-                    <% category.child.forEach(child=>{%>
+                 
                  <tr>
                   <div class="modal fade" id="change-category-child-<%= child._id %>" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -138,12 +104,6 @@
                 </div>
               </div>
             </div>
-            <div id="tt-pageContent"></div>
-            <div class="container-indent">
-              <div class="container container-fluid-custom-mobile-padding">
-
-               
-              </div>
             </div>
             <div>
               <button class="btn btn-border" role="button" data-toggle="modal"
@@ -154,9 +114,8 @@
             <a href="/category-list/deleteParent/<%= category._id%>" class="btn btn-border">Delete</a>
             </div>
             <% });} %>
-
+     
           </div>
-
           <%- include("partials/script") %>
 
             <footer>
