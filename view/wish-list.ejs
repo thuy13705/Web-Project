@@ -43,15 +43,14 @@
                         <% if (typeof(user)!==undefined){%>
                             <% if (user.role===0){%>
                                 <a href="/account/wish-list/delete/<%= course._id %>" class="btn btn-border">Delete</a>
-        
+                                <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border">Study Now</a>
+
                               <%}%> 
                           <%}%> 
                     </div>
                 </div>
             
-              <% }); %>
-            \
-          
+              <% }); %>          
           </div>
         </div>
       </div>

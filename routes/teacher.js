@@ -15,5 +15,6 @@ router.post('/add-chapter/:id', teacherController.postAddChapter);
 router.get('/add-lesson/:id', teacherController.getAddLesson);
 router.post('/add-lesson/:id', upload.single("video"), teacherController.postAddLesson);
 router.get('/404',homeController.getError);
+router.get('/complete/:id',teacherController.getComplete);
 
 module.exports = router;

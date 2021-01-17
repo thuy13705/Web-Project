@@ -45,19 +45,17 @@
                         <%if (typeof(user)!==undefined) { %>
                           <% if (user.role===0){%>
                             <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border"
-                              >Study Now</a
-                            >
+                              >Study Now</a>
                             <% } %>
-                           <% if (user.role===2){%> <%if (course.disable==false) { %>
-                            <a href="/lock-course/<%= course._id %>" class="btn btn-border"
-                              >Disable</a
-                            >
+                           <% if (user.role===2){%>
+                             <%if (course.disable==false) { %>
+                            <a href="/lock-course/<%= course._id %>" class="btn btn-border">Disable</a>
+                            
                             <% } %>
                              <%if (course.disable==true) { %>
-                            <a href="/lock-course/<%= course._id %>" class="btn btn-border"
-                              >Able</a
-                            >
+                            <a href="/lock-course/<%= course._id %>" class="btn btn-border">Able</a>
                             <% } %>
+                          <% } %>
                           <% } %>
                   </div>
               </div>

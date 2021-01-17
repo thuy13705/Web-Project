@@ -130,8 +130,9 @@ exports.getCourseDetail = (req, res) => {
         function (err, course) {}
       );
       Course.findOne({ _id: req.params.id })
-        .populate([{ path: "chapter", populate: { path: "lesson" } }])
+        .populate([{ path: "chapter", populate: { path: "lesson" } }]).populate([{ path: "feedback", populate: { path: "writer" }}])
         .exec((err, course) => {
+          console.log(course);
           Course.find({category: course.category})
           .limit(5)
           .sort({countBuy:-1}).then(courseBuy=>{
@@ -204,7 +205,8 @@ exports.getAddLesson = (req, res) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user })
     .then((user) => {
-      Chapter.findOne({ _id: req.params.id }, {}).then((chapter) => {
+      Chapter.findOne({ _id: req.params.id }, function(err,chapter){
+        console.log(chapter);
         if (req.user.role == 2 || req.user.role == 1) {
           res.render("add-lesson", {
             title: "Add Lesson",
@@ -220,7 +222,7 @@ exports.getAddLesson = (req, res) => {
           user: req.user,
         });
       }
-      });
+      })
     })
     .catch((err) => {
       console.log(err);
@@ -278,4 +280,25 @@ exports.postUpdateDescription = (req, res, next) => {
       user: req.user,
     });
   }
+};
+
+exports.getComplete=(req,res,next)=>{
+  Users.find({ user: req.user })
+  .then((user) => {
+    Course.findOneAndUpdate({ _id: req.params.id },{$set:{isComplete:true}}, function(err,course){
+      if ( req.user.role == 1) {
+        res.redirect("back");
+      }
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 };

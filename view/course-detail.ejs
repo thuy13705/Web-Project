@@ -47,18 +47,21 @@
             <div class="container-indent">
                 <div class="container container-fluid-custom-mobile-padding">
                     <h1 class="tt-title-subpages noborder">Course Detail</h1>
-                    <div class="w-100 d-flex">
-                        <button class="btn btn-success ml-auto" role="button" data-toggle="modal" data-target="#feedback">
-                        Add Feedback
-                        </button>
-                    </div>
+
                     <% if (typeof(user)!=='undefined' ) {%>
+                        <% if (user.role==0){%> 
+                            <div class="w-100 d-flex">
+                                <button class="btn btn-success ml-auto" role="button" data-toggle="modal" data-target="#feedback">
+                                Add Feedback
+                                </button>
+                            </div>
+                            <%} %> 
                         <% if (user.role==1) {%>
                             <% if (courses.isComplete===true){%>
                                 <h2>Complete</h2>
                                 <%}%>
                                     <% if (courses.isComplete===false){%>
-                                        <a href="/course-detail/<%= courses._id %> " class="btn btn-border">Complete</a>
+                                        <a href="/complete/<%= courses._id %> " class="btn btn-border">Complete</a>
                                         <%}%>
                                             <%}%>
                                                 <%}%>
@@ -114,7 +117,12 @@
                                                             <div class="curriculum__panel">
                                                                 <div class="curriculum__heading d-flex ">
                                                                     <h6 class="content__h1 m-2 "><%= chapter.name %> </h6>
-                                                                
+                                                                    <% if (typeof(user)!=='undefined' ) {%>
+                                                                        <% if (user.role==1) {%>
+                                                                         <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add lesson</a>
+                                                                     <%}%>
+
+                                                                    <%}%>
                                                                 </div>
                                                                 <% chapter.lesson.forEach(lesson=>{%>
                                                                 <div class="curriculum__lesson d-flex">
@@ -124,9 +132,6 @@
                                                                     <div class="curriculum__right">
                                                                         <div class="status d-inline-block">
                                                                             <% if (typeof(user)!=='undefined' ) {%>
-                                                                                <% if (user.role==1) {%>
-                                                                                 <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border">Add lesson</a>
-                                                                             <%}%>
                                                                              <% if (user.role==0) {%>
                                                                                 <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border">Try</a>
                                                                             <%}%>
@@ -141,27 +146,66 @@
                                                         
                                                         </div>
                                                         <div class="review pb-5">
-                                                            <h3 class="mt-5">76 đánh giá</h3>
+                                                            <h3 class="mt-5"></h3>
+                                                            <% courses.feedback.forEach(feedback=>{%>
                                                             <div class="row">
                                                                 <div class="col-2 review__img text-center">
-                                                                    <img src="/images/<%= courses.image %>">
+                                                                    <img src="/images/avatar.jpg">
                                                                 </div>
                                                                 <div class="col-10">
                                                                     <div class="review__infor">
-                                                                        <h6>Nguyễn Minh Huy</h6>
-                                                                        <p>Tốt</p>
-                                                                        <ul class="stars d-flex">
-                                                                            <li><i class="fa fa-star"></i></li>
-                                                                            <li><i class="fa fa-star"></i></li>
-                                                                            <li><i class="fa fa-star"></i></li>
-                                                                            <li><i class="fa fa-star"></i></li>
-                                                                            <li><i class="fa fa-star"></i></li>
-                                                                        </ul>
+                                                                        <h6><%= feedback.writer.username %></h6>
+                                                                        <p><%= feedback.content %> </p>
+                                                                        <% if (feedback.rating==1){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==2){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==3){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==4){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==5){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
                                                                     </div>
-                                                                    <p class="time">25 ngày trước</p>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <%});%>
                                                     </div>
                                                 
 
