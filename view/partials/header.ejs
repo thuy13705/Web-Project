@@ -72,7 +72,7 @@
                         <% if(user.role==0) {%>
                           <a class="dropdown-item" href="/info">Profile</a>
               
-                            <a class="dropdown-item py-1" href="/my-course">My Courses</a>
+                            <a class="dropdown-item py-1" href="/account/my-course">My Courses</a>
                           
                           <a class="dropdown-item" href="/account/wish-list">Watch List</a>
                           <% if(!user.isAuthenticated) {%>
@@ -129,7 +129,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../logout">Logout</a>
+          <a class="nav-link" href="/logout">Logout</a>
         </li>
         <%}%>
       </ul>

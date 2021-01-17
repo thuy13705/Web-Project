@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const teacherController = require('../controllers/teacher');
-const adminController = require('../controllers/admin');
+
+const teacherController = require("../controllers/teacher");
+const adminController = require("../controllers/admin");
+const homeController=require('../controllers/index');
+
 
 router.get('/add-teacher', adminController.getAddTeacher);
 router.post('/add-teacher', adminController.postAddTeacher);
@@ -31,5 +34,8 @@ router.post('/category-list/updateChild/:id', adminController.postUpdateChildCat
 router.get('/category-list', adminController.getCategoryList);
 router.get('/lock-user/:id', adminController.getLockUser);
 router.get('/lock-course/:id', adminController.getLockCourse);
+router.get('/404',homeController.getError);
+
+router.get('/course-detail/:id', teacherController.getCourseDetail);
 
 module.exports = router;

@@ -30,7 +30,7 @@ var Storage = multer.diskStorage({
   }
 });
 
-app.use(multer({storage: Storage}).single('image'));
+// app.use(multer({storage: Storage}).single('image'));
 app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'ejs');
 app.use('/images', express.static(path.join(__dirname, './images')));

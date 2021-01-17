@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ('partials/head');%>
+</head>
+<%- include("partials/loader")%>
+    <%- include ('partials/header');%>
+        <div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <form id="add-teacher" method="post" novalidate="novalidate" action="/add-parent-category">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="loginInputEmail">Name Parent Category *</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Name Category" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Đóng
+            </button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="tt-pageContent"></div>
+        <div class="container-indent">
+            <div class="container container-fluid-custom-mobile-padding">
+                <h1 class="tt-title-subpages noborder mt-5 text-left">
+                    <i class="fa fa-book-open"></i> My Course</h1>
+                <div class="w-100 d-flex">
+                    <button class="btn btn-primary ml-auto" role="button" data-toggle="modal" data-target="#add-category-modal">
+          Thêm lĩnh vực
+        </button>
+                </div>
+                <% categories.forEach((category)=> {%>
+                    <div class="tt-wrapper" style="margin-bottom: 50px">
+                        <div class="tt-table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h2>
+                                            <%= category.name %>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <% category.child.forEach(child=>{%>
+                                            <tr>
+                                                <div class="d-flex justify-content-between">
+                                                    <p>
+                                                        <%= child.name %>
+                                                    </p>
+                                                    <div>
+                                                        <a href="/info-change" class="btn change__change mt-2">Change</a>
+                                                        <a href="/teacher-list" class="btn change__delete mt-2">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                            <%});%>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </div>
+                        <a href="/info-change" class="btn change__change">Change</a>
+                        <a href="/teacher-list" class="btn change__delete">Delete</a>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+        <%- include("partials/script") %>
+            <footer>
+                <%- include('partials/footer'); %>
+            </footer>
+
+</html>

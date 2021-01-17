@@ -6,46 +6,24 @@
 </head>
 <%- include("partials/loader")%>
     <%- include ('partials/header');%>
-    <div
-    class="modal fade"
-    id="feedback"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+        <div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <form
-          id="add-teacher"
-          method="post"
-          novalidate="novalidate"
-          action="/course/feedback/<%= courses._id %> "
-        >
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="loginInputEmail">New Feedback *</label>
-              <input
-                type="text"
-                name="feedback"
-                class="form-control"
-                id="name"
-                placeholder="New Feedback"
-              />
-            </div>
-            <div class="form-group">
-              <label>Select Rating</label>
-              <select name="rating" class="form-control">
+                    </div>
+                    <form id="add-teacher" method="post" novalidate="novalidate" action="/course/feedback/<%= courses._id %> ">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="loginInputEmail">New Feedback *</label>
+                                <input type="text" name="feedback" class="form-control" id="name" placeholder="New Feedback" />
+                            </div>
+                            <div class="form-group">
+                                <label>Select Rating</label>
+                                <select name="rating" class="form-control">
                  <option value="">Select rating</option>
                  <option value="1">1</option>
                  <option value="2">2</option>
@@ -53,166 +31,228 @@
                  <option value="4">4</option>
                  <option value="5">5</option>
               </select>
-           </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Đóng
             </button>
-            <button type="submit" class="btn btn-primary">Thêm</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div id="tt-pageContent">
             <div class="container-indent">
                 <div class="container container-fluid-custom-mobile-padding">
                     <h1 class="tt-title-subpages noborder">Course Detail</h1>
-                    <div class="w-100 d-flex">
-                        <button
-                          class="btn btn-primary ml-auto"
-                          role="button"
-                          data-toggle="modal"
-                          data-target="#feedback"
-                        >
-                        Add Feedback
-                        </button>
-                      </div>
+
                     <% if (typeof(user)!=='undefined' ) {%>
+                        <% if (user.role==0){%> 
+                            <div class="w-100 d-flex">
+                                <button class="btn btn-success ml-auto" role="button" data-toggle="modal" data-target="#feedback">
+                                Add Feedback
+                                </button>
+                            </div>
+                            <%} %> 
                         <% if (user.role==1) {%>
                             <% if (courses.isComplete===true){%>
                                 <h2>Complete</h2>
-                            <%}%> 
-                            <% if (courses.isComplete===false){%>
-                                <a href="/course-detail/<%= courses._id %> " class="btn btn-border">Complete</a>
-                            <%}%>
-                        <%}%>
-                    <%}%>
-                
-                    <div class="tt-wrapper" style="margin-bottom: 50px;">
-                        <div class="tt-table-responsive">
-                            <table class="tt-table-shop-02">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="/images/<%= courses.image %>" width="300px" hight="300px">
-    
-                                        </td>
-                                        <td>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td>
-                                            <%= courses.name %>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>:</td>
-                                        <td>
-                                            <%- courses.description %>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Price:</td>
-                                        <td>
-                                            <%= courses.price %>
-                                        </td>
-                                    </tr>
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border">Add To WishList</a>
-                        <a href="/account/my-course/<%= courses._id %>" class="btn btn-border">Study</a>
-                        <div></div>
-                        <% if (typeof(user)!=='undefined' ) {%>
-                            <% if (user.role==1 || user.role==2) {%>
-                                    <button
-                                    class="btn btn-primary ml-auto"
-                                    role="button"
-                                    data-toggle="modal"
-                                    data-target="#update-description-modal">
-                                    Update Decription
-                                  </button>
                                 <%}%>
-                                    <%}%>
-                    </div>
-                    
-                    <% if (courses.chapter!=[]){%>
-                        <% courses.chapter.forEach(chapter=>{%>
-                            <div class="tt-table-responsive">
-                                <table class="tt-table-shop-02">
-                                    <tbody>
-                                        <tr>
-                                            <div class="d-flex justify-content-between">
-                                                <h4>
-                                                    <%= chapter.name %>
-                                                </h4>
-                                                <% if (typeof(user)!=='undefined' ) {%>
-                                                    <% if (user.role==1 || user.role==2) {%>
-                                                        <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add
-                                                            Lesson</a>
-                                                     
-                                                    <%}%>
+                                    <% if (courses.isComplete===false){%>
+                                        <a href="/complete/<%= courses._id %> " class="btn btn-border">Complete</a>
+                                        <%}%>
+                                            <%}%>
                                                 <%}%>
-                                            </div>
-                                        </tr>
-                                        <tr>
-                                            <% chapter.lesson.forEach(lesson=>{%>
-                                        <tr>
-                                            <td>
-                                                <%= lesson.name %>
-                                            </td>
-                                        </tr>
-                                        <%});%>
-                                            </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <%});%>
-                                <%}%>
-                
+
+                                                    <div class="tt-wrapper" style="margin-bottom: 50px;">
+                                                        <div class="tt-table-responsive">
+                                                    
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="/images/<%= courses.image %>" width="100%" height="100%">
+                                                                </div>
+                                                                <div class="col-6 text-left pl-5">
+                                                                    <h3 class="mt-5">
+
+                                                                        <%= courses.name %>
+                                                                    </h3>
+                                                                    <p>
+                                                                        Description:
+                                                                        <%- courses.description %>
+                                                                    </p>
+                                                                    <p class="pb-5">
+                                                                        Price:
+                                                                        <%= courses.price %>
+                                                                    </p>
+                                                                    <% if (typeof(user)!=='undefined' ) {%>
+                                                                   <% if (user.role==0) {%>
+                                                                    <a href="/account/add-wish-list/<%= courses._id %>" class="btn btn-border">Add To WishList</a>
+                                                                    <a href="/account/my-course/<%= courses._id %>" class="btn btn-border">Study</a>
+                                                                <%}%>
+                                                                <%}%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                  
+                                                        <% if (typeof(user)!=='undefined' ) {%>
+                                                            <% if (user.role==1) {%>
+                                                                <button class="btn btn-primary ml-auto" role="button" data-toggle="modal" data-target="#update-description-modal">
+                                                                                Update Decription
+                                                                </button>
+                                                                <a  href="/add-chapter/<%= courses._id %>" class="btn btn-border">Add chapter</a>
+                                                                <%}%>
+                                                     <%}%>
+                                                    </div>
+                                                    <!-- /.course__topic -->
+
+                                                    <div class="course__curriculum mt-6">
+                                                        <div class="course__curriculum__title d-flex align-items-center ">
+                                                            <h3 class="title mt-0">Nội dung khóa học</h3>
+                                                        </div>
+                                                        <div class="course__curriculum__content">
+                                                            <% if (courses.chapter!=[]){%>
+                                                                <% courses.chapter.forEach(chapter=>{%>
+                                                            <div class="curriculum__panel">
+                                                                <div class="curriculum__heading d-flex ">
+                                                                    <h6 class="content__h1 m-2 "><%= chapter.name %> </h6>
+                                                                    <% if (typeof(user)!=='undefined' ) {%>
+                                                                        <% if (user.role==1) {%>
+                                                                         <a href="/add-lesson/<%= chapter._id %>" class="btn btn-border">Add lesson</a>
+                                                                     <%}%>
+
+                                                                    <%}%>
+                                                                </div>
+                                                                <% chapter.lesson.forEach(lesson=>{%>
+                                                                <div class="curriculum__lesson d-flex">
+                                                                    <div class="curriculum__lesson__name video">
+                                                                        <a href="abc.html" class="content__a "><%= lesson.name %> </a>
+                                                                    </div>
+                                                                    <div class="curriculum__right">
+                                                                        <div class="status d-inline-block">
+                                                                            <% if (typeof(user)!=='undefined' ) {%>
+                                                                             <% if (user.role==0) {%>
+                                                                                <a href="/user-study/<%= course._id %>/0/0" class="btn btn-border">Try</a>
+                                                                            <%}%>
+                                                                            <%}%>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <%});%>
+                                                            </div>
+                                                            <%});%>
+                                                            <%}%>
+                                                        
+                                                        </div>
+                                                        <div class="review pb-5">
+                                                            <h3 class="mt-5"></h3>
+                                                            <% courses.feedback.forEach(feedback=>{%>
+                                                            <div class="row">
+                                                                <div class="col-2 review__img text-center">
+                                                                    <img src="/images/avatar.jpg">
+                                                                </div>
+                                                                <div class="col-10">
+                                                                    <div class="review__infor">
+                                                                        <h6><%= feedback.writer.username %></h6>
+                                                                        <p><%= feedback.content %> </p>
+                                                                        <% if (feedback.rating==1){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==2){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==3){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==4){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li style="color:gray;"><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                        <% if (feedback.rating==5){%>
+                                                                            <ul class="stars d-flex">
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        <%} %> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%});%>
+                                                    </div>
+                                                
+
                 </div>
             </div>
-            
+
         </div>
-       
+
         <div style="height: 20px;"></div>
         <div class="container">
             <div class="row">
                 <% courseList.forEach(buy=>{%>
                     <div class="col-md-4">
-                      <div class="product-item">
-                        <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
+                        <div class="product-item">
+                            <a href="/course-detail/<%=buy._id%>"><img src="/images/<%= buy.image %>" alt=""></a>
                             <div class="down-content">
-                              <a href="/course-detail/<%=buy._id%>">
-                                <h4 class="textlimit"><%= buy.name %></h4>
-                              </a>
-                              <h6>Price:<%= buy.price %></h6>
-                              <p class="textlimit">Category:<%= buy.category %></p>
-                              <p class="textlimit">Teacher: <%= buy.teacher %></p>
-                              <ul class="stars">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                              </ul>
-                              <span>Reviews (24)</span>
-                           
+                                <a href="/course-detail/<%=buy._id%>">
+                                    <h4 class="textlimit">
+                                        <%= buy.name %>
+                                    </h4>
+                                </a>
+                                <h6>Price:
+                                    <%= buy.price %>
+                                </h6>
+                                <p class="textlimit">Category:
+                                    <%= buy.category %>
+                                </p>
+                                <p class="textlimit">Teacher:
+                                    <%= buy.teacher %>
+                                </p>
+                                <ul class="stars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                                <span>Reviews (24)</span>
+
                             </div>
                         </div>
                     </div>
-                  <%});%>
+                    <%});%>
             </div>
         </div>
-        
-    </div>
+
+        </div>
         </script>
         <%- include("partials/script") %>
             <footer>

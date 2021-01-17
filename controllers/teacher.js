@@ -4,6 +4,7 @@ const ChildCategory = require("../models/ChildCategory");
 const Chapter = require("../models/Chapter");
 const Lesson = require("../models/Lesson");
 const course = require("../middlewares/course");
+const user = require('../models/user');
 
 exports.getAddCourse = (req, res) => {
   const message = req.flash("error")[0];
@@ -17,57 +18,60 @@ exports.getAddCourse = (req, res) => {
           category: child,
         });
       }
-      res.render("404", {
-        title: "404 Not Found",
-        message: `${message}`,
-        user: req.user,
-      });
+      else{
+        res.render("404", {
+          title: "404 Not Found",
+          message: `${message}`,
+          user: req.user,
+        });
+      }
     });
   });
 };
 
 exports.postAddCourse = (req, res, next) => {
-  Course.findOne({ name: req.body.name }, function (err, course) {
-    if (course) {
-      req.flash("error", "username is existed");
-      return res.redirect("/add-course");
-    }
-    var name = req.body.name;
-    var price = req.body.price;
-    var description = req.body.description;
-    var category = req.body.category;
 
-    var success = req.file.filename + " uploaded successfully";
-    console.log(success);
-    var course = new Course({
-      image: req.file.filename,
-      category: category,
-      name: name,
-      price: price,
-      description: description,
-      teacher: req.user.username,
-    });
-    course.save(function (err, doc) {
-      if (err) throw err;
+    Course.findOne({ name: req.body.name }, function (err, course) {
+      if (course) {
+        req.flash("error", "username is existed");
+        return res.redirect("/add-course");
+      }
+      var name = req.body.name;
+      var price = req.body.price;
+      var description = req.body.description;
       var category = req.body.category;
-      ChildCategory.findOneAndUpdate(
-        { name: category },
-        { $push: { courses: course._id } },
-        function (err) {
-          if (err) res.redirect("/");
-        }
-      );
-      Users.findOneAndUpdate(
-        { _id: req.user._id },
-        { $push: { courses: course._id } },
-        function (err) {
-          if (err) res.redirect("/");
-        }
-      );
-
-      res.redirect("/add-course");
+  
+      var success = req.file.filename + " uploaded successfully";
+      console.log(success);
+      var course = new Course({
+        image: req.file.filename,
+        category: category,
+        name: name,
+        price: price,
+        description: description,
+        teacher: req.user.username,
+      });
+      course.save(function (err, doc) {
+        if (err) throw err;
+        var category = req.body.category;
+        ChildCategory.findOneAndUpdate(
+          { name: category },
+          { $push: { courses: course._id } },
+          function (err,child) {
+            if (err) throw err;
+            else{
+              Users.findOneAndUpdate(
+                { _id: req.user._id },
+                { $push: { courses: course._id } },
+                function (err,user) {
+                  if (err) throw err;
+                });
+                res.redirect("course-list");
+            }
+          }
+        );
+      });
     });
-  });
 };
 
 exports.getCourseList = (req, res, next) => {
@@ -126,9 +130,10 @@ exports.getCourseDetail = (req, res) => {
         function (err, course) {}
       );
       Course.findOne({ _id: req.params.id })
-        .populate([{ path: "chapter", populate: { path: "lesson" } }])
+        .populate([{ path: "chapter", populate: { path: "lesson" } }]).populate([{ path: "feedback", populate: { path: "writer" }}])
         .exec((err, course) => {
-          Course.find({category:course.category})
+          console.log(course);
+          Course.find({category: course.category})
           .limit(5)
           .sort({countBuy:-1}).then(courseBuy=>{
            Users.findOne({username:course.teacher},function(err,teacher){
@@ -162,11 +167,13 @@ exports.getAddChapter = (req, res) => {
             courses: course,
           });
         }
+       else{
         res.render("404", {
           title: "404 Not Found",
           message: `${message}`,
           user: req.user,
         });
+       }
       });
     })
     .catch((err) => {
@@ -187,8 +194,8 @@ exports.postAddChapter = (req, res, next) => {
       [{ _id: req.params.id }, { chapter: { $ne: chapter.id } }],
       { $push: { chapter: chapter._id } },
       function (err, course) {
-        if (err) res.redirect("/course-list");
-        res.redirect("/course-list");
+        if (err) throw err
+        res.redirect("back");
       }
     );
   });
@@ -198,7 +205,8 @@ exports.getAddLesson = (req, res) => {
   const message = req.flash("error")[0];
   Users.find({ user: req.user })
     .then((user) => {
-      Chapter.findOne({ _id: req.params.id }, {}).then((chapter) => {
+      Chapter.findOne({ _id: req.params.id }, function(err,chapter){
+        console.log(chapter);
         if (req.user.role == 2 || req.user.role == 1) {
           res.render("add-lesson", {
             title: "Add Lesson",
@@ -207,12 +215,14 @@ exports.getAddLesson = (req, res) => {
             chapter: chapter,
           });
         }
+      else{
         res.render("404", {
           title: "404 Not Found",
           message: `${message}`,
           user: req.user,
         });
-      });
+      }
+      })
     })
     .catch((err) => {
       console.log(err);
@@ -232,8 +242,8 @@ exports.postAddLesson = (req, res, next) => {
       { _id: req.params.id },
       { $push: { lesson: lesson._id } },
       function (err, chapter) {
-        if (err) res.redirect("/course-list");
-        res.redirect("/course-list");
+        if (err) throw err;
+        res.redirect("back");
       }
     );
   });
@@ -252,12 +262,7 @@ exports.postUpdateDescription = (req, res, next) => {
           Course.findOne({ _id: req.params.id })
             .populate([{ path: "chapter", populate: { path: "lesson" } }])
             .exec((err, course) => {
-              res.render("course-detail", {
-                title: "Course Detail",
-                message: `${message}`,
-                user: req.user,
-                courses: course,
-              });
+              res.redirect("back");
             });
         }
       );
@@ -275,4 +280,25 @@ exports.postUpdateDescription = (req, res, next) => {
       user: req.user,
     });
   }
+};
+
+exports.getComplete=(req,res,next)=>{
+  Users.find({ user: req.user })
+  .then((user) => {
+    Course.findOneAndUpdate({ _id: req.params.id },{$set:{isComplete:true}}, function(err,course){
+      if ( req.user.role == 1) {
+        res.redirect("back");
+      }
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 };
