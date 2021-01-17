@@ -1,89 +1,73 @@
+<%- include("partials/head") %> <%- include("partials/loader")%> <%- include("partials/header") %>
+<link rel="stylesheet" href="css/signin.css" />
+<div>
+  <div id="tt-pageContent">
+    <div class="container-indent">
+      <div class="container">
+        <div class="tt-login-form">
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+              <div class="tt-item">
+                <h2 class="tt-title">SIGN UP</h2>
+                <%if (message != "undefined") { %>
+                <div
+                  class="form-group form-control error"
+                  style="background-color: #ffcccc; font-weight: bold; color: rgb(210, 29, 29)"
+                >
+                  <%= message %>
+                </div>
+                <% } %>
+                <div class="form-default">
+                  <form
+                    id="createaccount"
+                    method="post"
+                    novalidate="novalidate"
+                    action="/signup"
+                    onsubmit="return submitForm()"
+                  >
+                    <div class="form-group">
+                      <label for="loginInputEmail">Username *</label>
+                      <input type="text" name="username" class="form-control" id="username" placeholder="username" />
+                    </div>
+                    <div class="form-group">
+                      <label for="loginInputPassword">Password*</label>
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        id="password"
+                        placeholder="password"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="loginInputPassword2">Retype Password *</label>
+                      <input
+                        type="password"
+                        name="password2"
+                        class="form-control"
+                        id="password2"
+                        placeholder="retype password"
+                      />
+                    </div>
 
-  <%- include("partials/head") %> 
-  <%- include("partials/loader")%>
-  <%- include("partials/header") %>
-  <link rel="stylesheet" href="css/signin.css" />
-  <div>
-    <div id="tt-pageContent">
-      <div class="container-indent">
-        <div class="container">
-          <div class="tt-login-form">
-            <div class="row justify-content-center">
-              <div class="col-md-8 col-lg-6">
-                <div class="tt-item">
-                  <h2 class="tt-title">SIGN UP</h2>
-                  <%if (message != "undefined") { %>
-                  <div
-                    class="form-group form-control error"
-                    style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
-                    <%= message %>
-                  </div>
-                  <% } %>
-                  <div class="form-default">
-                    <form
-                      id="createaccount"
-                      method="post"
-                      novalidate="novalidate"
-                      action="/signup"
-                    >
-                      <div class="form-group">
-                        <label for="loginInputEmail">Username *</label>
-                        <input
-                          type="text"
-                          name="username"
-                          class="form-control"
-                          id="username"
-                          placeholder="username"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="loginInputPassword">Password*</label>
-                        <input
-                          type="password"
-                          name="password"
-                          class="form-control"
-                          id="password"
-                          placeholder="password"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="loginInputPassword2">Retype Password *</label>
-                        <input
-                          type="password"
-                          name="password2"
-                          class="form-control"
-                          id="password2"
-                          placeholder="retype password"
-                        />
-                      </div>
-
-                      <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input
-                          type="text"
-                          name="email"
-                          class="form-control"
-                          id="email"
-                          placeholder="bros@gmail.com"
-                        />
-                      </div>
-                      <div class="row">
-                        <div class="col-auto">
-                          <div class="form-group">
-                            <button class="btn btn-primary mt-2" id="submit-btn" type="submit">
-                              Sign up
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col-auto align-self-center">
-                          <div class="form-group">
-                            <ul class="additional-links">
-                            </ul>
-                          </div>
+                    <div class="form-group mb-0">
+                      <label for="email">Email *</label>
+                      <input type="text" name="email" class="form-control" id="email" placeholder="bros@gmail.com" />
+                    </div>
+                    <div id="email-alert" class="text-danger mt-0 mb-2"></div>
+                    <div class="row">
+                      <div class="col-auto">
+                        <div class="form-group">
+                          <button class="btn btn-primary mt-2" id="submit-btn" type="submit">Sign up</button>
                         </div>
                       </div>
-                    </form>
-                  </div>
+                      <div class="col-auto align-self-center">
+                        <div class="form-group">
+                          <ul class="additional-links"></ul>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -91,6 +75,24 @@
         </div>
       </div>
     </div>
-    <%- include("partials/script") %>
-    <%- include('partials/footer.ejs') %>
   </div>
+  <%- include("partials/script") %>
+  <script>
+    let isAvailable = false;
+    $('#email').change(function () {
+      const email = $(this).val();
+      fetch(`/check-email?email=${email}`)
+        .then((res) => res.json())
+        .then((available) => {
+          isAvailable = available;
+          if (available) $('#email-alert').text('Email is available');
+          else $('#email-alert').text('Email is not available');
+        });
+    });
+
+    function submitForm() {
+      return isAvailable;
+    }
+  </script>
+  <%- include('partials/footer.ejs') %>
+</div>
