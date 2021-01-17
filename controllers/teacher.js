@@ -75,27 +75,44 @@ exports.getCourseList = (req, res, next) => {
   Users.findOne({ _id: req.user._id })
     .populate("courses")
     .exec((err, user) => {
-      if (req.user.role == 1) {
-        res.render("course-list", {
-          title: "Course List",
-          message: `${message}`,
-          user: req.user,
-          course: user.courses,
-        });
-      } else if (req.user.role == 2) {
-        res.render("course-list", {
-          title: "Course List",
-          message: `${message}`,
-          user: req.user,
-          course: user.courses,
-        });
-      } else {
-        res.render("404", {
-          title: "404 Not Found",
-          message: `${message}`,
-          user: req.user,
-        });
-      }
+      Users.find({role:1}).then(userList=>{
+        if (req.user.role == 1) {
+          res.render("course-list", {
+            title: "Course List",
+            message: `${message}`,
+            user: req.user,
+            userList:userList,
+            course: user.courses,
+          });
+        } else if (req.user.role == 2) {
+          // pcategory = req.query.category!==undefined?req.query.category:"";
+          // pteacher = req.query.teacher!==undefined?req.query.teacher:"";
+          // if (Object.entries(req.query).length == 0) {
+          //   pcategory = "";
+          //   pteacher = "";
+          // }
+          // console.log(pteacher);
+          // console.log(pcategory);
+
+          // Course.find({category:pcategory,teacher:pteacher}).then(courseList=>{
+          //   console.log(courseList);
+           
+          // })
+          res.render("course-list", {
+            title: "Course List",
+            message: `${message}`,
+            user: req.user,
+            userList:userList,
+            });
+        } else {
+          res.render("404", {
+            title: "404 Not Found",
+            message: `${message}`,
+            user: req.user,
+            userList:userList,
+          });
+        }
+      })
     });
 };
 

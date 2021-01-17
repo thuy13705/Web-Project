@@ -8,7 +8,7 @@
     <%- include ('partials/header');%>
     <div
     class="modal fade"
-    id="update-description-modal"
+    id="feedback"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLongTitle"
@@ -30,14 +30,30 @@
           id="add-teacher"
           method="post"
           novalidate="novalidate"
-          action="/update-description/<%= courses._id %>"
+          action="/course/feedback/<%= courses._id %> "
         >
           <div class="modal-body">
             <div class="form-group">
-              <label for="loginInputEmail">Update Description*</label>
-              <textarea type="text" name="description" rows="10" class="form-control" id="description" placeholder="Description"></textarea>
-
+              <label for="loginInputEmail">New Feedback *</label>
+              <input
+                type="text"
+                name="feedback"
+                class="form-control"
+                id="name"
+                placeholder="New Feedback"
+              />
             </div>
+            <div class="form-group">
+              <label>Select Rating</label>
+              <select name="rating" class="form-control">
+                 <option value="">Select rating</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+              </select>
+           </div>
           </div>
           <div class="modal-footer">
             <button
@@ -57,6 +73,16 @@
             <div class="container-indent">
                 <div class="container container-fluid-custom-mobile-padding">
                     <h1 class="tt-title-subpages noborder">Course Detail</h1>
+                    <div class="w-100 d-flex">
+                        <button
+                          class="btn btn-primary ml-auto"
+                          role="button"
+                          data-toggle="modal"
+                          data-target="#feedback"
+                        >
+                        Add Feedback
+                        </button>
+                      </div>
                     <% if (typeof(user)!=='undefined' ) {%>
                         <% if (user.role==1) {%>
                             <% if (courses.isComplete===true){%>
@@ -87,7 +113,7 @@
                                     <tr>
                                         <td>Description</td>:</td>
                                         <td>
-                                            <%= courses.description %>
+                                            <%- courses.description %>
                                         </td>
                                     </tr>
                                     <tr>
@@ -116,6 +142,7 @@
                                 <%}%>
                                     <%}%>
                     </div>
+                    
                     <% if (courses.chapter!=[]){%>
                         <% courses.chapter.forEach(chapter=>{%>
                             <div class="tt-table-responsive">

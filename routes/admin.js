@@ -34,5 +34,8 @@ router.get('/category-list/deleteChild/:id', adminController.getDeleteChildCateg
 // router.post('/category-list/updateChild/:id', adminController.postUpdateParentCategory);
 
 router.get('/category-list',adminController.getCategoryList);
+router.get('/lock-user/:id', adminController.getLockUser);
+router.get('/lock-course/:id', adminController.getLockCourse);
+
 
 module.exports = router;

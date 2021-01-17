@@ -7,6 +7,8 @@ const ParentCategory = require("../models/ParentCategory");
 const ChildCategory = require("../models/ChildCategory");
 const {Mongoose} = require("mongoose");
 
+const Course = require('../models/Course');
+
 exports.getAddTeacher = (req, res, next) => {
   const message = req.flash("error")[0];
   Users.find({
@@ -19,11 +21,13 @@ exports.getAddTeacher = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -104,23 +108,20 @@ exports.getAddStudent = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
 exports.getTeacherList = (req, res, next) => {
   const message = req.flash("error")[0];
-  var userList;
-  Users.find({
-    user: req.user
-  }).then((user) => {
-    Users.find({
-      role: 1
-    }).then((userList) => {
+  Users.find({ user: req.user }).then((user) => {
+    Users.find({ role: 1 }).then((userList) => {
       if (req.user.role == 2) {
         res.render("teacher-list", {
           title: "Teacher List",
@@ -143,11 +144,20 @@ exports.getUpdateTeacher = (req, res, next) => {
   Users.findById(req.params.id).exec((err, userTeacher) => {
     if (err) throw console.log(err);
     else {
-      res.render("info-change", {
-        title: "Info Change",
-        editUser: userTeacher,
-        user: req.user,
-      });
+      if (req.user.role == 2) {
+        res.render("info-change", {
+          title: "Info Change",
+          editUser: userTeacher,
+          user:req.user,
+        });
+      }
+      else{
+        res.render("404", {
+          title: "404 Not Found",
+          message: `${message}`,
+          user: req.user,
+        });
+      }
     }
   });
 };
@@ -195,11 +205,13 @@ exports.getStudentList = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -214,12 +226,13 @@ exports.getAddChildCategory = (req, res, next) => {
         message: `${message}`,
         user: req.user,
       });
+    }else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
   });
 };
 
@@ -311,11 +324,13 @@ exports.getAddParentCategory = (req, res, next) => {
         user: req.user,
       });
     }
-    res.render("404", {
-      title: "404 Not Found",
-      message: `${message}`,
-      user: req.user,
-    });
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
   });
 };
 
@@ -473,10 +488,71 @@ exports.getCategoryList = (req, res, next) => {
         user: req.user,
       });
     }
+    else{
+      res.render("404", {
+        title: "404 Not Found",
+        message: `${message}`,
+        user: req.user,
+      });
+    }
+  });
+};
+
+exports.getLockUser=(req,res,next)=>{
+  const message = req.flash("error")[0];
+  if (req.user.role == 2) {
+    Users.findById(req.params.id,function(err,user){
+      if (user.isLock==true){
+        Users.findByIdAndUpdate(req.params.id,{$set:{isLock:false}}, function(err,user1){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+      else{
+        Users.findByIdAndUpdate(req.params.id,{$set:{isLock:true}}, function(err,user1){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+    });
+  }
+  else{
     res.render("404", {
       title: "404 Not Found",
-      message: `${message}`,
       user: req.user,
     });
-  });
+  }
+};
+
+exports.getLockCourse=(req,res,next)=>{
+  if (req.user.role == 2) {
+    Course.findById(req.params.id,function(err,course){
+      if (course.disable==true){
+        Course.findByIdAndUpdate(req.params.id,{$set:{disable:false}}, function(err,courses){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+      else{
+        Course.findByIdAndUpdate(req.params.id,{$set:{disable:true}}, function(err,courses){
+          if (err) console.log(err)
+          else{
+            res.redirect("back");
+          }
+        });
+      }
+    });
+  }
+  else{
+    res.render("404", {
+      title: "404 Not Found",
+      user: req.user,
+    });
+  }
 };
