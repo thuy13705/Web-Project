@@ -40,11 +40,24 @@
                             
                             <%if (item.isLock==false) { %>
                                 <a href="/lock-user/<%= item._id %>" class="btn btn-border">Lock</a>
-                                <% } %>
+                                <%if (message != "undefined") { %>
+                                    <div
+                                      class="form-group form-control error"
+                                      style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                                      <%= message %>
+                                    </div>
+                                    <% } %>
+                            <% } %>
                                 <%if (item.isLock==true) { %>
                                     <a href="/lock-user/<%= item._id %>" class="btn btn-border">Un Lock</a>
-                                    <% } %>
-                            <a href="/teacher-list/delete/<%= item._id %>" class="btn btn-border">Delete</a>
+                                    <%if (message != "undefined") { %>
+                                        <div
+                                          class="form-group form-control error"
+                                          style="background-color: #FFCCCC; font-weight: bold; color : rgb(210, 29, 29)">
+                                          <%= message %>
+                                        </div>
+                                        <% } %>
+                            <% } %>
                            
                         </div>
                         <% });} %>

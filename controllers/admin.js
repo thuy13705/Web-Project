@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const ParentCategory = require("../models/ParentCategory");
 const ChildCategory = require("../models/ChildCategory");
 const { Mongoose } = require("mongoose");
+
 const Course = require('../models/Course');
 
 exports.getAddTeacher = (req, res, next) => {
@@ -447,6 +448,7 @@ exports.getCategoryList = (req, res, next) => {
 };
 
 exports.getLockUser=(req,res,next)=>{
+  const message = req.flash("error")[0];
   if (req.user.role == 2) {
     Users.findById(req.params.id,function(err,user){
       if (user.isLock==true){

@@ -51,13 +51,13 @@ exports.getShowCourse = (req, res) => {
     const page = +req.query.page || 1;
     ChildCategory.findOne({ _id: req.params.id })
       .then(Child => {
-        Course.find({ category: Child.name })
+        Course.find({ category: Child.name,disable:false })
           .countDocuments()
           .sort({price:SORT_ITEM})
           .then(numCourse => {
             console.log(numCourse);
             totalItems = numCourse;
-            return Course.find({ category: Child.name })
+            return Course.find({ category: Child.name, disable:false})
               .skip((page - 1) * 10)
               .limit(10)
               .sort({price:SORT_ITEM});
@@ -101,7 +101,7 @@ exports.getSearchResult = (req, res) => {
       sort_value = "Giá thấp tới cao";
       price = "1";
     }
-    Course.find({ $text: { $search: searchText } })
+    Course.find({ $text: { $search: searchText } ,disable:false})
       .countDocuments()
       .sort({price:SORT_ITEM})
       .then(numCourse => {
@@ -133,7 +133,6 @@ exports.getSearchResult = (req, res) => {
       console.log(err);
     });
 };
-
 
 exports.getAddWishList = (req, res) => {
   const message = req.flash("error")[0];
