@@ -69,8 +69,8 @@ exports.getVerifyEmail = (req, res, next) => {
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'nlpthuy137@gmail.com',
-      pass: 'Thuy13705#',
+      user: #youremail,
+      pass: #yourpassword,
     },
   });
   User.findOne({ username: req.user.username }).then((user) => {
